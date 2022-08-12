@@ -2,7 +2,7 @@
   <div>
   <v-hover
     v-slot="{ hover }"
-  >
+  > 
     <v-card
       :elevation="hover? 12 : 5"
       class="card-ontology"
@@ -20,7 +20,9 @@
         v-if="loadingStatus"
         :width="width"
         :height="height"
-      ></v-card>
+      >
+      </v-card>
+      
       <v-card-text 
         v-if="!dataStatus" 
         class="card-name"
@@ -33,19 +35,6 @@
         :id="`ontologyview-canvas-${itemProps.id}`" 
         :style="{width: width + 'px', height: height + 'px'}" 
       >
-        <!-- <svg
-          :class="`ontologyview-canvas-${itemProps.id}`" 
-         
-          :viewBox="[0, 0, width, height]"
-        >
-
-        </svg> -->
-        <!-- <div
-          :class="`ontologyview-canvas-${itemProps.id}`" 
-          :style="{width: width + 'px', height: height + 'px'}"
-        >
-
-        </div> -->
       </div>
       <v-card-actions>
         <InoutputBtns
@@ -240,7 +229,6 @@ export default {
         delete e.status
         e.selected.cardId = this.itemProps.id
         this.$store.dispatch('ontology/addOntology', e.selected)
-
       }
       this.dialog = false;
     }, 
