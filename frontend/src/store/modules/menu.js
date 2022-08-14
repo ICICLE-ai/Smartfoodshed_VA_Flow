@@ -8,6 +8,12 @@ export default {
         component: undefined,
       },
       {
+        label: 'Graph Loader', 
+        icon: 'mdi-graph', 
+        store: 'graph', 
+        component: () => import('@/components/GraphLoaderComp'),
+      },
+      {
         label: 'Tabular', //
         icon: 'mdi-table',  
         store: 'documents',

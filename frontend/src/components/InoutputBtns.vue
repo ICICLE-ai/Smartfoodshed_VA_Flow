@@ -361,7 +361,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['currentLink','drawLink', 'documents', 'globalview', 'corpus', 'topics', 'ontology'])
+    ...mapState(['currentLink','drawLink', 'documents', 'globalview', 'corpus', 'topics', 'ontology', 'graph'])
   },
 
   watch:{

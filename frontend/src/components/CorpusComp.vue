@@ -6,8 +6,7 @@
       <v-card
         :elevation="hover ? 12 : 5"
         class="card-documents"
-        :draggable="draggable"
-        @dragstart="dragStart"
+        @mousedown="dragProxy"
         outlined
         :id="itemProps.id"
         ref="cardComp"
@@ -145,6 +144,31 @@ export default {
     addLink(){
       this.$store.dispatch('changeLinkDrawingStatus', true);
     },
+
+    dragProxy(e) {
+      this.dragStartHandler(e)
+    },
+    moveAt(posX, posY) { 
+      const comp = document.querySelector(`#${this.itemProps.id}`)
+      this.marginTop = posY 
+      this.marginLeft = posX
+    }, 
+    dragStartHandler(e){
+      if (e.buttons == 1 && this.draggable) {
+        const that = this
+        const comp = document.querySelector(`#${this.itemProps.id}`)
+        const initialLeft = parseInt(comp.style.left.split('px')[0]) - e.clientX
+        const initialTop = parseInt(comp.style.top.split('px')[0]) - e.clientY
+        function onMouseMove(event) { 
+          that.moveAt(event.pageX + initialLeft, event.pageY + initialTop) 
+        }
+        document.addEventListener("mousemove", onMouseMove)
+        comp.onmouseup = function () {
+          document.removeEventListener('mousemove', onMouseMove)
+          comp.onmouseup = null
+        }
+      }
+    }, 
 
     finishLink(){
       this.$store.dispatch('changeLinkDrawingStatus', false);

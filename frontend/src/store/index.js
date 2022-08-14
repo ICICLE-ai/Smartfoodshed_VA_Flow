@@ -7,6 +7,7 @@ import globalview from '@/store/modules/globalview.js'
 import corpus from '@/store/modules/corpus.js'
 import link from '@/store/modules/link.js'
 import ontology from '@/store/modules/ontology.js'
+import graph from "@/store/modules/graph.js";
 Vue.use(Vuex)
 
 function newLink(){
@@ -70,6 +71,7 @@ export default new Vuex.Store({
     globalview,
     corpus,
     link, 
-    ontology
+    ontology,
+    graph
   }
 })

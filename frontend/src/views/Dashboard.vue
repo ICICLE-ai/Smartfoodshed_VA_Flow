@@ -47,6 +47,16 @@
       </li>
     </ul>
 
+    <ul class="graph-components-list">
+      <li
+        :is="graph.component"
+        v-for="item in graph.cards"
+        :key="item.id"
+        :itemProps="item"
+      >
+      </li>
+    </ul>
+
     <ul class="documents-components-list">
       <li
         :is="documents.component"
@@ -172,7 +182,9 @@ export default {
       'documents',
       'corpus',
       'link',
-      'ontology']), 
+      'ontology',
+      'graph'
+      ]), 
   },
   
   created(){
@@ -188,7 +200,7 @@ export default {
     GlobalViewComp,
     LinkComp,
     RightClickMenu, 
-    OntologyComp
+    OntologyComp, 
   }, 
 }
 </script>
