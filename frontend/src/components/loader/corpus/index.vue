@@ -1,7 +1,7 @@
 <template>
   <Ctemplate 
     :itemProps="itemProps" 
-    @contextButtonClicked="contextButtonClickedHandler" 
+    @contextmenu="contextButtonClickedHandler" 
     @dblclick="dblClickHandler"
     :contextCommands="contextCommands"
     :styleProps="styleProps"

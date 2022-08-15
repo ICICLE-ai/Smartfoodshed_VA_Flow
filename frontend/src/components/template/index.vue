@@ -173,7 +173,7 @@ export default {
     },
     
     contextButtonClickedHandler(button) {
-      this.$emit('contextButtonClicked', button)
+      this.$emit('contextmenu', button)
     }
 
   },
