@@ -13,9 +13,21 @@ Once user drags one Data Viewer component and connects it to another component a
 * The VegaLite scripts are rendered via Vue-Vega to generate the chart for users. 
 
 ## Something you need to know about VegaLite
+ 
+### [Mark](https://vega.github.io/vega-lite/docs/mark.html) 
+#### Definition
+> Basic graphical elements in Vega-Lite are marks. Marks provide basic shapes whose properties (such as position, size, and color) can be used to visually encode data, either from a data field (or a variable), or a constant value.
 
-test fdsfsd fdsfds ==test==.
-## Example 
+### [Data Transformation](https://vega.github.io/vega-lite/docs/transform.html)
+
+#### Definition
+> Data transformations in Vega-Lite are described via either view-level transforms (the transform property) or field transforms inside encoding (bin, timeUnit, aggregate, sort, and stack).
+
+### [Encoding](https://vega.github.io/vega-lite/docs/encoding.html)
+#### Definition
+> An integral part of the data visualization process is encoding data with visual properties of graphical marks. The encoding property of a single view specification represents the mapping between encoding channels (such as x, y, or color) and data fields, constant visual values, or constant data values (datum).
+
+### Example 
 * This example shows how the VegaLite specifies graphcis grammer, the selected chart may be not the best choice. 
 * Input JSON data
 ```json
@@ -30,23 +42,24 @@ test fdsfsd fdsfds ==test==.
 }
 ```
 
-* Dragging a Bar Chart Viewer
-* Transformed Data: 
+
 ```json
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "A simple bar chart with embedded data.",
-  "data": {
-    "values": [
-      {"a": "A", "b": 28}, {"a": "B", "b": 55}, {"a": "C", "b": 43},
-      {"a": "D", "b": 91}, {"a": "E", "b": 81}, {"a": "F", "b": 53},
-      {"a": "G", "b": 19}, {"a": "H", "b": 87}, {"a": "I", "b": 52}
-    ]
-  },
-  "mark": "bar",
+  "description": "Shows the relationship between horsepower and the numbver of cylinders using point marks with random offset (jittering).",
+  "data": {"url": "data/cars.json"},
+  "transform": [{"calculate": "random()", "as": "random"}],
+  "height": {"step": 50},
+  "mark": "point",
   "encoding": {
-    "x": {"field": "a", "type": "nominal", "axis": {"labelAngle": 0}},
-    "y": {"field": "b", "type": "quantitative"}
+    "x": {"field": "Horsepower", "type": "quantitative"},
+    "y": {"field": "Cylinders", "type": "ordinal"},
+    "yOffset": {"field": "random", "type": "quantitative"}
   }
 }
-```
+``` 
+<img src="./image/vega-aggregate.png" width="300">
+
+
+
+
