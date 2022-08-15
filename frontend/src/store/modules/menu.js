@@ -26,10 +26,10 @@ export default {
         component: () => import('@/components/GlobalViewComp')
       },
       {
-        label: 'Graph view', 
+        label: 'Vega-Lite Render', 
         icon: 'mdi-vector-polygon-variant',
-        store: 'graphview',
-        component: undefined, 
+        store: 'vegaRender',
+        component: ()=>import('@/components/VegaRender'), 
       }
     ]
   }
