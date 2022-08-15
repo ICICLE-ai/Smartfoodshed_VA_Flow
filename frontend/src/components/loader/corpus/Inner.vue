@@ -4,6 +4,13 @@
       <v-icon>
         mdi-database  
       </v-icon>
+      <v-progress-circular
+            indeterminate
+            :width="2"
+            color="green"
+            v-if="itemProps.loadingStatus"
+            :style="{position: 'static'}"
+      ></v-progress-circular>
     </v-card-text>
     <v-dialog
         v-model="dialog"
@@ -52,7 +59,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 .card-name{
     text-align: center;
     display: flex; 

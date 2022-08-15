@@ -14,11 +14,9 @@
 </template>  
 
 <script>
-import Ctemplate from '@/components/template'
 import Inner from './Inner.vue'
 export default {
   components: {
-    Ctemplate, 
     Inner 
   }, 
   props: ['itemProps'], 

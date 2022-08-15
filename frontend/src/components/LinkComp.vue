@@ -7,7 +7,7 @@
     :fill="link.fill || 'none'"
     @mouseover="mouseover"
     @mouseout="mouseout"
-    @contextmenu = "rightClickMenuShow"
+    @contextmenu="rightClickMenuShow"
   />
 </template>
 

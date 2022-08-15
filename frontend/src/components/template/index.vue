@@ -30,7 +30,6 @@
         </slot>
         <div v-if="!disableResizer" class="resizer resizer-r" @mousedown="mouseDownHandler"></div>
         <div v-if="!disableResizer" class="resizer resizer-b" @mousedown="mouseDownHandler"></div>
-
         <v-card-actions>
           <InoutputBtns
             :resizingStatus="resizingStatus"
@@ -53,9 +52,8 @@
     >
       <RightClickMenu 
         :vue="this" 
-        :container="container" 
         :itemProps="itemProps" 
-        store="corpus" 
+        :store="currentStore" 
         :commands="commands"
         @contextButtonClicked="contextButtonClickedHandler"
       />
@@ -110,15 +108,14 @@ export default {
     };
   },
   methods: {
-
     dragProxy(e) {
       this.dragStartHandler(e)
     },
-
     moveAt(posX, posY) {
       const comp = document.querySelector(`#${this.itemProps.id}`)
       this.marginTop = posY
       this.marginLeft = posX
+      this.$store.dispatch(`${this.currentStore}/updatePos`, {id: this.itemProps.id, marginLeft: this.marginLeft, marginTop: this.marginTop})
     },
     dblclickHandler() {
       this.$emit('dblclick')
@@ -139,9 +136,7 @@ export default {
         }
       }
     },
-
     mouseDownHandler(e) {
-      // this.$store.dispatch('changeResizerStatus', true);
       this.resizeX = e.clientX;
       this.resizeY = e.clientY;
       document.addEventListener("mousemove", this.mouseMoveHandler);
@@ -154,6 +149,7 @@ export default {
       const dy = e.clientY - this.resizeY;
       this.width = this.resizeWidth + dx;
       this.height = this.resizeHeight + dy;
+      this.$store.dispatch(`${this.currentStore}/updateSize`, {id: this.itemProps.id, width: this.width, height: this.height})
     },
 
     mouseUpHandler(e) {
@@ -171,23 +167,20 @@ export default {
       this.rightMenuX = e.clientX;
       this.rightMenuY = e.clientY;
     },
-    
     contextButtonClickedHandler(button) {
       this.$emit('contextmenu', button)
     }
-
   },
-
   created() {
     // Initialize initial position
     console.log('check this')
     console.log(this.styleProps)
     this.styleProps.top 
       ? this.marginTop = +this.styleProps.top.split('px')[0]
-      : this.marginTop = 50
+      : this.marginTop = 500
     this.styleProps.left
       ? this.marginLeft = +this.styleProps.left.split('px')[0]
-      : this.marginLeft = 100
+      : this.marginLeft = 200
     this.styleProps.width 
       ? this.width = +this.styleProps.width.split('px')[0]
       : -1 
@@ -208,7 +201,6 @@ export default {
       return !(this.drawLink || this.resizingStatus);
     },
     minimizeStatus() {
-      // this.$slots.minimizeView exist 
       return this.$slots.minimizeView && this.minimize 
     }, 
     commands() {
@@ -224,6 +216,9 @@ export default {
       console.log(commands)
       return commands
     }, 
+    currentStore() {
+      return this.itemProps.id.split('-')[1]
+    }
   },
 
   components: {

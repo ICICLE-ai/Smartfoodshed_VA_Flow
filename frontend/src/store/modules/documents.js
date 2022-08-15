@@ -7,10 +7,9 @@ function createNewDocumentsCard(id){
     targetLink: [], 
     marginLeft: null, 
     marginTop: null, 
-    width: null, 
-    height: null,
+    width: 500, 
+    height: 300,
     inputData: undefined,
-
   }
 }
 
@@ -19,7 +18,8 @@ export default {
   state: {
     nextAvailableIndex: 0,
     cards: [],
-    component: () => import('@/components/DocumentsComp'), 
+    component: () => import('@/components/viewer/tabularviewer'), 
+    // component: () => import('@/components/DocumentsComp.vue')
   }, 
   mutations: {
     ADD_COMPONENT(state){
@@ -119,12 +119,36 @@ export default {
           state.cards[i].inputData = inputData;
         }
       }
+    }, 
+    UPDATE_POS(state, {id, marginLeft, marginTop}) {
+      for(let i in state.cards){
+        if(state.cards[i].id == id){
+          state.cards[i].marginTop = marginTop 
+          state.cards[i].marginLeft = marginLeft
+        }
+      }
+    }, 
+    UPDATE_SIZE(state, {id, width, height}) {
+      for(let i in state.cards){
+        if(state.cards[i].id == id){
+          state.cards[i].width = width 
+          state.cards[i].height = height
+        }
+      }
     }
   }, 
   actions: {
     addComp({commit}, ){
       commit('ADD_COMPONENT');
     },
+
+    updatePos({commit}, {id, marginTop, marginLeft}) {
+      commit('UPDATE_POS', {id, marginTop, marginLeft})
+    }, 
+
+    updateSize({commit}, {id, width, height}) {
+      commit('UPDATE_SIZE', {id, width, height})
+    }, 
     deleteComp({commit, state, dispatch}, id){
       const toDeletedComp = state.cards.filter(card => card.id == id)[0];
       
@@ -187,8 +211,5 @@ export default {
         }
       }
     },
-
-    
-    
   }
 }

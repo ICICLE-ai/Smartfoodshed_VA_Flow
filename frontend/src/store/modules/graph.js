@@ -22,7 +22,7 @@ export default {
     cards: [
 
     ],
-    component: () => import('@/components/GraphLoaderComp'),
+    component: () => import('@/components/loader/graph'),
   },
   mutations: {
     ADD_COMPONENT(state) {
@@ -151,6 +151,7 @@ export default {
     },
 
     async addGraph({ commit, dispatch, state }, data) {
+      alert(1)
       for (let i in state.cards) {
         if (state.cards[i].id == data.cardId && state.cards[i].selectedTable !== data) {
           // commit('ADD_DATA', data);

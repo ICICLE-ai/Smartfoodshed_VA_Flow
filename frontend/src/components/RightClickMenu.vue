@@ -59,12 +59,6 @@ export default {
       }
     },
     remove(){
-      // console.log('removing!!!');
-      // const vueComp = this.vue;
-      // const context = document.querySelector(this.container);
-      // //
-      // context.removeChild(vueComp.$el);
-      // vueComp.$destroy();
       console.log(this.itemProps.id)
       this.$store.dispatch(`${this.store}/deleteComp`, this.itemProps.id);
       

@@ -108,8 +108,31 @@ export default {
         }
       }
     },
+    UPDATE_POS(state, {id, marginLeft, marginTop}) {
+      for(let i in state.cards){
+        if(state.cards[i].id == id){
+          state.cards[i].marginTop = marginTop 
+          state.cards[i].marginLeft = marginLeft
+        }
+      }
+    }, 
+    UPDATE_SIZE(state, {id, width, height}) {
+      for(let i in state.cards){
+        if(state.cards[i].id == id){
+          state.cards[i].width = width 
+          state.cards[i].height = height
+        }
+      }
+    }
   }, 
   actions: {
+    updatePos({commit}, {id, marginTop, marginLeft}) {
+      commit('UPDATE_POS', {id, marginTop, marginLeft})
+    }, 
+
+    updateSize({commit}, {id, width, height}) {
+      commit('UPDATE_SIZE', {id, width, height})
+    }, 
     addComp({commit}, ){
       console.log('adding')
       commit('ADD_COMPONENT');

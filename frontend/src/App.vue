@@ -18,6 +18,15 @@ export default {
 </script>
 
 <style>
+  .card-name {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100%;
+  }
+
   .slide-fade-enter{
     transform: translateX(100px);
     opacity: 0

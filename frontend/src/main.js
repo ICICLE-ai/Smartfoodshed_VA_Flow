@@ -4,7 +4,9 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
 import './registerServiceWorker'
+import './plugins/registerGlobalComps'
 // import VueVega from 'vue-vega'
+
 
 Vue.config.productionTip = false
 require('./css/neo4jd3.css')
