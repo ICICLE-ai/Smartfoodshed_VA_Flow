@@ -1,7 +1,9 @@
 <template>
   <div>
     <v-list>
-      <v-list-item>
+      <v-list-item
+        v-if="!reload"
+      >
         <v-btn 
           text
           @click="remove"
@@ -45,7 +47,8 @@ export default {
     'container',
     'itemProps',
     'store',
-    'commands'
+    'commands',
+    'reload'
   ], 
   methods: {
     data(){

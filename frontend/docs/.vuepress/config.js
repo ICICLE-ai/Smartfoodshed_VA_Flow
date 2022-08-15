@@ -9,7 +9,8 @@ module.exports = {
         '/vis/': [
             {title:'visualization',path:'', children:[
                 {title:'Pipeline', path:'0Pipeline'},
-                {title:'Introduction to VegaLite', path:'1VegaLite'}
+                {title:'Introduction to VegaLite', path:'1VegaLite'},
+                {title:'Introduction to Components', path:'3Component'}
             ]}, 
         ]
       },

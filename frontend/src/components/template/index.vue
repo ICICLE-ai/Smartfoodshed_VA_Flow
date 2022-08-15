@@ -1,62 +1,98 @@
 <template>
   <div>
     <v-hover v-slot="{ hover }">
-      <v-card
-        :elevation="hover ? 12 : 5"
-        class="card-tabular"
-        @mousedown="dragProxy"
-        outlined
-        :id="componentId"
-        ref="cardComp"
-        @contextmenu="rightClickMenuShow"
+      <v-card :elevation="hover ? 12 : 5" 
+        class="card-tabular" 
+        @mousedown="dragProxy" 
+        outlined 
+        :id="itemProps.id"
+        @dblclick="dblclickHandler"
+        @contextmenu="rightClickMenuShow" 
         :style="{
           top: marginTop + 'px',
           left: marginLeft + 'px',
           width: `${width}px`,
           height: `${height}px`,
           position: 'absolute',
-        }"
-      > 
-        <slot name="core">
-            <v-card-text class="card-name">
-                Empty Container
-            </v-card-text>      
-        </slot> 
+          'border-radius': styleProps['border-radius'] ? styleProps['border-radius'] : 'none'
+        }">
+        <slot v-if="minimizeStatus" name="minimizeView">
+          <v-card-text class="card-name">
+            Empty Container
+          </v-card-text>
+        </slot>
+        <slot v-else name="fullView">
+          <v-card-text class="card-name">
+            Empty Container
+          </v-card-text>
+        </slot>
+        <slot name="popup">
+        </slot>
+        <div v-if="!disableResizer" class="resizer resizer-r" @mousedown="mouseDownHandler"></div>
+        <div v-if="!disableResizer" class="resizer resizer-b" @mousedown="mouseDownHandler"></div>
 
-        <div class="resizer resizer-r" @mousedown="mouseDownHandler"></div>
-        <div class="resizer resizer-b" @mousedown="mouseDownHandler"></div>
+        <v-card-actions>
+          <InoutputBtns
+            :resizingStatus="resizingStatus"
+            :width="width"
+            :height="height"
+            :marginLeft="marginLeft"
+            :marginTop="marginTop"
+            :componentId="itemProps.id"
+            :hover="hover"
+          />
+        </v-card-actions>
       </v-card>
     </v-hover>
-    <!-- <v-menu
-      v-model="showRightClickMenu"
-      :position-x="rightMenuX"
-      :position-y="rightMenuY"
-      absolute
+    <v-menu 
+      v-model="showRightClickMenu" 
+      :position-x="rightMenuX" 
+      :position-y="rightMenuY" 
+      absolute 
       offset-y
     >
-      <RightClickMenu
-        :vue="this"
-        :container="container"
-        :itemProps="itemProps"
-        store="documents"
+      <RightClickMenu 
+        :vue="this" 
+        :container="container" 
+        :itemProps="itemProps" 
+        store="corpus" 
+        :commands="commands"
+        @contextButtonClicked="contextButtonClickedHandler"
       />
-    </v-menu> -->
+    </v-menu>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-// import RightClickMenu from "@/components/RightClickMenu";
-// import InoutputBtns from "@/components/InoutputBtns";
+import RightClickMenu from "@/components/RightClickMenu";
+import InoutputBtns from "@/components/InoutputBtns";
 export default {
+  props: {
+    itemProps: {
+      type: Object,
+      required: true
+    }, 
+    contextCommands: {
+      type: Array, 
+      required: false, 
+    }, 
+    styleProps: {
+      type: Object,
+      required: false, 
+    },
+    'disable-resizer': {
+      type: Boolean,
+      required: false
+    }
+  },
   data() {
     return {
       dataStatus: false,
       resizeX: undefined,
       resizeY: undefined,
-      // draggable: true,
-      width: 500,
-      height: 1000,
+      width: 300,
+      height: 300,
       resizeWidth: 0, //
       resizeHeight: 0,
       marginTop: 0,
@@ -64,38 +100,13 @@ export default {
       topMargin: window.innerHeight / 2,
       leftMargin: window.innerWidth / 2,
       resizingStatus: false,
-
-    //   showRightClickMenu: false,
+      showRightClickMenu: false,
       rightMenuX: 0,
       rightMenuY: 0,
       loadingStatus: undefined,
-      componentId: "tabular-0",
-      // for right click menu
       items: [{ title: "Remove node" }],
-
       container: ".documents-components-list",
-
-      selected: [],
-     
-      sheets: [], 
-      
-      currentDataBase: [],
-      answerBasedRetrieval: {},
-      flag: false,
-      tableItemKey: "",
-      //-----
-      search: "",
-      calories: '', 
-      desserts: [],
-      headers: [],
-      
-      selected_rows:[],
-      singleSelect: false,
-      sheetNames: [],
-      tab: null,
-      sheetItemKey: null, 
-      currentSheet: null, 
-      currentData: null,
+      minimize: false, 
     };
   },
   methods: {
@@ -104,20 +115,22 @@ export default {
       this.dragStartHandler(e)
     },
 
-    moveAt(posX, posY) { 
+    moveAt(posX, posY) {
       const comp = document.querySelector(`#${this.itemProps.id}`)
-      this.marginTop = posY 
+      this.marginTop = posY
       this.marginLeft = posX
-    }, 
-    
-    dragStartHandler(e){
+    },
+    dblclickHandler() {
+      this.$emit('dblclick')
+    },
+    dragStartHandler(e) {
       if (e.buttons == 1 && this.draggable) {
         const that = this
         const comp = document.querySelector(`#${this.itemProps.id}`)
         const initialLeft = parseInt(comp.style.left.split('px')[0]) - e.clientX
         const initialTop = parseInt(comp.style.top.split('px')[0]) - e.clientY
-        function onMouseMove(event) { 
-          that.moveAt(event.pageX + initialLeft, event.pageY + initialTop) 
+        function onMouseMove(event) {
+          that.moveAt(event.pageX + initialLeft, event.pageY + initialTop)
         }
         document.addEventListener("mousemove", onMouseMove)
         comp.onmouseup = function () {
@@ -125,7 +138,7 @@ export default {
           comp.onmouseup = null
         }
       }
-    }, 
+    },
 
     mouseDownHandler(e) {
       // this.$store.dispatch('changeResizerStatus', true);
@@ -158,32 +171,68 @@ export default {
       this.rightMenuX = e.clientX;
       this.rightMenuY = e.clientY;
     },
- 
+    
+    contextButtonClickedHandler(button) {
+      this.$emit('contextButtonClicked', button)
+    }
+
   },
 
   created() {
     // Initialize initial position
-    this.marginTop = 50;
-    this.marginLeft = 100;
+    console.log('check this')
+    console.log(this.styleProps)
+    this.styleProps.top 
+      ? this.marginTop = +this.styleProps.top.split('px')[0]
+      : this.marginTop = 50
+    this.styleProps.left
+      ? this.marginLeft = +this.styleProps.left.split('px')[0]
+      : this.marginLeft = 100
+    this.styleProps.width 
+      ? this.width = +this.styleProps.width.split('px')[0]
+      : -1 
+    this.styleProps.height
+      ? this.height = +this.styleProps.height.split('px')[0]
+      : -1
+
     this.resizeWidth = this.width;
     this.resizeHeight = this.height;
+    console.log(this.disableResizer)
   },
 
   computed: {
     // Determine Whether the component is draggable
     // Not allowed when resizing and drawling link
+    ...mapState(["drawLink", "resizer"]),
     draggable() {
-      return !(this.resizingStatus);
+      return !(this.drawLink || this.resizingStatus);
     },
+    minimizeStatus() {
+      // this.$slots.minimizeView exist 
+      return this.$slots.minimizeView && this.minimize 
+    }, 
+    commands() {
+      const rightClickCommands = {icon: "mdi-window-minimize", command: "Minimize"}
+      let commands = [] 
+      this.$slots.minimizeView && this.$slots.fullView 
+        ? commands.push(rightClickCommands)
+        : -1 
+      commands = this.contextCommands
+        ? commands.concat(this.contextCommands)
+        : commands
+      console.log('commands!!!')
+      console.log(commands)
+      return commands
+    }, 
   },
 
   components: {
+    RightClickMenu, 
+    InoutputBtns
   },
 
   watch: {
-      height(newVal) {
-          this.$store.dispatch('containerSizeChange', {'container': 'tableContainer', 'height': this.height})
-      }, 
+  
   },
 };
 </script>
@@ -219,5 +268,4 @@ export default {
   left: 0;
   width: 100%;
 }
-
 </style>                                                                   

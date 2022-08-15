@@ -22,7 +22,7 @@ export default {
     cards: [
        
     ],
-    component: () => import('@/components/CorpusComp'), 
+    component: () => import('@/components/loader/corpus'), 
   }, 
   mutations: {
     ADD_COMPONENT(state){

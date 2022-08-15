@@ -36,7 +36,6 @@
     <MenuBar/>
     <!-- <DocumentsComp/>
     <GlobalViewComp/> -->
-
     <ul class="topic-components-list">
       <li
         :is="topics.component"
@@ -96,6 +95,15 @@
       >
       </li>
     </ul>
+     <ul class="vegaRender-components-list">
+      <li
+        :is="vegaRender.component"
+        v-for="item in vegaRender.cards"
+        :key="item.id"
+        :itemProps="item"
+      >
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -107,6 +115,7 @@ import GlobalViewComp from '@/components/GlobalViewComp'
 import LinkComp from '@/components/LinkComp'
 import OntologyComp from "@/components/OntologyComp"
 import RightClickMenu from '@/components/RightClickMenu'
+import VegaRender from '@/components/VegaRender'
 import {mapState} from 'vuex'
 export default {
   data(){
@@ -183,7 +192,8 @@ export default {
       'corpus',
       'link',
       'ontology',
-      'graph'
+      'graph',
+      'vegaRender',
       ]), 
   },
   
