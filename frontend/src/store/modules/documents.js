@@ -1,4 +1,5 @@
-import {getComponentType} from '@/utils/help'
+import {getComponentType, getTargetCard} from '@/utils/help'
+import { wrapUpDataForTableExport } from '../../utils/documentsUtil';
 
 function createNewDocumentsCard(id){
   return {
@@ -10,6 +11,8 @@ function createNewDocumentsCard(id){
     width: 500, 
     height: 300,
     inputData: undefined,
+    selectedItems: [],
+    keep_in_vis_mode: false 
   }
 }
 
@@ -135,6 +138,20 @@ export default {
           state.cards[i].height = height
         }
       }
+    },
+    UPDATE_SELECTED_ITEMS(state, {id, selected}) {
+      for(let i in state.cards){
+        if(state.cards[i].id == id){
+          state.cards[i].selectedItems = selected
+        }
+      }
+    }, 
+    KEEP_IN_VIS(state, id) {
+      for(let i in state.cards){
+        if(state.cards[i].id == id){
+          state.cards[i].keep_in_vis_mode = !state.cards[i].keep_in_vis_mode
+        }
+      } 
     }
   }, 
   actions: {
@@ -163,10 +180,10 @@ export default {
       })
       commit('DELETE_COMPONENT', id);
     }, 
-    addLink({commit}, data){
+    addLink({commit, dispatch}, data){
       if(data.status == "source"){
         commit('ADD_SOURCE_LINK', data)
-        dispatch('outputHandler', linkData)
+        dispatch('outputHandler', data)
       }else{
         commit('ADD_TARGET_LINK', data)
         //dispatch('inputHandler', linkData)
@@ -187,7 +204,15 @@ export default {
       }
     },
     
-
+    updateSelectedItems({state, commit, dispatch}, {id, selected}) {
+      commit('UPDATE_SELECTED_ITEMS', {id, selected})
+      const targetCard = getTargetCard(state.cards, id) 
+      if (targetCard.sourceLink.length > 0) {
+        for (let i in targetCard.sourceLink) {
+          dispatch('outputHandler', targetCard.sourceLink[i])
+        }
+      }
+    },
     // Input Handler will be triggered by other components
     // When source Component
     inputHandler({commit, state, }, {link, inputData}){
@@ -200,16 +225,19 @@ export default {
       }
     }, 
 
-    outputHandler({commit, state, }, linkData){
+    outputHandler({commit, state, dispatch}, linkData){
       const targetCompType = getComponentType(linkData.target);
       console.log('outputHandler');
       console.log(linkData);
       for(let i in state.cards){
         if(state.cards[i].id == linkData.source){
-          dispatch(`${targetCompType}/inputHandler`, {link: linkData, inputData: state.cards[i].inputData}, {root: true})
+          dispatch(`${targetCompType}/inputHandler`, {link: linkData, inputData: wrapUpDataForTableExport(targetCompType, state.cards[i])}, {root: true})
           return;
         }
       }
     },
+    keepInVis({commit}, id) {
+      commit('KEEP_IN_VIS', id)
+    }
   }
 }

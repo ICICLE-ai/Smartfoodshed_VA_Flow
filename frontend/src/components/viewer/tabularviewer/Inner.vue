@@ -66,6 +66,7 @@
 </template>
 
 <script>
+
 export default {
   props: ['itemProps'], 
   data() {
@@ -93,19 +94,29 @@ export default {
     },
     sheetDataUpdate(sheetName){
       const val = this.itemProps.inputData; 
-      const tableValue = val["data"][sheetName];
+      const {tableData, tableInfo} = val["data"][sheetName];
       this.headers = []
-     
-      if(Object.keys(tableValue).length > 0){
-        for (let key of Object.keys(tableValue[0])) {
+      let relation_id_exist = false 
+      let id_exist = false 
+      if (tableData.length > 0) {
+        tableInfo.forEach(info => {
           this.headers.push({
-            text: key.charAt(0).toUpperCase() + key.slice(1), //
-            value: key,
-          }); 
-        }
-        this.tableItemKey = this.headers[0]["value"];
-        this.currentDataBase = Object.values(tableValue);
-        this.desserts = Object.values(tableValue);
+            text: info.label, 
+            value: info.value
+          })
+          info.value == 'relation_id' 
+            ? (relation_id_exist = true) 
+            : info.value == 'id' 
+              ? (id_exist = true )
+              : -1
+        })
+        this.tableItemKey = relation_id_exist 
+          ? 'relation_id'
+          : id_exist 
+            ? 'id'
+            : this.headers[0].value
+        this.currentDataBase = tableData
+        this.desserts = tableData
       }
     }
   },
@@ -118,6 +129,7 @@ export default {
         this.dataStatus = val.tableNames;
         this.headers = [];
 
+        console.log(val)
         const tableNames = val['tableNames']; 
         tableNames.forEach(tablename => {
           this.sheets.push({
@@ -144,6 +156,11 @@ export default {
         const heightOfSheet = 25;
         resizerBElelemt.style.bottom = (-heightOfSheet - 12) + "px"; 
       }
+    },
+    selected() {
+      console.log(`table ${this.itemProps.id} selected items updated`) 
+      console.log(this.selected)
+      this.$store.dispatch('documents/updateSelectedItems', {id: this.itemProps.id, selected: this.selected})
     }
   }
 }

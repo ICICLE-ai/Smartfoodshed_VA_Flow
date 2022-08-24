@@ -10,16 +10,33 @@
       <v-btn
         text
         rounded
+        @click="toggleVisMode"
+        style="color: purple"
       >
-        {{'Dashboard'}}
+        {{getMode}}
       </v-btn>
     </v-app-bar>
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
-
+  methods: {
+    toggleVisMode() {
+      this.$store.dispatch('toggleVisMode')
+    }
+  },
+  computed: {
+    ...mapState(['vismode']), 
+    getMode() {
+      if (this.vismode) {
+        return 'To Editing Mode'
+      }else {
+        return 'To Vis Mode'
+      }
+    }
+  }
 }
 </script>
 

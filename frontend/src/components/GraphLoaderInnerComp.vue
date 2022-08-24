@@ -9,7 +9,7 @@
       <v-row>
         <v-col cols="12">      
           <v-file-input
-            label="Upload your corpus data"
+            label="Upload your graph data"
             outlined
             dense
             full-width
@@ -20,7 +20,7 @@
     </v-card-actions>
     
     <v-card-title class="headline">
-      GraphDB Instances
+      Select Existing GraphDB Instances
     </v-card-title>
     <template>
       <v-data-table
@@ -89,7 +89,7 @@ export default {
         {
           table: 'PPOD',
           size: '1.3Mb', 
-          status: 'offline',
+          status: 'online',
           last_time: '2022-7-23',
           upload_date: '2022-04-12',
         },    

@@ -8,16 +8,16 @@
     disable-resizer
   >
     <template v-slot:fullView>
-      <Inner :itemProps="itemProps" ref="inner"/>
+      <TabularLoaderInner :itemProps="itemProps" ref="inner"/>
     </template>
   </Ctemplate> 
 </template>  
 
 <script>
-import Inner from './Inner.vue'
+import TabularLoaderInner from './Inner.vue'
 export default {
   components: {
-    Inner 
+    TabularLoaderInner 
   }, 
   props: ['itemProps'], 
   data() {

@@ -14,7 +14,8 @@
           width: `${width}px`,
           height: `${height}px`,
           position: 'absolute',
-          'border-radius': styleProps['border-radius'] ? styleProps['border-radius'] : 'none'
+          'border-radius': styleProps['border-radius'] ? styleProps['border-radius'] : 'none', 
+          border: getBorder
         }">
         <slot v-if="minimizeStatus" name="minimizeView">
           <v-card-text class="card-name">
@@ -82,6 +83,10 @@ export default {
     'disable-resizer': {
       type: Boolean,
       required: false
+    },
+    fixed: {
+      type: Boolean, 
+      required: false, 
     }
   },
   data() {
@@ -109,7 +114,11 @@ export default {
   },
   methods: {
     dragProxy(e) {
-      this.dragStartHandler(e)
+      if (!this.fixed) {
+        this.dragStartHandler(e);
+      } else {
+        return;
+      }
     },
     moveAt(posX, posY) {
       const comp = document.querySelector(`#${this.itemProps.id}`)
@@ -196,7 +205,10 @@ export default {
   computed: {
     // Determine Whether the component is draggable
     // Not allowed when resizing and drawling link
-    ...mapState(["drawLink", "resizer"]),
+    ...mapState(["drawLink", "resizer", "vismode"]),
+    getBorder() {
+      return this.fixed ? "2px solid grey" : "None";
+    },
     draggable() {
       return !(this.drawLink || this.resizingStatus);
     },

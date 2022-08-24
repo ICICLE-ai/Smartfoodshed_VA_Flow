@@ -1,5 +1,6 @@
 import {getComponentType} from '@/utils/help'
 import axios from 'axios'
+import { apiClient } from '../../api/apiClient';
 
 function createNewCorpusCard(id){
   return {
@@ -179,7 +180,8 @@ export default {
           commit('ADD_DATA', data);
           commit('UPDATE_LOADING_STATUS', {id: data.cardId, status: true})
           console.log(data);
-          let tabularData = await axios.get('http://127.0.0.1:5000/getTable')
+          // await apiClient.post("/changeDataBase", {database: 'ppod'})
+          let tabularData = (await apiClient.get('/getTableData')).data
           console.log(tabularData); 
           commit('LOAD_DATA', {id: data.cardId, data: {
             data: {...tabularData.data} , 

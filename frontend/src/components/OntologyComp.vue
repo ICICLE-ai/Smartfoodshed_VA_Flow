@@ -266,9 +266,33 @@ export default {
         neo4jData: data,
         nodeRadius: 30,
         infoPanel: false,
-      
       });
+      console.log(d3.select('.neo4jd3-graph'))
+      const canvasContainer = d3.select(`.neo4jd3-graph`)
+      function zoomed() {
+        console.log(111);
+        const {transform} = d3.event;
+        canvasContainer.attr("transform", transform);
+      }
 
+      const width = this.width
+      const height = this.height
+      canvasContainer.on('dblclick', ()=>{
+        console.log(111)
+        canvasContainer.call(d3.zoom()
+          .extent([[0, 0], [width, height]])
+          .scaleExtent([1, 8])
+          .on("zoom", zoomed));
+
+        canvasContainer.style('border', '1px solid red')
+      })
+
+      canvasContainer.on('mouseleave', ()=>{
+        console.log('mouseout');
+        console.log(canvasContainer)
+        canvasContainer.on('.zoom', null);
+        canvasContainer.style('border', null)
+      })
     },
     
     doubleClickToLoad(){
@@ -282,7 +306,7 @@ export default {
         alert('No vis data but still triggered! check GLobalViewComp.vue')
       }
 
-      
+      alert(1)
       let tip = d3tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
@@ -298,7 +322,7 @@ export default {
 
       console.log('print vis area');
       console.log(visArea);
-      const canvasContainer = d3.select(`.globalview-canvas-${this.itemProps.id}`);
+      const canvasContainer = d3.select(`#ontologyview-canvas-${this.itemProps.id}`);
       const canvasGroup = canvasContainer.selectAll('g').data([0]);
       const canvasEnter = canvasGroup.enter().append('g')
 
@@ -441,13 +465,13 @@ export default {
   },
 
   watch: {
-    'itemProps.data': function(newVal, oldVal){
+    'itemProps.inputData': function(newVal, oldVal) {
       if(newVal){
         this.loadingStatus = true
         this.dataStatus = true // means loading 
         this.loadingStatus = false;
         this.$nextTick(function(){
-          this.drawNeo4jd3(this.itemProps.data.data)
+          this.drawNeo4jd3(this.itemProps.inputData)
         })
       }else{
         this.loadingStatus = false
@@ -474,7 +498,7 @@ export default {
     width: function (){
       if(this.itemProps.data){
         d3.select('.neo4jd3-graph').remove()
-        this.drawNeo4jd3(this.itemProps.data.data)
+        this.drawNeo4jd3(this.itemProps.inputData)
       }
       
     }, 
@@ -482,7 +506,7 @@ export default {
     height: function(){
       if(this.itemProps.data){
         d3.select('.neo4jd3-graph').remove()
-        this.drawNeo4jd3(this.itemProps.data.data)
+        this.drawNeo4jd3(this.itemProps.inputData)
       }
     }
   }

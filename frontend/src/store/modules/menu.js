@@ -22,7 +22,7 @@ export default {
       {
         label: 'Ontology view', 
         icon: 'mdi-vector-triangle',
-        store: 'ontology',
+        store: 'graphviewer',
         component: () => import('@/components/GlobalViewComp')
       },
       {
@@ -30,6 +30,12 @@ export default {
         icon: 'mdi-vector-polygon-variant',
         store: 'vegaRender',
         component: ()=>import('@/components/VegaRender'), 
+      }, 
+      {
+        label: 'Table2Cypher', 
+        icon: 'mdi-xml', 
+        store: 'table2cypher', 
+        component: null 
       }
     ]
   }

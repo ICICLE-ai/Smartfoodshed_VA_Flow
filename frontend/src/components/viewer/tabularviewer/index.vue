@@ -6,17 +6,17 @@
     :styleProps="styleProps"
   >
     <template v-slot:fullView>
-      <Inner :itemProps="itemProps" ref="inner"/>
+      <TabularInner :itemProps="itemProps" ref="inner"/>
     </template>
   </Ctemplate>
 </template>
 
 <script>
-import Inner from './Inner.vue'
+import TabularInner from './Inner.vue'
 export default {
   props: ['itemProps'], 
   components: {
-    Inner, 
+    TabularInner, 
   }, 
   data() {
     return {

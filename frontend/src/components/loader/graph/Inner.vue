@@ -1,15 +1,15 @@
 <template>
   <div>
      <v-card-text class="card-name">
-      <v-icon>
+      <v-icon :color="activeColor">
         mdi-graph  
       </v-icon>
       <v-progress-circular
-            indeterminate
-            :width="2"
-            color="green"
-            v-if="itemProps.loadingStatus"
-            :style="{position: 'static'}"
+        indeterminate
+        :width="2"
+        color="green"
+        v-if="itemProps.loadingStatus"
+        :style="{position: 'static'}"
       ></v-progress-circular>
     </v-card-text>
     <v-dialog
@@ -47,6 +47,13 @@ export default {
       }
       this.dialog = false;
     },
+  }, 
+  computed: {
+    activeColor() {
+      return this.itemProps.selectedGraphInstance 
+        ? 'purple'
+        : 'null'
+    }
   }
 }
 </script>

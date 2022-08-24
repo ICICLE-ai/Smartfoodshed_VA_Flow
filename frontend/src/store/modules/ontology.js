@@ -12,6 +12,7 @@ function createNewOntology(id){
     width: null, 
     height: null,
     data: undefined, 
+    inputData: undefined, 
   }
 }
 
@@ -214,9 +215,8 @@ export default {
     inputHandler({commit, state, }, {link, inputData}){
       const sourceCompType = getComponentType(link.source);
       const targetCompType = getComponentType(link.target);
-      console.log('document Hanlde Input 123');
       console.log(inputData);
-      if(inputData && inputData.tableNames){
+      if(inputData){
         commit('SET_INPUTDATA', {link, inputData})  
       }
     }, 

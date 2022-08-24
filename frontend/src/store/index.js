@@ -9,6 +9,8 @@ import link from '@/store/modules/link.js'
 import ontology from '@/store/modules/ontology.js'
 import graph from "@/store/modules/graph.js";
 import vegaRender from "@/store/modules/vegaRender.js"
+import table2cypher from '@/store/modules/linker/table2cypher'
+import graphviewer from '@/store/modules/viewer/graphviewer'
 Vue.use(Vuex)
 
 function newLink(){
@@ -23,7 +25,7 @@ export default new Vuex.Store({
     drawLink: false,
     currentLink: undefined, 
     currentDragging: undefined,
-    
+    vismode: false
   },
   mutations: {
     DRAWLINK_STATUS(state, status){
@@ -52,6 +54,9 @@ export default new Vuex.Store({
           return;
         }
       }
+    }, 
+    TOGGLE_VIS_MODE(state) {
+      state.vismode = !state.vismode 
     }
   },
   actions: {
@@ -63,6 +68,9 @@ export default new Vuex.Store({
     },
     setCurrentLink({commit}, {id, pos, in_out}){
       commit('SET_CURRENTLINK', {id, pos, in_out})
+    }, 
+    toggleVisMode({commit}) {
+      commit('TOGGLE_VIS_MODE')
     }
   },
   modules: {
@@ -74,6 +82,8 @@ export default new Vuex.Store({
     link, 
     ontology,
     graph,
-    vegaRender
+    vegaRender, 
+    table2cypher,
+    graphviewer
   }
 })

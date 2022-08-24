@@ -1,7 +1,7 @@
 <template>
   <div style="text-align: center; display: flex; height: 100%">
     <v-card-text class="card-name">
-      <v-icon>
+      <v-icon :color="activeColor">
         mdi-database  
       </v-icon>
       <v-progress-circular
@@ -55,6 +55,11 @@ export default {
       }else{
         return 'No Corpus'
       }
+    }, 
+    activeColor() {
+      return this.itemProps.data
+        ? 'purple'
+        : 'null'
     }
   }
 }

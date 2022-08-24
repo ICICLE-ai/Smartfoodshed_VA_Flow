@@ -9,6 +9,7 @@
     <div class="background-canvas">
         <svg
           class="svg-canvas"
+          v-show="!vismode"
         >
           <LinkComp 
             v-for="path in link.links"
@@ -33,13 +34,14 @@
         </v-menu>
     </div>
 
-    <MenuBar/>
+    <MenuBar v-show="!vismode"/>
     <!-- <DocumentsComp/>
     <GlobalViewComp/> -->
     <ul class="topic-components-list">
       <li
         :is="topics.component"
         v-for="item in topics.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
         :key="item.id"
         :itemProps="item"
       >
@@ -50,6 +52,7 @@
       <li
         :is="graph.component"
         v-for="item in graph.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
         :key="item.id"
         :itemProps="item"
       >
@@ -60,6 +63,7 @@
       <li
         :is="documents.component"
         v-for="item in documents.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
         :key="item.id"
         :itemProps="item"
       >
@@ -70,6 +74,7 @@
       <li
         :is="globalview.component"
         v-for="item in globalview.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
         :key="item.id"
         :itemProps="item"
       >
@@ -80,16 +85,29 @@
       <li
         :is="corpus.component"
         v-for="item in corpus.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
+        :key="item.id"
+        :itemProps="item"
+      >
+      </li>
+    </ul>
+    
+    <ul class="table2cypher-components-list">
+      <li
+        :is="table2cypher.component"
+        v-for="item in table2cypher.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
         :key="item.id"
         :itemProps="item"
       >
       </li>
     </ul>
 
-    <ul class="ontology-components-list">
+    <ul class="graphviewer-components-list">
       <li
-        :is="ontology.component"
-        v-for="item in ontology.cards"
+        :is="graphviewer.component"
+        v-for="item in graphviewer.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
         :key="item.id"
         :itemProps="item"
       >
@@ -99,6 +117,7 @@
       <li
         :is="vegaRender.component"
         v-for="item in vegaRender.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
         :key="item.id"
         :itemProps="item"
       >
@@ -194,6 +213,9 @@ export default {
       'ontology',
       'graph',
       'vegaRender',
+      'table2cypher',
+      'graphviewer',
+      'vismode'
       ]), 
   },
   

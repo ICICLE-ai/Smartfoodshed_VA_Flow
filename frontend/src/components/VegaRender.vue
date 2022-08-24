@@ -13,7 +13,7 @@
         :id="itemProps.id"
         ref="cardComp"
         @dblclick.stop="cardDoubleClick"
-        @contextmenu = "rightClickMenuShow"
+        @contextmenu="rightClickMenuShow"
         :style="{top: marginTop + 'px', left: marginLeft +'px', width: `${width}px`, height: `${height}px`, position: 'absolute',}"
         :loading="itemProps.loadingStatus"
       >

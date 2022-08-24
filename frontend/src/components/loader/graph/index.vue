@@ -7,7 +7,7 @@
     disable-resizer
   > 
     <template v-slot:fullView>
-      <Inner 
+      <GraphLoaderInner 
         ref="inner"
         :itemProps="itemProps"
       />
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Inner from './Inner.vue'
+import GraphLoaderInner from './Inner.vue'
 export default {
   props: ['itemProps'], 
   data() {
@@ -25,7 +25,7 @@ export default {
     }
   }, 
   components: {
-    Inner 
+    GraphLoaderInner 
   },
   methods: {
     dblClickHandler() {
