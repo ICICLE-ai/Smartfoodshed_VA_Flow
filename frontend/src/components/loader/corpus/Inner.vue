@@ -40,10 +40,16 @@ export default {
       this.dialog = true 
     }, 
     loaderAction(e){
-      if(e.status == "success"){
+      console.log(e)
+      if(e.status == "existing"){
         delete e.status
         e.selected.cardId = this.itemProps.id
         this.$store.dispatch('corpus/addCorpus', e.selected)
+      }
+      else if(e.status=="local"){
+        delete e.status
+        e.data.cardId = this.itemProps.id
+        this.$store.dispatch('corpus/addLocal', e.data)
       }
       this.dialog = false;
     },

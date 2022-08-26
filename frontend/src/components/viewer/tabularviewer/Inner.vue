@@ -114,7 +114,7 @@ export default {
           ? 'relation_id'
           : id_exist 
             ? 'id'
-            : this.headers[0].value
+            : this.headers[3].value
         this.currentDataBase = tableData
         this.desserts = tableData
       }

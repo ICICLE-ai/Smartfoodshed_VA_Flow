@@ -9,6 +9,7 @@
       <v-row>
         <v-col cols="12">      
           <v-file-input
+            @change="uploadfiles"
             label="Upload your corpus data"
             outlined
             dense
@@ -25,7 +26,7 @@
       <v-data-table
       v-model="selected"
       :headers="headers"
-      :items="desserts"
+      :items="tableData"
       :single-select="true"
       item-key="name"
       show-select
@@ -69,6 +70,7 @@
 </template>
 
 <script>
+import PouchDB from 'pouchdb'
 export default {
   data(){
     return {
@@ -86,7 +88,7 @@ export default {
         { text: 'Uploaded date', value: 'upload_date' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
-      desserts: [
+      tableData: [
         {
           table: 'Master_PPOD.xlsx',
           size: '961kb',
@@ -94,24 +96,65 @@ export default {
           upload_date: '2020-12-21',
   
         },
-        
-      ]
-      
+      ],
+      db: new PouchDB("test_db"),
+      results:[]
     }
   },
   methods: {
+    readcsvfile(reader,file){
+      var that = this
+      const res = new Promise((resolve,reject)=>{
+        reader.addEventListener('load',function get(){
+          //console.log(reader)
+          const d = reader.result
+          const headers = d.slice(0,d.indexOf("\n")).replace('\r', '').split(',')
+          const q = d.slice(d.indexOf("\n") + 1).split("\n")
+          const rows = [];
+          for(let i=0;i<Object.keys(q).length;i++){ //removing all \r from rows
+            rows.push(q[i].replace('\r',''))
+          }
+          //console.log(rows)
+          const arr = rows.map(function(row) {
+          const values = row.split(',');
+          const el  = headers.reduce(function(object,header,index){
+            object[header] = values[index];
+            return object
+          },{});
+          return el
+        });
+        console.log(arr)
+        // const text = JSON.stringify(arr)
+        // resolve(text)
+        that.$emit('loaderAction', {status: 'local', data: arr})
+        reader.removeEventListener('load',get)
+        })
+      })
+      reader.readAsText(file)
+      //console.log(res)
+      
+      // return res
+  },
+    async uploadfiles(w){
+      const reader = new FileReader()
+      // this.results.splice(0)
+      if(w["type"]=="text/csv"){
+        await this.readcsvfile(reader, w)
+      }
+      // })
+      // console.log(this.results)
+    },
     cancelSelect(){
       this.$emit('loaderAction', {status: 'fail'})
       this.selected = []
     },
     confirmSelect(){
       if(this.selected.length > 0){
-        this.$emit('loaderAction', {status: 'success', selected: this.selected[0]})
+        this.$emit('loaderAction', {status: 'existing', selected: this.selected[0]})
         this.selected = []
       }else{
         this.cancelSelect()
       }
-      
     }
   }
 }

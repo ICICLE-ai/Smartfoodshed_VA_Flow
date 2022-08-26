@@ -4,10 +4,10 @@ import menu from '@/store/modules/menu.js'
 import topics from '@/store/modules/topics.js'
 import documents from '@/store/modules/documents.js'
 import globalview from '@/store/modules/globalview.js'
-import corpus from '@/store/modules/corpus.js'
+import corpus from '@/store/modules/loader/corpus.js'
 import link from '@/store/modules/link.js'
 import ontology from '@/store/modules/ontology.js'
-import graph from "@/store/modules/graph.js";
+import graph from "@/store/modules/loader/graph.js";
 import vegaRender from "@/store/modules/vegaRender.js"
 import table2cypher from '@/store/modules/linker/table2cypher'
 import graphviewer from '@/store/modules/viewer/graphviewer'
