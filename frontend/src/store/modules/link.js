@@ -22,7 +22,7 @@ export default {
     linksDict:{
 
     },
-    component: () => import('@/components/LinkComp'), 
+    component: () => import('@/components/common/link/LinkComp'), 
   }, 
   mutations: {
     ADD_COMPONENT(state, {id, source, sourcePos, sourceBtn, target, targetPos, targetBtn, d}){

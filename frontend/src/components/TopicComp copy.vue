@@ -120,7 +120,7 @@
 
 <script>
 import {mapState} from 'vuex'
-import RightClickMenu from '@/components/RightClickMenu'
+import RightClickMenu from "@/components/common/rightclick/RightClickMenu";
 export default {
   props: [
     'itemProps'

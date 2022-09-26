@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import NavBar from "@/components/NavBar";
+import NavBar from "@/components/common/nav/NavBar";
 export default {
   data() {
     return {};

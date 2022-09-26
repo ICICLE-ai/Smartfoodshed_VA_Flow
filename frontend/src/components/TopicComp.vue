@@ -83,8 +83,8 @@
 
 <script>
 import {mapState} from 'vuex'
-import RightClickMenu from '@/components/RightClickMenu'
-import InoutputBtns from '@/components/InoutputBtns'
+import RightClickMenu from "@/components/common/rightclick/RightClickMenu";
+import InoutputBtns from "@/components/common/menu/buttons/InoutputBtns";
 export default {
   props: [
     'itemProps'

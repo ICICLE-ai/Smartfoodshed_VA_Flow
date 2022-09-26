@@ -127,14 +127,14 @@
 </template>
 
 <script>
-import MenuBar from '@/components/MenuBar'
-import DocumentsComp from '@/components/DocumentsComp'
-import TopicComp from '@/components/TopicComp'
+import MenuBar from '@/components/common/menu/MenuBar'
+import DocumentsComp from '@/components/viewer/tabularviewer'
+import GraphViewer from '@/components/viewer/graphviewer'
 import GlobalViewComp from '@/components/GlobalViewComp'
-import LinkComp from '@/components/LinkComp'
+import LinkComp from '@/components/common/link/LinkComp'
 import OntologyComp from "@/components/OntologyComp"
-import RightClickMenu from '@/components/RightClickMenu'
-import VegaRender from '@/components/VegaRender'
+import RightClickMenu from '@/components/common/rightclick/RightClickMenu'
+import VegaRender from '@/components/viewer/VegaRender'
 import {mapState} from 'vuex'
 export default {
   data(){
@@ -228,7 +228,9 @@ export default {
   components: {
     MenuBar,
     DocumentsComp,
-    TopicComp,
+    // TopicComp,
+    VegaRender,
+    GraphViewer,
     GlobalViewComp,
     LinkComp,
     RightClickMenu, 

@@ -2,38 +2,44 @@ export default {
   state: {
     menuList: [
       {
-        label: 'Corpus', 
+        label: 'CSV Loader', 
         icon: 'mdi-database', 
         store: 'corpus', 
+        color: '#AEBDCA',
         component: undefined,
       },
       {
         label: 'Graph Loader', 
         icon: 'mdi-graph', 
+        color: '#AEBDCA',
         store: 'graph', 
-        component: () => import('@/components/GraphLoaderComp'),
+        component: () => import('@/components/loader/graph/Loader'),
       },
       {
-        label: 'Tabular', //
+        label: 'Table viewer', //
         icon: 'mdi-table',  
+        color: '#C689C6',
         store: 'documents',
-        component: () => import('@/components/DocumentsComp')
+        component: () => import('@/components/viewer/tabularviewer/')
       }, 
       {
-        label: 'Ontology view', 
+        label: 'Graph viewer', 
         icon: 'mdi-vector-triangle',
+        color: '#C689C6',
         store: 'graphviewer',
         component: () => import('@/components/GlobalViewComp')
       },
       {
-        label: 'Vega-Lite Render', 
+        label: 'Vega-Lite viewer', 
         icon: 'mdi-vector-polygon-variant',
+        color: '#C689C6',
         store: 'vegaRender',
-        component: ()=>import('@/components/VegaRender'), 
+        component: ()=>import('@/components/viewer/VegaRender'), 
       }, 
       {
         label: 'Table2Cypher', 
         icon: 'mdi-xml', 
+        color: '#A1C298',
         store: 'table2cypher', 
         component: null 
       }

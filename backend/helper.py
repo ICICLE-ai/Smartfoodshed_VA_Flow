@@ -640,3 +640,13 @@ def generateWhole(ont, name):
         else:
             G = oneTable(ont[name], G, 'rel')
     return G 
+
+
+
+from rdflib import Graph, Namespace
+def readTTLfromGit(url, namespace_pair):
+    g = Graph()
+    g.parse(url, format='ttl')
+    for pair in namespace_pair:
+        g.bind(pair[0], Namespace(pair[1]))
+    return g

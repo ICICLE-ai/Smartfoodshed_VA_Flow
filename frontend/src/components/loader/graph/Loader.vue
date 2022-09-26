@@ -5,7 +5,8 @@
     </v-card-title>
     <v-divider></v-divider>
 
-    <v-card-actions class="mt-5">
+
+    <!-- <v-card-actions class="mt-5">
       <v-row>
         <v-col cols="12">      
           <v-file-input
@@ -17,8 +18,20 @@
           ></v-file-input>
         </v-col>
       </v-row>
-    </v-card-actions>
+    </v-card-actions> -->
     
+    <v-row>
+      <v-col cols="6">
+        <v-text-field
+          solo
+          v-model="github_url"
+          label="github url of the raw data"
+          append-outer-icon="mdi-map-marker"
+          @click:append-outer = "loadGithub"
+        ></v-text-field>
+      </v-col>
+    </v-row>
+
     <v-card-title class="headline">
       Select Existing GraphDB Instances
     </v-card-title>
@@ -102,20 +115,25 @@ export default {
         }, 
       ], 
       uploaded_file: null,
+      github_url: "",
     }
   },
   methods: {
+    loadGithub(){
+      console.log(this.github_url)
+      this.$emit('loaderAction', {state: 'github', source: 'github', url: this.github_url})
+    },
     cancelSelect(){
       this.$emit('loaderAction', {status: 'fail'})
       this.selected = []
     },
     confirmSelect(){
       if(this.selected.length > 0){
-        this.$emit('loaderAction', {status: 'success', selected: this.selected[0]})
+        this.$emit('loaderAction', {status: 'existing', selected: this.selected[0]})
         this.selected = []
       }else{
         if (this.uploaded_file) {
-          this.$emit('loaderAction', {status: 'success', selected: this.uploaded_file, source: 'uploaded_file'})
+          this.$emit('loaderAction', {status: 'existing', selected: this.uploaded_file, source: 'uploaded_file'})
         }else {
           this.cancelSelect()
         }

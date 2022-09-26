@@ -63,6 +63,14 @@ def upload_file():
       print(' * file uploaded', filename)
   return Response(json.dumps({'status': 'finished'}), status=200, mimetype="application/json")
 
+# @app.route('/upload_graphgit', methods=['POST'])
+# def upload_graphgit():
+#     url = request.get_json()['url']
+#     ## test 
+#     url = "https://raw.githubusercontent.com/yasmineTYM/PPOD_KG/main/PPOD7.ttl"
+#     g = helper.readTTLfromGit(url, [])
+    
+#     return g
 @app.route('/getGraphData', methods=['GET'])
 def getGraphData():
     data = helper.readJsonFromGit(localfile_path+'input_graph.json')
@@ -303,7 +311,6 @@ def get_associated_node_from_county():
 
 @app.route('/changeDataBase', methods=['POST'])
 def changeDataBase():
-
     request_obj = request.get_json()
     global graph, entity_identifier,graph_overview,database,fips
     database = request_obj['database']
@@ -336,7 +343,7 @@ if __name__ == '__main__':
     # G1 = Graph("bolt://localhost:7687", auth=("neo4j", "123"), name="ppod")
     # G2 = Graph("bolt://localhost:7687", auth=("neo4j", "123"), name="cfs")
     ## server test 
-    G1 = Graph("bolt+ssc://neo1.pods.icicle.develop.tapis.io:443", auth=("neo1", "qNKvbPlIcWsXuTDK2oUKTNgYp2gRzC"), secure=True, verify=False)
+    # G1 = Graph("bolt+ssc://neo1.pods.icicle.develop.tapis.io:443", auth=("neo1", "qNKvbPlIcWsXuTDK2oUKTNgYp2gRzC"), secure=True, verify=False)
     # G2 = Graph("bolt+ssc://neo2.pods.icicle.develop.tapis.io:443", auth=("neo2", "ZRGL67TXKpbkQNj7RSXA0T74zZnwet"), secure=True, verify=False)
     
 

@@ -40,7 +40,11 @@ export default {
       this.dialog = true 
     },
     loaderAction(e){
-      if(e.status == "success"){
+      if(e.status == "existing"){
+        delete e.status
+        e.cardId = this.itemProps.id
+        this.$store.dispatch('graph/addGraph', e)
+      }else if(e.state=="github"){
         delete e.status
         e.cardId = this.itemProps.id
         this.$store.dispatch('graph/addGraph', e)

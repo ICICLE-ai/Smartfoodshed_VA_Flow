@@ -20,7 +20,7 @@ export default {
   state: {
     nextAvailableIndex: 0,
     cards: [],
-    component: () => import('@/components/VegaRender'), 
+    component: () => import('@/components/viewer/VegaRender'), 
   }, 
   mutations: {
     ADD_COMPONENT(state){

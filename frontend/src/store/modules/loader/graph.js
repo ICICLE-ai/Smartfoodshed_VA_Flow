@@ -2,7 +2,7 @@ import { getComponentType, getTargetCard } from '@/utils/help'
 import { apiClient } from '../../../api/apiClient';
 import { updateGraphInstance } from '../../../utils/GraphInstance';
 import { retrieveGraphFromTable } from '../../../utils/KGutils';
-
+const $rdf = require('rdflib')
 function createNewCorpusCard(id) {
   return {
     id: `card-graph-${id}`,
@@ -178,17 +178,29 @@ export default {
         console.log('no use, trying to remove target link for corpus, which does not exist')
       }
     },
-
+   
     async addGraph({ commit, dispatch, state }, data) {
       for (let i in state.cards) {
         if (state.cards[i].id == data.cardId && state.cards[i].selectedTable !== data) {
           // commit('ADD_DATA', data);
           commit('UPDATE_LOADING_STATUS', { id: data.cardId, status: true })
-          console.log('data from graph loader')
+          // console.log('data from graph loader')
           console.log(data);
-          if (data.source == 'uploaded_file' && data.selected) {
-            // upload file 
+          if(data.source == "github" && data.url){
+            var uri = 'https://example.org/resource.ttl'
+            var body = '<a> <b> <c> .'
+            var mimeType = '<text/turtle>'
+            var g = $rdf.graph()
 
+            try {
+                $rdf.parse( g=g, uri=uri, mimeType=mimeType)
+                console.log(g)
+            } catch (err) {
+                console.log(err)
+            }
+          }
+          else if(data.source == 'uploaded_file' && data.selected) {
+            // upload file 
             const formData = new FormData();
             formData.append("files", data.selected);
             
