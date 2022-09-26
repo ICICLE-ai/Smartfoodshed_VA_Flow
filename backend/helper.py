@@ -8,7 +8,6 @@ import py2neo
 import requests 
 import networkx as nx
 
-
 def nx2neo(H):
     new_nodes = []
     for pair in H.nodes(data=True):

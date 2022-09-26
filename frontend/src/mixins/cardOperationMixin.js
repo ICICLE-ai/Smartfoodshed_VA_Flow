@@ -16,6 +16,13 @@ export const cardOperationMixin ={
         draggable(){
           return !(this.drawLink || this.resizingStatus);
         }, 
+        dragProxy(e) {
+          if (!this.fixed) {
+            this.dragStartHandler(e);
+          } else {
+            return;
+          }
+        },
         dragStartHandler(e){
             console.log(e)
             console.log(this.draggable)

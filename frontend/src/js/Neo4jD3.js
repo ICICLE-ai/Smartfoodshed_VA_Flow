@@ -193,10 +193,9 @@ function Neo4jD3 (_selector, _options) {
     
     node
       .each(function (d) {
-        let mapping = d['properties']['mapping']
-        const text_nodes = textDisplay(d['properties'][mapping])
+        // let mapping = d['properties']['mapping']
+        const text_nodes = d['id']
         const selection = d3.select(this)
-        if (text_nodes.length == 1) {
           selection.append('text')
             .attr('x', '0')
             .attr('y', '0')
@@ -205,58 +204,8 @@ function Neo4jD3 (_selector, _options) {
             .style('fill', 'white')
             .style('pointer-events', 'none')
             .style('font-weight', 'bold')
-            .text(text_nodes[0])
-        } else if (text_nodes.length == 2) {
-          selection.append('text')
-            .attr('x', '0')
-            .attr('y', '-4')
-            .style('font-size', '10px')
-            .style('text-anchor', 'middle')
-            .style('pointer-events', 'none')
-            .style('fill', 'white')
-            .style('font-weight', 'bold')
-            .text(text_nodes[0])
-
-          selection.append('text')
-            .attr('x', '0')
-            .attr('y', '12')
-            .style('font-size', '10px')
-            .style('text-anchor', 'middle')
-            .style('pointer-events', 'none')
-            .style('fill', 'white')
-            .style('font-weight', 'bold')
-            .text(text_nodes[1])
-        } else {
-          selection.append('text')
-            .attr('x', '0')
-            .attr('y', '-12')
-            .style('font-size', '10px')
-            .style('pointer-events', 'none')
-            .style('text-anchor', 'middle')
-            .style('fill', 'white')
-            .style('font-weight', 'bold')
-            .text(text_nodes[0])
-
-          selection.append('text')
-            .attr('x', '0')
-            .attr('y', '0')
-            .style('font-size', '10px')
-            .style('text-anchor', 'middle')
-            .style('pointer-events', 'none')
-            .style('fill', 'white')
-            .style('font-weight', 'bold')
-            .text(text_nodes[1])
-
-          selection.append('text')
-            .attr('x', '0')
-            .attr('y', '12')
-            .style('font-size', '10px')
-            .style('pointer-events', 'none')
-            .style('text-anchor', 'middle')
-            .style('fill', 'white')
-            .style('font-weight', 'bold')
-            .text(text_nodes[2])
-        }
+            .text(text_nodes)
+         
       })
     // const text_nodes = textDisplay()
   }
@@ -326,15 +275,17 @@ function Neo4jD3 (_selector, _options) {
       .attr('class', d=>`outline nodetype_${d.properties.entity_type?d.properties.entity_type:'undefined'}`)
       .attr('r', options.nodeRadius)
       .style('fill', function (d) {
-        return '#78b3d0'
+        return d.color
+        // return '#78b3d0'
         //    return options.nodeOutlineFillColor ? options.nodeOutlineFillColor : class2color(d.labels[0]);
       })
       .style('stroke', function (d) {
-        return '#358eb8'
+        // return '#358eb8'
+        return d['stroke_color']
         //    return options.nodeOutlineFillColor ? class2darkenColor(options.nodeOutlineFillColor) : class2darkenColor(d.labels[0]);
       })
       .append('title').text(function (d) {
-        console.log('teeeee', d)
+        // console.log('teeeee', d)
         return d.properties.label
       })
   }

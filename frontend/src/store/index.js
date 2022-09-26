@@ -14,7 +14,7 @@ import corpus from '@/store/modules/loader/corpus.js'
 
 import topics from '@/store/modules/topics.js'
 import globalview from '@/store/modules/globalview.js'
-import ontology from '@/store/modules/ontology.js'
+// import ontology from '@/store/modules/ontology.js'
 
 import table2cypher from '@/store/modules/linker/table2cypher'
 import ontparser from '@/store/modules/analyzer/ontparser'
@@ -87,7 +87,7 @@ export default new Vuex.Store({
     globalview,
     corpus,
     link, 
-    ontology,
+    // ontology,
     graph,
     vegaRender, 
     table2cypher,

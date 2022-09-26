@@ -11,6 +11,7 @@ import pandas as pd
 import requests
 import os 
 import helper
+import ontparser
 from helper import oneTable, generateWhole, nx2neo
 import networkx as nx
 
@@ -46,12 +47,12 @@ def ping_pong():
 
 @app.route('/getOntology', methods=['POST'])
 def getOntology():
-    with open('data/PPOD_ontology.json','r') as j:
-        ont = json.load(j)
-    G = nx.DiGraph()
-    G = generateWhole(ont, 'PeopleOrg')
-    output = nx2neo(G)
-    return Response(json.dumps(output), status=200, mimetype="application/json")
+    request_obj = request.get_json()
+    print(request_obj)
+    G1, G2, filter_data = ontparser.Parser(request_obj['linkml'], request_obj['vocab'], True)
+
+    return Response(json.dumps({'ontology': G2, 'filter':filter_data}))
+
 
 @app.route('/upload_graphfile', methods=['POST'])
 def upload_file():

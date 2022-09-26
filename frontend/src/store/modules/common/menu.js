@@ -48,7 +48,7 @@ export default {
         icon: 'mdi-graphql',
         color: '#A1C298',
         store: 'ontparser',
-        component: ()=>import('@/components/analyzer/OntParser')
+        component: ()=>import('@/components/analyzer/ontparser/')
       }
     ]
   }

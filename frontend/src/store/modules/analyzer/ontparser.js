@@ -1,5 +1,6 @@
 import {getComponentType, getTargetCard} from '@/utils/help'
-
+import { base_request_url } from '@/utils/base_url'
+import axios from 'axios'
 function createNewOntParserCard(id){
   return {
     id: `card-ontparser-${id}`,
@@ -11,6 +12,9 @@ function createNewOntParserCard(id){
     height: 300,
     inputData: undefined,
     selectedItems: [],
+    loadingStatus: false,
+    data_ontology: [],
+    data_filter: [],
     keep_in_vis_mode: false 
   }
 }
@@ -20,9 +24,34 @@ export default {
   state: {
     nextAvailableIndex: 0,
     cards: [],
-    component: () => import('@/components/analyzer/OntParser'), 
+    component: () => import('@/components/analyzer/ontparser'), 
+    
+
   }, 
   mutations: {
+    SET_data_filter(state, {id, status}){
+      for(let i in state.cards){
+        if(state.cards[i].id == `${id}`){
+          state.cards[i].data_filter = status
+        }
+      }
+    },
+    SET_data_ontology(state, {id, status}){
+      for(let i in state.cards){
+        if(state.cards[i].id == `${id}`){
+          state.cards[i].data_ontology = status
+        }
+      }
+    },
+    SET_loadingStatus(state, {id, status}){
+      console.log('loading status changing,,,', id, status)
+      for(let i in state.cards){
+        console.log(state.cards[i].id)
+        if(state.cards[i].id == `${id}`){
+          state.cards[i].loadingStatus = status
+        }
+      }
+    },
     ADD_COMPONENT(state){
       const nextIndex = state.nextAvailableIndex;
       state.nextAvailableIndex += 1
@@ -137,6 +166,16 @@ export default {
     }
   }, 
   actions: {
+
+    async parseOnt({commit, state, dispatch}, data){
+      commit('SET_loadingStatus', {'id': data['id'], 'status':true})
+      let path = base_request_url + 'getOntology'
+      let result = await axios.post(path, data)
+      
+      commit('SET_data_ontology', {'id': data['id'], 'status':result['data']['ontology']})
+      commit('SET_data_filter', {'id': data['id'], 'status': result['data']['filter']} )
+      commit('SET_loadingStatus', {'id': data['id'],'status':false})
+    },
     addComp({commit}, ){
       commit('ADD_COMPONENT');
     },

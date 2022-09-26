@@ -14,6 +14,7 @@
           width: `${width}px`,
           height: `${height}px`,
           position: 'absolute',
+          padding: '20px',
           'border-radius': styleProps['border-radius'] ? styleProps['border-radius'] : 'none', 
           border: getBorder
         }">
