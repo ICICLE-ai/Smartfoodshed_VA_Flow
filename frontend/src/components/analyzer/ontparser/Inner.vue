@@ -162,9 +162,12 @@ export default{
   methods: {
     onNodeClick: function(node_id){
       // id, name, color, stroke_color, type 
-      console.log(node_id)
-      console.log(this.$refs)
-      this.$nextTick(() => this.$refs['filter-'+node_id.id][0].activateMenu())
+      // console.log(node_id)
+      // console.log(this.$refs)
+      for (const [key, value] of Object.entries(this.$refs)){
+        this.$nextTick(() => value[0].blur())
+      }
+      this.$nextTick(() => this.$refs['filter-'+node_id.id][0].focus())
     },  
     validate(){
         // console.log(this.formData, this.linkml, this.vocab)

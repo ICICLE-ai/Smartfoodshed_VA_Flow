@@ -21,7 +21,7 @@ export default {
   props: ['itemProps'], 
   data() {
     return {
-      styleProps: {width: '50px', height: '50px', 'border-radius': '50%'}
+      styleProps: {width: '70px', height: '70px', 'border-radius': '50%'}
     }
   }, 
   components: {

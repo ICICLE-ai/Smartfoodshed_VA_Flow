@@ -141,7 +141,15 @@ export default {
           console.log(script)
         }
       }
-    }
+    },
+    UPDATE_POS(state, {id, marginLeft, marginTop}) {
+      for(let i in state.cards){
+        if(state.cards[i].id == id){
+          state.cards[i].marginTop = marginTop 
+          state.cards[i].marginLeft = marginLeft
+        }
+      }
+    },
   },
   actions: {
     addComp({ commit },) {
@@ -160,6 +168,9 @@ export default {
       console.log('deleting' + id)
       commit('DELETE_COMPONENT', id);
     },
+    updatePos({commit}, {id, marginTop, marginLeft}) {
+      commit('UPDATE_POS', {id, marginTop, marginLeft})
+    }, 
     addLink({ commit, dispatch }, linkData) {
       if (linkData.status == "source") {
         commit('ADD_SOURCE_LINK', linkData)

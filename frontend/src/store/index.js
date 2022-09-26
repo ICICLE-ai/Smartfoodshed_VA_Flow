@@ -16,8 +16,8 @@ import topics from '@/store/modules/topics.js'
 import globalview from '@/store/modules/globalview.js'
 // import ontology from '@/store/modules/ontology.js'
 
-import table2cypher from '@/store/modules/linker/table2cypher'
-import ontparser from '@/store/modules/analyzer/ontparser'
+import table2cypher from '@/store/modules/linker/table2cypher.js'
+import ontparser from '@/store/modules/analyzer/ontparser.js'
 Vue.use(Vuex)
 
 function newLink(){
