@@ -123,6 +123,15 @@
       >
       </li>
     </ul>
+    <ul class="ontparser-components-list">
+      <li
+        :is="ontparser.component"
+        v-for="item in ontparser.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
+        :key="item.id"
+        :itemProps="item">
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -215,7 +224,8 @@ export default {
       'vegaRender',
       'table2cypher',
       'graphviewer',
-      'vismode'
+      'vismode',
+      'ontparser'
       ]), 
   },
   

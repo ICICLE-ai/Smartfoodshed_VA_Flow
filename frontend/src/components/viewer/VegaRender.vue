@@ -145,7 +145,7 @@ export default {
     // Determine Whether the component is draggable
     // Not allowed when resizing and drawling link
     draggable(){
-      return !(this.drawLink || this.resizingStatus);
+      return !(this.$store.state.drawLink || this.resizingStatus);
     }, 
 
     selectedCorpusName(){

@@ -1,9 +1,8 @@
 import {getComponentType, getTargetCard} from '@/utils/help'
-import { wrapUpDataForTableExport } from '../../utils/documentsUtil';
 
-function createNewDocumentsCard(id){
+function createNewOntParserCard(id){
   return {
-    id: `card-documents-${id}`,
+    id: `card-ontparser-${id}`,
     sourceLink: [], //
     targetLink: [], 
     marginLeft: null, 
@@ -21,14 +20,13 @@ export default {
   state: {
     nextAvailableIndex: 0,
     cards: [],
-    component: () => import('@/components/viewer/tabularviewer'), 
-    // component: () => import('@/components/DocumentsComp.vue')
+    component: () => import('@/components/analyzer/OntParser'), 
   }, 
   mutations: {
     ADD_COMPONENT(state){
       const nextIndex = state.nextAvailableIndex;
       state.nextAvailableIndex += 1
-      state.cards.push(createNewDocumentsCard(nextIndex));
+      state.cards.push(createNewOntParserCard(nextIndex));
     },
     DELETE_COMPONENT(state, id){
       for(let i in state.cards){
@@ -60,9 +58,6 @@ export default {
         if(state.cards[i].id == linkData.source){
           for(let j in state.cards[i].sourceLink){
             if(state.cards[i].sourceLink[j].id == linkData.id){
-              // state.cards[i].sourceLink[j].sourcePos = linkData.sourcePos;
-              // state.cards[i].sourceLink[j].targetPos = linkData.targetPos;
-              // state.cards[i].sourceLink[j].d = linkData.d;
               state.cards[i].sourceLink[j] = linkData
             }
           }
@@ -74,9 +69,6 @@ export default {
         if(state.cards[i].id == linkData.target){
           for(let j in state.cards[i].targetLink){
             if(state.cards[i].targetLink[j].id == linkData.id){
-              // state.cards[i].targetLink[j].targetPos = linkData.targetPos;
-              // state.cards[i].targetLink[j].sourcePos = linkData.sourcePos;
-              // state.cards[i].targetLink[j].d = linkData.d;
               state.cards[i].targetLink[j] = linkData
             }
           }
@@ -88,9 +80,6 @@ export default {
         if(state.cards[i].id == linkData.source){
           for(let j in state.cards[i].sourceLink){
             if(state.cards[i].sourceLink[j].id == linkData.id){
-              // state.cards[i].targetLink[j].targetPos = linkData.targetPos;
-              // state.cards[i].targetLink[j].sourcePos = linkData.sourcePos;
-              // state.cards[i].targetLink[j].d = linkData.d;
               state.cards[i].sourceLink.splice(j,1);
             }
           }
@@ -102,9 +91,6 @@ export default {
         if(state.cards[i].id == linkData.target){
           for(let j in state.cards[i].targetLink){
             if(state.cards[i].targetLink[j].id == linkData.id){
-              // state.cards[i].targetLink[j].targetPos = linkData.targetPos;
-              // state.cards[i].targetLink[j].sourcePos = linkData.sourcePos;
-              // state.cards[i].targetLink[j].d = linkData.d;
               state.cards[i].targetLink.splice(j, 1);
               state.cards[i].inputData = undefined;
             }
@@ -115,10 +101,6 @@ export default {
     SET_INPUTDATA(state, {link, inputData}){
       for(let i in state.cards){
         if(state.cards[i].id == link.target){
-          // Object.keys(inputData).forEach(
-          //   key => {state.cards[i].inputData[key] = inputData[key]}
-          // )
-          // console.log(state.cards[i].inputData)
           state.cards[i].inputData = inputData;
         }
       }

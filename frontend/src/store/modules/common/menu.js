@@ -42,6 +42,13 @@ export default {
         color: '#A1C298',
         store: 'table2cypher', 
         component: null 
+      },
+      {
+        label: 'Ontology Parser',
+        icon: 'mdi-graphql',
+        color: '#A1C298',
+        store: 'ontparser',
+        component: ()=>import('@/components/analyzer/OntParser')
       }
     ]
   }

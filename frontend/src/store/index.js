@@ -1,16 +1,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import menu from '@/store/modules/menu.js'
-import topics from '@/store/modules/topics.js'
-import documents from '@/store/modules/documents.js'
-import globalview from '@/store/modules/globalview.js'
-import corpus from '@/store/modules/loader/corpus.js'
-import link from '@/store/modules/link.js'
-import ontology from '@/store/modules/ontology.js'
-import graph from "@/store/modules/loader/graph.js";
-import vegaRender from "@/store/modules/vegaRender.js"
-import table2cypher from '@/store/modules/linker/table2cypher'
+import menu from '@/store/modules/common/menu.js'
+import link from '@/store/modules/common/link.js'
+
+
+import documents from '@/store/modules/viewer/documents.js'
 import graphviewer from '@/store/modules/viewer/graphviewer'
+import vegaRender from "@/store/modules/viewer/vegaRender.js"
+
+import graph from "@/store/modules/loader/graph.js";
+import corpus from '@/store/modules/loader/corpus.js'
+
+
+import topics from '@/store/modules/topics.js'
+import globalview from '@/store/modules/globalview.js'
+import ontology from '@/store/modules/ontology.js'
+
+import table2cypher from '@/store/modules/linker/table2cypher'
+import ontparser from '@/store/modules/analyzer/ontparser'
 Vue.use(Vuex)
 
 function newLink(){
@@ -84,6 +91,7 @@ export default new Vuex.Store({
     graph,
     vegaRender, 
     table2cypher,
-    graphviewer
+    graphviewer,
+    ontparser
   }
 })

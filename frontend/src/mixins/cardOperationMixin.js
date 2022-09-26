@@ -1,4 +1,5 @@
 /* eslint-disable no-inner-declarations */
+import {mapState} from 'vuex'
 export const cardOperationMixin ={
     data(){
 
@@ -11,6 +12,9 @@ export const cardOperationMixin ={
             const comp = document.querySelector(`#${this.itemProps.id}`)
             this.marginTop = posY 
             this.marginLeft = posX
+        }, 
+        draggable(){
+          return !(this.drawLink || this.resizingStatus);
         }, 
         dragStartHandler(e){
             console.log(e)
