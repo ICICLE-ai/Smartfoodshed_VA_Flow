@@ -1,6 +1,6 @@
 <template>
-    <div class="card-inner" :style="{border: getBorder}" style="overflow:scroll">
-        <v-card style="overflow:scroll">
+    <div class="card-inner" :style="{border: getBorder}">
+        <!-- <v-card> -->
             <v-card-title class="headline">
                 Code Viewer/Editor
             </v-card-title>
@@ -21,7 +21,7 @@
                 Confirm
             </v-btn>
             </v-card-actions>
-        </v-card>
+        <!-- </v-card> -->
         <v-overlay :value="loading_value">
         <v-progress-circular
           indeterminate
@@ -104,7 +104,7 @@ export default{
           FILTER (lang(?link_label) = 'en')
           FILTER (lang(?other_label) = 'en')
         }} `,
-        checkbox: false
+        checkbox: false,
     }
   },
   created () {
@@ -240,6 +240,10 @@ export default{
   justify-content: center;
   flex-wrap: wrap;
   height: 100%;
+  overflow: scroll
+}
+.prism-editor-wrapper .prism-editor__editor, .prism-editor-wrapper .prism-editor__textarea{
+  font-size: 13px !important
 }
 
 </style>

@@ -31,8 +31,7 @@ export default {
         if(state.cards[i].id == `${id}`){
           state.cards[i].inputData = script;
           state.cards[i].isFunc = isFunc;
-          console.log('sucessfully update data')
-          console.log(state.cards[i])
+          alert('sucessfully update data!')
           break
         }
       }
@@ -155,8 +154,16 @@ export default {
     }
   }, 
   actions: {
-    updateData({commit}, {id, isFunc, script}){
+    updateData({commit, state, dispatch}, {id, isFunc, script}){
+      //once we update the data, we need to update the target !!! 
       commit('UPDATE_INPUTDATA', {id, isFunc, script})
+      const targetCard = getTargetCard(state.cards, id) 
+      // targetCard sourcelink: codeeditor, target: kgqueier
+      if (targetCard.sourceLink.length > 0) {
+        for (let i in targetCard.sourceLink) {
+          dispatch('outputHandler', targetCard.sourceLink[i]) // output the data to kgqueier again
+        }
+      }
     },
     addComp({commit}, ){
       commit('ADD_COMPONENT');

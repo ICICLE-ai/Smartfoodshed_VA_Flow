@@ -176,8 +176,19 @@ export default {
         let path = base_request_url + 'KGQueryEndpoint'
         let result = await axios.post(path, {sparql: sparql, url: url})
         commit('SET_OUTPUTDATA', {id: id, status: result['data']})
+
+        const targetCard = getTargetCard(state.cards, id) 
+        // targetCard sourcelink: codeeditor, target: kgqueier
+        if (targetCard.sourceLink.length > 0) {
+          for (let i in targetCard.sourceLink) {
+            dispatch('outputHandler', targetCard.sourceLink[i]) // output the data again
+          }
+        }
+
         commit('SET_loadingStatus', {'id': id, 'status':false})
       }
+
+      
     },
     queryTTL({commit}, {id, url}){
       alert('query ttl')
