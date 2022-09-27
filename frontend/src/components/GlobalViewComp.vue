@@ -83,7 +83,7 @@
 <script>
 import {mapState} from 'vuex'
 import RightClickMenu from "@/components/common/rightclick/RightClickMenu";
-import InoutputBtns from "@/components/common/menu/buttons/InoutputBtns";
+import InoutputBtns from "@/components/common/buttons/InoutputBtns";
 import * as d3 from 'd3'
 import * as d3tip from '@/utils/d3-tip'
 

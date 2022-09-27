@@ -17,7 +17,10 @@ import globalview from '@/store/modules/globalview.js'
 // import ontology from '@/store/modules/ontology.js'
 
 import table2cypher from '@/store/modules/linker/table2cypher.js'
+import codeeditor from '@/store/modules/linker/codeeditor.js'
+
 import ontparser from '@/store/modules/analyzer/ontparser.js'
+import kgquerier from '@/store/modules/analyzer/kgquerier.js'
 Vue.use(Vuex)
 
 function newLink(){
@@ -92,6 +95,8 @@ export default new Vuex.Store({
     vegaRender, 
     table2cypher,
     graphviewer,
-    ontparser
+    ontparser,
+    kgquerier,
+    codeeditor
   }
 })

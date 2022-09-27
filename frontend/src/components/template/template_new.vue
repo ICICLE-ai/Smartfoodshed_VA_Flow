@@ -57,12 +57,12 @@
   <script>
   import {mapState} from 'vuex'
   import RightClickMenu from "@/components/common/rightclick/RightClickMenu";
-  import InoutputBtns from "@/components/common/menu/buttons/InoutputBtns";
+  import InoutputBtns from "@/components/common/buttons/InoutputBtns";
   import VueVega from 'vue-vega'
   import Vue from 'vue'
   // import BarChartSpec from 'vue-vega/spec/vega-lite/bar.vl.json'
   
-  // import InoutputBtns from '@/components/Common/Menu/Buttons/InoutputBtns'
+  // import InoutputBtns from '@/components/Common/Buttons/InoutputBtns'
   // import LoaderTextPre from '@/components/KGCreator/KGExtractor/LoaderTextPre'
   import {cardOperationMixin} from '@/mixins/cardOperationMixin.js'
   Vue.use(VueVega)

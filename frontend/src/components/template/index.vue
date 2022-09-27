@@ -66,7 +66,7 @@
 <script>
 import { mapState } from "vuex";
 import RightClickMenu from "@/components/common/rightclick/RightClickMenu";
-import InoutputBtns from "@/components/common/menu/buttons/InoutputBtns";
+import InoutputBtns from "@/components/common/buttons/InoutputBtns";
 export default {
   props: {
     itemProps: {
@@ -276,4 +276,7 @@ export default {
   left: 0;
   width: 100%;
 }
+/* .v-sheet.v-card {
+    overflow:scroll
+  } */
 </style>                                                                   

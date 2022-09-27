@@ -14,7 +14,7 @@ import helper
 import ontparser
 from helper import oneTable, generateWhole, nx2neo
 import networkx as nx
-
+import sparqlQuery
 """ config.py
 // Adding config file to config your local data folder please !!!!!!!!!!!
 
@@ -44,6 +44,16 @@ database = 'ppod'
 @app.route('/ping', methods=['GET'])
 def ping_pong():
     return jsonify('pong!')
+
+
+@app.route('/KGQueryEndpoint', methods=['POST'])
+def KGQueryEndpoint():
+    request_obj = request.get_json()
+    df = sparqlQuery.queryEndpointHelper(request_obj['url'], request_obj['sparql'])
+    # print(df)
+
+    output = sparqlQuery.convertJson(df, df.to_dict('records'))
+    return Response(json.dumps(output))
 
 @app.route('/getOntology', methods=['POST'])
 def getOntology():

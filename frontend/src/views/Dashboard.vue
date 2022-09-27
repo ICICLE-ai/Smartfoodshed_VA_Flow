@@ -132,6 +132,24 @@
         :itemProps="item">
       </li>
     </ul>
+    <ul class="kgquerier-components-list">
+      <li
+        :is="kgquerier.component"
+        v-for="item in kgquerier.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
+        :key="item.id"
+        :itemProps="item">
+      </li>
+    </ul>
+    <ul class="codeeditor-components-list">
+      <li
+        :is="codeeditor.component"
+        v-for="item in codeeditor.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
+        :key="item.id"
+        :itemProps="item">
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -144,6 +162,8 @@ import LinkComp from '@/components/common/link/LinkComp'
 import OntologyComp from "@/components/OntologyComp"
 import RightClickMenu from '@/components/common/rightclick/RightClickMenu'
 import VegaRender from '@/components/viewer/VegaRender'
+// import KGQuerier from '@/componnets/analyzer/KGQuerier'
+
 import {mapState} from 'vuex'
 export default {
   data(){
@@ -225,7 +245,9 @@ export default {
       'table2cypher',
       'graphviewer',
       'vismode',
-      'ontparser'
+      'ontparser',
+      'kgquerier',
+      'codeeditor'
       ]), 
   },
   
@@ -245,6 +267,7 @@ export default {
     LinkComp,
     RightClickMenu, 
     OntologyComp, 
+    // KGQuerier
   }, 
 }
 </script>

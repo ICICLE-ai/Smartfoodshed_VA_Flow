@@ -61,7 +61,7 @@
   <script>
   import {mapState} from 'vuex'
   import RightClickMenu from '@/components/Common/RightClick/RightClickMenu'
-  import InoutputBtns from '@/components/Common/Menu/Buttons/InoutputBtns'
+  import InoutputBtns from '@/components/Common/Buttons/InoutputBtns'
   import {cardOperationMixin} from '@/mixins/cardOperationMixin.js'
   export default {
     props: [

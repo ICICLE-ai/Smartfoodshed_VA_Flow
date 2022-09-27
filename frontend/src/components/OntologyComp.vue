@@ -91,7 +91,7 @@
 <script>
 import {mapState} from 'vuex'
 import RightClickMenu from "@/components/common/rightclick/RightClickMenu";
-import InoutputBtns from "@/components/common/menu/buttons/InoutputBtns";
+import InoutputBtns from "@/components/common/buttons/InoutputBtns";
 import OntologyLoader from '@/components/OntologyLoader'
 import * as Neo4jd3 from '@/js/Neo4jD3'
 import * as d3 from 'd3'

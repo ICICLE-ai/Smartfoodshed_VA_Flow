@@ -72,7 +72,7 @@ export default {
       const linkData = state.links.filter(link => link.id == id)[0]; //
       commit('DELETE_COMPONENT', id);
       
-      console.log(linkData);
+      // console.log(linkData);
       const sourceCompType = getComponentType(linkData.source);
       const targetCompType = getComponentType(linkData.target);
       linkData.status = 'source'
@@ -82,8 +82,8 @@ export default {
       dispatch(`${targetCompType}/removeLink`, linkData, {root: true});
     },
     updateComp({commit, dispatch}, linkData){
-      console.log('checkThis new here');
-      console.log(linkData);
+      // console.log('checkThis new here');
+      // console.log(linkData);
       const sourceCompType = getComponentType(linkData.source);
       const targetCompType = getComponentType(linkData.target);
       if(linkData.status == 'source'){

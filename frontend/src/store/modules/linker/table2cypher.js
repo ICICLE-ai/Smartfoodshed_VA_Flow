@@ -276,11 +276,13 @@ export default {
       // Need to handler output since self is source
       const targetCompType = getComponentType(linkData.target);
       console.log('outputHandler');
-      console.log(linkData);
+      console.log(linkData.source);
       for (let i in state.cards) {
+        console.log(state.cards[i].id, linkData.source, state.cards[i].id == linkData.source)
         if (state.cards[i].id == linkData.source) {
-          console.log(state.cards[i].parsedData)
-          dispatch(`${targetCompType}/inputHandler`, { link: linkData, inputData: state.cards[i].parsedData}, { root: true })
+          console.log('yes im in')
+          console.log(state.cards[i].parsingScript)
+          dispatch(`${targetCompType}/inputHandler`, { link: linkData, inputData: state.cards[i].parsingScript}, { root: true })
           // return;
         }
       }

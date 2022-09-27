@@ -44,12 +44,27 @@ export default {
         component: null 
       },
       {
+        label: 'CodeEditor', 
+        icon: 'mdi-application-edit', 
+        color: '#A1C298',
+        store: 'codeeditor', 
+        component: ()=>import('@/components/linker/codeeditor/') 
+      },
+      {
         label: 'Ontology Parser',
         icon: 'mdi-graphql',
         color: '#A1C298',
         store: 'ontparser',
         component: ()=>import('@/components/analyzer/ontparser/')
-      }
+      },
+      {
+        label: 'KG Querier',
+        icon: 'mdi-database-search',
+        color: '#A1C298',
+        store: 'kgquerier',
+        component: ()=>import('@/components/analyzer/kgquerier/')
+      },
+      
     ]
   }
 }

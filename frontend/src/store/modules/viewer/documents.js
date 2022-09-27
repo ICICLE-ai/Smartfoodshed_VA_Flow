@@ -220,7 +220,7 @@ export default {
       const targetCompType = getComponentType(link.target);
       console.log('document Hanlde Input 123');
       console.log(inputData);
-      if(inputData && inputData.tableNames){
+      if(inputData){
         commit('SET_INPUTDATA', {link, inputData})  
       }
     }, 
