@@ -61,6 +61,20 @@ data: {
 * Introduction: Code viewer/editor, can get data from some code generator, such as Ontology Parser. For now, it can only pass data to kg querier. 
 * Input: string (sparql for now) 
 * Output: string (sparql for now)
+```
+id: `card-codeeditor-${id}`,
+sourceLink: [], //
+targetLink: [], 
+marginLeft: null, 
+marginTop: null, 
+width: 500, 
+height: 300,
+inputData: {
+    'script': "",
+    'isFunc': false
+},
+keep_in_vis_mode: false 
+```
 
 ### KG querier 
 * Introduction: query data from knowledge graph 
@@ -70,8 +84,28 @@ data: {
 ### Ontology Parser 
 * Introduction: Ontology parser by taking linkml and vocabulary
 * Source: Online URL Loader
-* Output: [CodeEditor, KGQuerier]
-
+* Target: [CodeEditor, KGQuerier]
+* Input: str
+* Output: str, SPARQL 
+```
+id: `card-ontparser-${id}`,
+sourceLink: [], //
+targetLink: [], 
+marginLeft: null, 
+marginTop: null, 
+width: 500, 
+height: 300,
+inputData: {
+    linkml: null,
+    vocabulary: null
+},
+// selectedItems: [],
+loadingStatus: false,
+data_ontology: [],
+data_filter: [],
+keep_in_vis_mode: false,
+outputData: ""
+```
 
 
 ## Data Viewer

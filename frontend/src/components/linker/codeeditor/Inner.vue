@@ -186,9 +186,9 @@ export default{
     },
     confirmSelect(){
       if(this.checkbox){
-        var func = eval(`(${this.code})`)
+        var func = eval(`(${this.itemProps.inputData.script})`)
       }else{
-        var func = this.code 
+        var func = this.itemProps.inputData.script 
       }
       this.$store.dispatch('codeeditor/updateData', {id: this.itemProps.id, isFunc: this.checkbox, script: func})
     }
@@ -201,9 +201,9 @@ export default{
       },
       deep:true 
     },
-    'itemProps.inputData':function(newVal, oldVal){
-      console.log(newVal, oldVal)
-    }
+    // 'itemProps.inputData':function(newVal, oldVal){
+    //   console.log(newVal, oldVal)
+    // }
   },
   computed: {
     getBorder() {
