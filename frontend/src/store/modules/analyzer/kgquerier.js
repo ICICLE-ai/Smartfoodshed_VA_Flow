@@ -269,6 +269,7 @@ export default {
       console.log(linkData);
       for(let i in state.cards){
         if(state.cards[i].id == linkData.source){
+          console.log('checkkkkkk', state.cards[i].outputData)
           dispatch(`${targetCompType}/inputHandler`, {link: linkData, inputData: state.cards[i].outputData}, {root: true}) // outputdata is json records(rows) of dataframe
           return;
         }

@@ -102,44 +102,8 @@ export default{
   }
 }
 </script>
-<style>
+<style scoped>
 
-.lasso path {
-    stroke: rgb(80,80,80);
-    stroke-width:2px;
-}
-
-.lasso .drawn {
-    fill-opacity:.05 ;
-}
-
-.lasso .loop_close {
-    fill:none;
-    stroke-dasharray: 4,4;
-}
-
-.lasso .origin {
-    fill:#3399FF;
-    fill-opacity:.5;
-}
-
-.not_possible {
-    fill: rgb(200,200,200);
-}
-
-.possible {
-    fill: #EC888C;
-}
-
-.nodes .selected {
-    fill: green!important;
-    stroke-width: 3px!important;
-    stroke: black;
-}
-.relationships .selected {
-    stroke-width: 5px !important;
-    stroke: green!important;
-}
 .graph-btn-container{
     position: relative; 
     top: 5px;

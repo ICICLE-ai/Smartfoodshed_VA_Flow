@@ -1,42 +1,6 @@
 <template>
     <div class="card-inner" :style="{border: getBorder}">
-        <!-- <div
-          class="graph-btn-container"
-        >
-        <GlobalviewMenuBar
-          @toolEnableToggle="toolEnableToggleHandler"
-        />
-        </div> -->
-        <!-- <div id="div_graph" class="fullHeight" :style="{'height': '100%'}"></div>    -->
-        <v-form
-            ref="form"
-            v-model="formData"
-        >   
-            <v-row>
-                <v-col cols="5">
-                    <v-text-field
-                    v-model="linkml"
-                    label="LinkML"
-                    required
-                    ></v-text-field>
-                </v-col>
-                <v-col cols="5">
-                    <v-text-field
-                    v-model="vocab"
-                    label="Vocabulary"
-                    required
-                    ></v-text-field>
-                </v-col>
-            </v-row>
-            <v-btn
-            color="success"
-            class="mr-4"
-            @click="validate"
-            :loading = "itemProps.loadingStatus"
-            >
-            Parse
-            </v-btn>
-        </v-form>
+       
         <v-divider style="margin-top:7px; margin-bottom:4px"></v-divider>
         <v-row style="overflow: scroll">
           <v-col cols="3">
@@ -74,7 +38,7 @@
             </div>
           </v-col>
           <v-col cols="21">
-            <KGViewer :G="itemProps.data_ontology" :height="childrenHeight" :width="childrenWidth" :selectedFilters="selectedFilters" @on-node-click-event="onNodeClick"></KGViewer>
+            <KGViewer :G="itemProps.data_ontology" :height="childrenHeight" :width="childrenWidth"  @on-node-click-event="onNodeClick" @on-lasso-event="genSPARQL"></KGViewer>
           </v-col>
         </v-row>
         
@@ -160,10 +124,10 @@ export default{
     
   },
   methods: {
+    genSPARQL: function(e){
+      console.log('ttt',e.entities)
+    },
     onNodeClick: function(node_id){
-      // id, name, color, stroke_color, type 
-      // console.log(node_id)
-      // console.log(this.$refs)
       for (const [key, value] of Object.entries(this.$refs)){
         this.$nextTick(() => value[0].blur())
       }
@@ -254,71 +218,3 @@ export default{
   }
 }
 </script>
-<style>
-
-.lasso path {
-    stroke: rgb(80,80,80);
-    stroke-width:2px;
-}
-
-.lasso .drawn {
-    fill-opacity:.05 ;
-}
-
-.lasso .loop_close {
-    fill:none;
-    stroke-dasharray: 4,4;
-}
-
-.lasso .origin {
-    fill:#3399FF;
-    fill-opacity:.5;
-}
-
-.not_possible {
-    fill: rgb(200,200,200);
-}
-
-.possible {
-    fill: #EC888C;
-}
-
-.nodes .selected {
-    fill: green!important;
-    stroke-width: 3px!important;
-    stroke: black;
-}
-.relationships .selected {
-    stroke-width: 5px !important;
-    stroke: green!important;
-}
-.graph-btn-container{
-    position: relative; 
-    top: 5px;
-}
-.kg-view-btn{
-  margin-right: 10px;
-}
-
-.circle-button:hover{
-  cursor: pointer;
-}
-
-.card-name {
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    height: 100%;
-  }
-
-.card-inner{
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  height: 100%;
-}
-
-</style>

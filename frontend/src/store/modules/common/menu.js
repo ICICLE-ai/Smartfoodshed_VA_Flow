@@ -16,6 +16,13 @@ export default {
         component: () => import('@/components/loader/graph/Loader'),
       },
       {
+        label: 'URL Loader', 
+        icon: 'mdi-link-variant', 
+        color: '#AEBDCA',
+        store: 'url', 
+        component: () => import('@/components/loader/url/Loader'),
+      },
+      {
         label: 'Table viewer', //
         icon: 'mdi-table',  
         color: '#C689C6',
@@ -36,13 +43,13 @@ export default {
         store: 'vegaRender',
         component: ()=>import('@/components/viewer/VegaRender'), 
       }, 
-      {
-        label: 'Table2Cypher', 
-        icon: 'mdi-xml', 
-        color: '#A1C298',
-        store: 'table2cypher', 
-        component: null 
-      },
+      // {
+      //   label: 'Table2Cypher', 
+      //   icon: 'mdi-xml', 
+      //   color: '#A1C298',
+      //   store: 'table2cypher', 
+      //   component: null 
+      // },
       {
         label: 'CodeEditor', 
         icon: 'mdi-application-edit', 

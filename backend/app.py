@@ -59,7 +59,7 @@ def KGQueryEndpoint():
 def getOntology():
     request_obj = request.get_json()
     print(request_obj)
-    G1, G2, filter_data = ontparser.Parser(request_obj['linkml'], request_obj['vocab'], True)
+    G1, G2, filter_data = ontparser.Parser(request_obj['linkml'], request_obj['vocabulary'], True)
 
     return Response(json.dumps({'ontology': G2, 'filter':filter_data}))
 

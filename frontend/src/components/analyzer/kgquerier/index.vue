@@ -23,7 +23,7 @@
     data() {
       return {
         contextCommands: [], 
-        styleProps: {width: '600px', height: '400px'},
+        styleProps: {width: '500px', height: '220px'},
         FIXED: false 
       }
     }, 

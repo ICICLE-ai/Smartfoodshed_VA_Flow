@@ -10,6 +10,7 @@ import vegaRender from "@/store/modules/viewer/vegaRender.js"
 
 import graph from "@/store/modules/loader/graph.js";
 import corpus from '@/store/modules/loader/corpus.js'
+import url from '@/store/modules/loader/url.js'
 
 
 import topics from '@/store/modules/topics.js'
@@ -97,6 +98,7 @@ export default new Vuex.Store({
     graphviewer,
     ontparser,
     kgquerier,
-    codeeditor
+    codeeditor,
+    url
   }
 })

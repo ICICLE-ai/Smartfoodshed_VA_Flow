@@ -32,6 +32,27 @@ data: {
     ]
 }
 ```
+### URL Loader
+* Introduction: load online resources 
+* Input: None (Starting Point)
+* Output: URL Link 
+* 
+```
+{
+    id: `card-url-${id}`,
+    sourceLink: [], //
+    marginLeft: null, 
+    marginTop: null, 
+    width: null, 
+    height: null,
+    data: {
+        'cardInd': null,
+        'type': null, // ['linkml','vocabulary','ttl']
+        'address': null
+    },
+    loadingStatus: false
+}
+```
 ## Analyzer 
 ### CodeEditor
 * Introduction: Code viewer/editor, can get data from some code generator, such as Ontology Parser. For now, it can only pass data to kg querier. 

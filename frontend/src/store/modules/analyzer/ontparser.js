@@ -10,7 +10,10 @@ function createNewOntParserCard(id){
     marginTop: null, 
     width: 500, 
     height: 300,
-    inputData: undefined,
+    inputData: {
+      linkml: null,
+      vocabulary: null
+    },
     selectedItems: [],
     loadingStatus: false,
     data_ontology: [],
@@ -131,6 +134,7 @@ export default {
       for(let i in state.cards){
         if(state.cards[i].id == link.target){
           state.cards[i].inputData = inputData;
+          // console.log('check card data',state.cards[i].inputData)
         }
       }
     }, 
@@ -236,13 +240,16 @@ export default {
     },
     // Input Handler will be triggered by other components
     // When source Component
-    inputHandler({commit, state, }, {link, inputData}){
+    inputHandler({commit, state, dispatch}, {link, inputData}){
       const sourceCompType = getComponentType(link.source);
       const targetCompType = getComponentType(link.target);
-      console.log('document Hanlde Input 123');
-      console.log(inputData);
-      if(inputData && inputData.tableNames){
-        commit('SET_INPUTDATA', {link, inputData})  
+      if(inputData['linkml']!=""  & inputData['vocabulary']!=""){
+        console.log('commit')
+        commit('SET_INPUTDATA', {link, inputData})
+        inputData['id'] = link.target;
+        dispatch('parseOnt', inputData)
+      }else{
+        alert('linkml and vocabulary are required!')
       }
     }, 
 

@@ -80,30 +80,65 @@ export default{
        
 
         // custom
+        // code: `
+        // PREFIX owl: <http://www.w3.org/2002/07/owl#>
+        // PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+        // PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        // PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        // PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+        // PREFIX dc: <http://purl.org/dc/elements/1.1/>
+        // PREFIX : <http://dbpedia.org/resource/>
+        // PREFIX dbpedia2: <http://dbpedia.org/property/>
+        // PREFIX dbpedia: <http://dbpedia.org/>
+        // PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+
+        // SELECT ?resource ?link_label ?other_label WHERE {{
+        //   ?resource rdfs:label  "Visualization"@en .
+        //   ?other ?link ?resource .
+        //   ?link rdfs:label ?link_label .
+        //   ?other rdfs:label ?other_label .
+        //   OPTIONAL {{
+        //       ?resource ?link ?other
+        //   }}
+        //   FILTER (lang(?link_label) = 'en')
+        //   FILTER (lang(?other_label) = 'en')
+        // }} `,
         code: `
-        PREFIX owl: <http://www.w3.org/2002/07/owl#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-        PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-        PREFIX dc: <http://purl.org/dc/elements/1.1/>
-        PREFIX : <http://dbpedia.org/resource/>
-        PREFIX dbpedia2: <http://dbpedia.org/property/>
-        PREFIX dbpedia: <http://dbpedia.org/>
-        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-
-
-        SELECT ?resource ?link_label ?other_label WHERE {{
-          ?resource rdfs:label  "Visualization"@en .
-          ?other ?link ?resource .
-          ?link rdfs:label ?link_label .
-          ?other rdfs:label ?other_label .
-          OPTIONAL {{
-              ?resource ?link ?other
+          PREFIX magp: <https://makg.org/property/>
+          PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+          PREFIX sioc: <http://rdfs.org/sioc/ns#>
+          PREFIX dcterms: <http://purl.org/dc/terms/> 
+          PREFIX tl: <http://purl.org/NET/c4dm/timeline.owl#>
+          PREFIX dbo: <http://dbpedia.org/ontology/>
+          PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+          PREFIX fabio: <http://purl.org/spar/fabio/>
+          PREFIX cito: <http://purl.org/spar/cito/>
+          PREFIX datacite: <http://purl.org/spar/datacite>
+          PREFIX prism: <http://prismstandard.org/namespaces/basic/2.0/>
+          PREFIX c4o: <http://purl.org/spar/c4o/>
+          PREFIX nih: <https://uts-ws.mln.nih.gov/rest/content/2018AA/AUI/>
+          PREFIX justia: <https://patents.justia.com/patent/>
+          PREFIX epo: <http://data.epo.org/linked-data/id/application/>
+          PREFIX pm: <https://pubmed.ncbi.nlm.nih.gov/>
+          PREFIX pmc: <https://www.ncbi.nlm.nih.gov/pmc/articles/>
+          PREFIX org: <http://www.w3.org/ns/org#>
+          PREFIX dbr: <http://dbpedia.org/resource/>
+          PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+          
+          
+          SELECT DISTINCT *
+          where{{
+              ?field rdf:type <https://makg.org/class/FieldOfStudy> .
+              ?field foaf:name ?name .
+              ?field magp:level ?level .
+              ?field magp:paperCount ?paperCount .
+              ?field magp:citationCount ?citationCount .
+              ?field dcterms:created ?created .
+              FILTER CONTAINS(?name, "food")
           }}
-          FILTER (lang(?link_label) = 'en')
-          FILTER (lang(?other_label) = 'en')
-        }} `,
+          group by ?link
+        `,
         checkbox: false,
     }
   },
@@ -176,47 +211,6 @@ export default{
 }
 </script>
 <style>
-
-.lasso path {
-    stroke: rgb(80,80,80);
-    stroke-width:2px;
-}
-
-.lasso .drawn {
-    fill-opacity:.05 ;
-}
-
-.lasso .loop_close {
-    fill:none;
-    stroke-dasharray: 4,4;
-}
-
-.lasso .origin {
-    fill:#3399FF;
-    fill-opacity:.5;
-}
-
-.not_possible {
-    fill: rgb(200,200,200);
-}
-
-.possible {
-    fill: #EC888C;
-}
-
-.nodes .selected {
-    fill: green!important;
-    stroke-width: 3px!important;
-    stroke: black;
-}
-.relationships .selected {
-    stroke-width: 5px !important;
-    stroke: green!important;
-}
-.graph-btn-container{
-    position: relative; 
-    top: 5px;
-}
 .kg-view-btn{
   margin-right: 10px;
 }

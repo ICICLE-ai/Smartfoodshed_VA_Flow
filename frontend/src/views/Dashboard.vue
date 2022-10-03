@@ -150,6 +150,15 @@
         :itemProps="item">
       </li>
     </ul>
+    <ul class="url-components-list">
+      <li
+        :is="url.component"
+        v-for="item in url.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
+        :key="item.id"
+        :itemProps="item">
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -232,6 +241,7 @@ export default {
 
   computed:{
     ...mapState([
+      'url',
       'drawLink', 
       'currentDragging', 
       'topics', 
