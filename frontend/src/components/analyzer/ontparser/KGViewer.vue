@@ -36,11 +36,7 @@ export default {
     watch:{
         G: function(newVal, oldVal){
             this.draw()
-        },
-        selectedEntities: function(newVal, oldVal){
-            console.log('emit func')
-            
-        },
+        }
 
     },
     methods: {
@@ -117,11 +113,12 @@ export default {
                     that.selectedEntities['ont'].push(d.id)
                     }
                 }
-                console.log(that.selectedEntities)
+                // console.log(that.selectedEntities)
+                that.$emit('on-lasso-event', {entities: that.selectedEntities})
                 
                 })
             }
-            that.$emit('on-lasso-event', {entities: this.selectedEntities})
+            
             var lasso = d3Lasso.lasso()
                 .closePathSelect(true)
                 .closePathDistance(100)

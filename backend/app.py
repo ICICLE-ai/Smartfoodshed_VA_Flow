@@ -46,6 +46,7 @@ def ping_pong():
     return jsonify('pong!')
 
 
+
 @app.route('/KGQueryEndpoint', methods=['POST'])
 def KGQueryEndpoint():
     request_obj = request.get_json()
@@ -55,6 +56,22 @@ def KGQueryEndpoint():
     output = sparqlQuery.convertJson(df, df.to_dict('records'))
     return Response(json.dumps(output))
 
+"""
+ontparser 
+"""
+@app.route('/genSPARQL', methods=['POST'])
+def genSPARQL(): 
+    request_obj = request.get_json()
+    print(request_obj)
+    final_query, items = ontparser.SparqlGen(request_obj['selectedEntities'], request_obj['selectedFilters'], request_obj['linkml'], request_obj['vocabulary'])
+    return jsonify({
+        'SPARQL': final_query
+    })
+
+
+"""
+ontparser
+"""
 @app.route('/getOntology', methods=['POST'])
 def getOntology():
     request_obj = request.get_json()

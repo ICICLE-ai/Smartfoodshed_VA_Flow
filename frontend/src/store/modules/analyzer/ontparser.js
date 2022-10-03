@@ -18,7 +18,8 @@ function createNewOntParserCard(id){
     loadingStatus: false,
     data_ontology: [],
     data_filter: [],
-    keep_in_vis_mode: false 
+    keep_in_vis_mode: false,
+    outputData: ""
   }
 }
 
@@ -32,6 +33,14 @@ export default {
 
   }, 
   mutations: {
+    SET_outputData(state, {id, data}){
+      for(let i in state.cards){
+        if(state.cards[i].id == `${id}`){
+          state.cards[i].outputData = data
+          console.log(data)
+        }
+      } 
+    },
     SET_data_filter(state, {id, status}){
       for(let i in state.cards){
         if(state.cards[i].id == `${id}`){
@@ -170,7 +179,27 @@ export default {
     }
   }, 
   actions: {
-
+    async genSPARQL({commit, state, dispatch}, data){
+      commit('SET_loadingStatus', {'id': data['id'], 'status':true})
+      for(let i in state.cards){
+        if(state.cards[i].id == data.id){
+          data['linkml'] = state.cards[i].inputData['linkml']
+          data['vocabulary']= state.cards[i].inputData['vocabulary']
+        }
+      }
+      let path = base_request_url + 'genSPARQL'
+      let result = await axios.post(path, data)
+      // update output data 
+      commit('SET_outputData', {'id': data['id'], 'data':result['data']['SPARQL']})
+      // update target components 
+      const targetCard = getTargetCard(state.cards, data['id']) 
+      if (targetCard.sourceLink.length > 0) {
+        for (let i in targetCard.sourceLink) {
+          dispatch('outputHandler', targetCard.sourceLink[i])
+        }
+      }
+      
+    },
     async parseOnt({commit, state, dispatch}, data){
       commit('SET_loadingStatus', {'id': data['id'], 'status':true})
       let path = base_request_url + 'getOntology'
@@ -259,7 +288,8 @@ export default {
       console.log(linkData);
       for(let i in state.cards){
         if(state.cards[i].id == linkData.source){
-          dispatch(`${targetCompType}/inputHandler`, {link: linkData, inputData: wrapUpDataForTableExport(targetCompType, state.cards[i])}, {root: true})
+          // console.log(state.cards[i])
+          dispatch(`${targetCompType}/inputHandler`, {link: linkData, inputData:  state.cards[i].outputData}, {root: true})
           return;
         }
       }

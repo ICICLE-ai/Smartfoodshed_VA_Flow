@@ -38,7 +38,7 @@
             </div>
           </v-col>
           <v-col cols="21">
-            <KGViewer :G="itemProps.data_ontology" :height="childrenHeight" :width="childrenWidth"  @on-node-click-event="onNodeClick" @on-lasso-event="genSPARQL"></KGViewer>
+            <KGViewer :G="itemProps.data_ontology" :height="childrenHeight" :width="childrenWidth"  @on-node-click-event="onNodeClick" @on-lasso-event="prepareGenSPAQL"></KGViewer>
           </v-col>
         </v-row>
         
@@ -70,9 +70,9 @@ export default{
   data () {
     return {
       selectedEntities: [], 
-      selectedRelations: [],
-      currentEntities: [], 
-      currentRelations: [],
+      // selectedRelations: [],
+      // currentEntities: [], 
+      // currentRelations: [],
       lassoColor: "grey", 
       zoomPanColor: "green", 
       lassoStatus: false,
@@ -124,8 +124,26 @@ export default{
     
   },
   methods: {
-    genSPARQL: function(e){
-      console.log('ttt',e.entities)
+    prepareGenSPAQL: function(e){
+      this.selectedEntities = e['entities']
+      if(this.checkEmptyDict(e.entities)!=0 & this.checkEmptyDict(this.selectedFilters)!=0){
+        this.genSPARQL()
+      }
+    },
+    genSPARQL(){
+      this.$store.dispatch('ontparser/genSPARQL', {id: this.itemProps.id, selectedEntities: this.selectedEntities, selectedFilters: this.selectedFilters})
+    },  
+    // check for each 
+    checkEmptyDict(dict_){
+      // console.log(dict_)
+      var c = 0
+      for (let key in dict_){
+        // console.log(dict_[key])
+        c += dict_[key].length
+      }
+      
+      console.log(c)
+      return c 
     },
     onNodeClick: function(node_id){
       for (const [key, value] of Object.entries(this.$refs)){
@@ -138,8 +156,9 @@ export default{
         this.$store.dispatch('ontparser/parseOnt', {'id': this.itemProps.id,'linkml':this.linkml, 'vocab':this.vocab})
     },
     changeFilters(val){
-        console.log(val)
-        console.log(this.selectedFilters)
+      if(this.checkEmptyDict(this.selectedEntities)!=0 & this.checkEmptyDict(this.selectedFilters)!=0){
+        this.genSPARQL()
+      }
     },
     dblClickHandler() {
       this.toggleFixCompPos();

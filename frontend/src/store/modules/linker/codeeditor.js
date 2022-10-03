@@ -10,9 +10,12 @@ function createNewCodeEditorCard(id){
     marginTop: null, 
     width: 500, 
     height: 300,
-    inputData: undefined,
-    isFunc: false, 
-    selectedItems: [],
+    inputData: {
+      'script': "",
+      'isFunc': false
+    },
+    // isFunc: false, 
+    // selectedItems: [],
     keep_in_vis_mode: false 
   }
 }
@@ -29,8 +32,8 @@ export default {
     UPDATE_INPUTDATA(state, {id, isFunc, script}){
       for(let i in state.cards){
         if(state.cards[i].id == `${id}`){
-          state.cards[i].inputData = script;
-          state.cards[i].isFunc = isFunc;
+          state.cards[i].inputData['script'] = script;
+          state.cards[i].inputData['isFunc'] = isFunc;
           alert('sucessfully update data!')
           break
         }
@@ -113,12 +116,13 @@ export default {
     }, 
    
     SET_INPUTDATA(state, {link, inputData}){
-      console.log('in set func')
+      // console.log('in set func')
       for(let i in state.cards){
-        console.log(state.cards[i].id)
+        // console.log(state.cards[i].id)
         if(state.cards[i].id == link.target){
-          console.log('set query input data')
-          state.cards[i].inputData = inputData;
+          console.log('set query input data', inputData)
+          state.cards[i].inputData['script'] = inputData;
+          alert('successfully set input data')
         }
       }
     }, 
@@ -231,6 +235,14 @@ export default {
       console.log(inputData);
       if(inputData){
         commit('SET_INPUTDATA', {link, inputData})  
+      }
+
+      const targetCard = getTargetCard(state.cards, link.target) 
+      // targetCard sourcelink: codeeditor, target: kgqueier
+      if (targetCard.sourceLink.length > 0) {
+        for (let i in targetCard.sourceLink) {
+          dispatch('outputHandler', targetCard.sourceLink[i]) // output the data to kgqueier again
+        }
       }
     }, 
 

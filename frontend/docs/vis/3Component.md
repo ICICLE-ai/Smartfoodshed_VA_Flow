@@ -34,8 +34,10 @@ data: {
 ```
 ### URL Loader
 * Introduction: load online resources 
-* Input: None (Starting Point)
-* Output: URL Link 
+* Source: None (Starting Point)
+* Target: [ontology parser, ]
+* Input: str,
+* Output: str, 
 * 
 ```
 {
@@ -47,8 +49,9 @@ data: {
     height: null,
     data: {
         'cardInd': null,
-        'type': null, // ['linkml','vocabulary','ttl']
-        'address': null
+        'linkml': null,
+        'vocabulary': null,
+        'ttl': null
     },
     loadingStatus: false
 }
@@ -63,6 +66,13 @@ data: {
 * Introduction: query data from knowledge graph 
 * Input: SPARQL string  (CodeEditor)
 * Output: json format of dataframe (TableViewer)
+
+### Ontology Parser 
+* Introduction: Ontology parser by taking linkml and vocabulary
+* Source: Online URL Loader
+* Output: [CodeEditor, KGQuerier]
+
+
 
 ## Data Viewer
 ### TableViewer 

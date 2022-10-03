@@ -5,7 +5,7 @@
                 Code Viewer/Editor
             </v-card-title>
             <v-divider></v-divider>
-            <prism-editor class="my-editor" v-model="code" language="html" :highlight="highlighter" line-numbers></prism-editor>
+            <prism-editor class="my-editor" v-model="itemProps.inputData.script" language="html" :highlight="highlighter" line-numbers></prism-editor>
             <v-card-actions class="mt-5">
             <v-spacer></v-spacer>
             
@@ -201,7 +201,9 @@ export default{
       },
       deep:true 
     },
-    
+    'itemProps.inputData':function(newVal, oldVal){
+      console.log(newVal, oldVal)
+    }
   },
   computed: {
     getBorder() {
