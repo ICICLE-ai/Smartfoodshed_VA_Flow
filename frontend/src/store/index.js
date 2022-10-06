@@ -6,7 +6,7 @@ import link from '@/store/modules/common/link.js'
 
 import documents from '@/store/modules/viewer/documents.js'
 import graphviewer from '@/store/modules/viewer/graphviewer'
-import vegaRender from "@/store/modules/viewer/vegaRender.js"
+import vegacharter from "@/store/modules/viewer/vegacharter.js"
 
 import graph from "@/store/modules/loader/graph.js";
 import corpus from '@/store/modules/loader/corpus.js'
@@ -93,7 +93,7 @@ export default new Vuex.Store({
     link, 
     // ontology,
     graph,
-    vegaRender, 
+    vegacharter, 
     table2cypher,
     graphviewer,
     ontparser,

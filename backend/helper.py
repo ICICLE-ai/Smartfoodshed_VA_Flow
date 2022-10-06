@@ -7,7 +7,7 @@ import collections
 import py2neo
 import requests 
 import networkx as nx
-
+import pandas as pd 
 def nx2neo(H):
     new_nodes = []
     for pair in H.nodes(data=True):
@@ -90,6 +90,18 @@ def oneTable(ont,G,tableType):
             for i in range(len(dList)):
                 G[source][target].update({dList[i]: "string"})
     return G 
+"""
+read local csv or json file 
+"""
+def readExisting(filename):
+    if '.csv' in filename:
+        data = pd.read_csv('data/'+filename)
+        return data.to_dict('records')
+    elif '.json' in filename:
+        f = open('data/'+filename)
+        data = json.loads(f)
+        f.close()
+        return data 
 
 def readJsonFromGit(url):
     resp = requests.get(url)

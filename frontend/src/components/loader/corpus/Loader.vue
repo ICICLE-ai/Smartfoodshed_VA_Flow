@@ -28,7 +28,7 @@
       :headers="headers"
       :items="tableData"
       :single-select="true"
-      item-key="name"
+      item-key="table"
       show-select
       class="elevation-1"
       >
@@ -90,12 +90,20 @@ export default {
       ],
       tableData: [
         {
-          table: 'Master_PPOD.xlsx',
-          size: '961kb',
+          table: 'ppod_table.json',
+          size: '15.2MB',
+          id: '1',
           last_time: 'Today',
           upload_date: '2020-12-21',
   
         },
+        {
+          table:'car_template.csv',
+          size:'355KB',
+          id: '2',
+          last_time: "Today",
+          upload_date: '2022-10-06'
+        }
       ],
       db: new PouchDB("test_db"),
       results:[]

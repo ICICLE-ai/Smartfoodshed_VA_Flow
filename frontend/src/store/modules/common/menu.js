@@ -40,8 +40,8 @@ export default {
         label: 'Vega-Lite viewer', 
         icon: 'mdi-vector-polygon-variant',
         color: '#C689C6',
-        store: 'vegaRender',
-        component: ()=>import('@/components/viewer/VegaRender'), 
+        store: 'vegacharter',
+        component: ()=>import('@/components/viewer/vegacharter/'), 
       }, 
       // {
       //   label: 'Table2Cypher', 

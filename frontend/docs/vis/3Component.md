@@ -21,16 +21,16 @@ data: {
 ```
 ### CSV Loader
 * Introduction: load csv file from users.
-* Input: CSV file 
-* Output: JSON
+* Input: CSV file / JSON file (a list of dictionaries)
+* Output: Array
 ```
-data: {
-    value: [
+
+[
         {attr1: '..', attr2: '..', attr3: '..'},
         {attr1: '..', attr2: '..', attr3: '..'},
         ...
-    ]
-}
+]
+
 ```
 ### URL Loader
 * Introduction: load online resources 
@@ -112,32 +112,14 @@ outputData: ""
 ### TableViewer 
 * Input: 
 ```
-{
-    data:{
-        sheet1: {
-            tableData:[
-                {
-                    column_value1:  'aaa',
-                    column_value2:  3
-                },{
-                    ...
-                }
-            ],
-            tableInfo:[{
-                label: column_label1,
-                type: str,
-                value: column_value1
-            },{
-                label: column_label2,
-                type: int,
-                value: column_value2
-            }]
-        },
-        sheet2: {
-            ...
-        }
-    },
-    tableNames:[sheet1, sheet2]
+[
+    {
+        column_value1:  'aaa',
+        column_value2:  3
+    },{
+        ...
+    }
+]
 }
 ```
 ### Bar Chart 

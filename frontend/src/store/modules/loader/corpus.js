@@ -180,15 +180,7 @@ export default {
         if(state.cards[i].id == rawData.cardId && state.cards[i].data !== rawData){
           commit('ADD_DATA','local')
           commit('UPDATE_LOADING_STATUS', {id: rawData.cardId, status: true})
-          
-          var formatted = formatTable(rawData)
-          // console.log(formatted)
-          var input_data = {
-            data: formatted , 
-            tableNames: Object.keys(formatted)
-          }
-          console.log(input_data)
-          commit('LOAD_DATA', {id: rawData.cardId, data: input_data})
+          commit('LOAD_DATA', {id: rawData.cardId, data: rawData.data})
           commit('UPDATE_LOADING_STATUS', {id: rawData.cardId, status: false})
           console.log('adding local data ############')
           for(let i in state.cards){
@@ -207,16 +199,8 @@ export default {
         if(state.cards[i].id == data.cardId && state.cards[i].selectedTable !== data){
           commit('ADD_DATA', data);
           commit('UPDATE_LOADING_STATUS', {id: data.cardId, status: true})
-          console.log(data);
-          // await apiClient.post("/changeDataBase", {database: 'ppod'})
-          let tabularData = (await apiClient.get('/getTableData')).data
-          // console.log(tabularData); 
-          var input_data =  {
-            data: {...tabularData.data} , 
-            tableNames: Object.keys(tabularData.data)
-          }
-          console.log(input_data)
-          commit('LOAD_DATA', {id: data.cardId,data:input_data })
+          let tabularData = (await apiClient.post('/getTableData', {filename: data.table})).data
+          commit('LOAD_DATA', {id: data.cardId,data:tabularData })
           commit('UPDATE_LOADING_STATUS', {id: data.cardId, status: false})
           console.log('adding corpusdata ############')
          

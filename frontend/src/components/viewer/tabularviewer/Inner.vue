@@ -6,35 +6,8 @@
     
     <template v-if="dataStatus">
       <div>
-        <v-sheet
-          class="mx-auto sheetname"
-          max-width="900"
-          style="margin-top:10px"
-        >
-          <v-slide-group
-            show-arrows
-          >
-            <v-slide-item
-              v-for="sheet in sheets"
-              :key="sheet.name"
-            >
-              <v-btn
-                class="mx-2"
-                :input-value="currentSheet == sheet.name"
-                active-class="purple white--text"
-                depressed
-                rounded
-                small
-                @click="toggleSheet(sheet.name)"
-              >
-                {{sheet.name}}
-              </v-btn>
-            </v-slide-item>
-          </v-slide-group>
-        </v-sheet>
-
         <v-card-title>
-          {{ currentSheet.split(".")[0] }}
+           Table Viewer
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
@@ -49,7 +22,6 @@
             :loading="loadingStatus"
             :headers="headers"
             :items="desserts"
-            :item-key="tableItemKey"
             class="elevation-1"
             :height="`${itemProps.height - 50 - 70}px`"
             :search="search"
@@ -86,68 +58,20 @@ export default {
     }
   }, 
   methods: {
-    toggleSheet(sheetName){
-      if (this.currentSheet != sheetName) {
-        this.currentSheet = sheetName;
-        this.sheetDataUpdate(this.currentSheet);
-      }
-    },
-    sheetDataUpdate(sheetName){
-      const val = this.itemProps.inputData; 
-      const {tableData, tableInfo} = val["data"][sheetName];
-      this.headers = []
-      let relation_id_exist = false 
-      let id_exist = false 
-      if (tableData.length > 0) {
-        tableInfo.forEach(info => {
-          this.headers.push({
-            text: info.label, 
-            value: info.value
-          })
-          info.value == 'relation_id' 
-            ? (relation_id_exist = true) 
-            : info.value == 'id' 
-              ? (id_exist = true )
-              : -1
-        })
-        this.tableItemKey = relation_id_exist 
-          ? 'relation_id'
-          : id_exist 
-            ? 'id'
-            : this.headers[3].value
-        this.currentDataBase = tableData
-        this.desserts = tableData
-      }
-    }
   },
   watch: {
     "itemProps.inputData": function (val, oldVal) {
-    
-      console.log("newVal, oldVal");
-      if (val) {
-        this.loadingStatus = true;
-        this.dataStatus = val.tableNames;
-        this.headers = [];
-
-        console.log(val)
-        const tableNames = val['tableNames']; 
-        tableNames.forEach(tablename => {
-          this.sheets.push({
-            name: tablename,
-            active: true,
-          })
+      var temp_headers = []
+      for(let key in val[0]){
+        temp_headers.push({
+          text: key,
+          value: key
         })
-        
-        this.currentSheet = tableNames[0];
-
-        this.sheetDataUpdate(this.currentSheet);
-
-        this.loadingStatus = false;
-      } else {
-        this.loadingStatus = false;
-        this.dataStatus = undefined;
-        this.currentDataBase = undefined;
-        this.desserts = undefined;
+      }
+      this.headers = temp_headers
+      this.desserts = val
+      if(val){
+        this.dataStatus = true
       }
     },
     dataStatus: function(val, oldVal) {

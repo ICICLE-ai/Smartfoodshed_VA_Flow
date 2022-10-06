@@ -209,6 +209,8 @@ export default {
       const targetCard = getTargetCard(state.cards, id) 
       if (targetCard.sourceLink.length > 0) {
         for (let i in targetCard.sourceLink) {
+          console.log('op1', targetCard.sourceLink[i])
+          console.log('op2', selected)
           dispatch('outputHandler', targetCard.sourceLink[i])
         }
       }
@@ -231,7 +233,7 @@ export default {
       console.log(linkData);
       for(let i in state.cards){
         if(state.cards[i].id == linkData.source){
-          dispatch(`${targetCompType}/inputHandler`, {link: linkData, inputData: wrapUpDataForTableExport(targetCompType, state.cards[i])}, {root: true})
+          dispatch(`${targetCompType}/inputHandler`, {link: linkData, inputData: state.cards[i].selectedItems}, {root: true})
           return;
         }
       }

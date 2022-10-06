@@ -113,10 +113,10 @@
       >
       </li>
     </ul>
-     <ul class="vegaRender-components-list">
+     <ul class="vegacharter-components-list">
       <li
-        :is="vegaRender.component"
-        v-for="item in vegaRender.cards"
+        :is="vegacharter.component"
+        v-for="item in vegacharter.cards"
         v-show="!vismode || (vismode && item.keep_in_vis_mode)"
         :key="item.id"
         :itemProps="item"
@@ -170,7 +170,7 @@ import GlobalViewComp from '@/components/GlobalViewComp'
 import LinkComp from '@/components/common/link/LinkComp'
 import OntologyComp from "@/components/OntologyComp"
 import RightClickMenu from '@/components/common/rightclick/RightClickMenu'
-import VegaRender from '@/components/viewer/VegaRender'
+import VegaCharter from '@/components/viewer/vegacharter'
 // import KGQuerier from '@/componnets/analyzer/KGQuerier'
 
 import {mapState} from 'vuex'
@@ -251,7 +251,7 @@ export default {
       'link',
       'ontology',
       'graph',
-      'vegaRender',
+      'vegacharter',
       'table2cypher',
       'graphviewer',
       'vismode',
@@ -271,7 +271,7 @@ export default {
     MenuBar,
     DocumentsComp,
     // TopicComp,
-    VegaRender,
+    VegaCharter,
     GraphViewer,
     GlobalViewComp,
     LinkComp,

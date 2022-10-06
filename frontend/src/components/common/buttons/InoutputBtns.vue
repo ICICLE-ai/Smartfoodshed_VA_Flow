@@ -361,7 +361,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['url','codeeditor','kgquerier','currentLink','drawLink', 'documents', 'globalview', 'corpus', 'topics', 'ontology', 'graph', 'table2cypher', 'graphviewer', 'vegaRender','ontparser'])
+    ...mapState(['url','codeeditor','kgquerier','currentLink','drawLink', 'documents', 'globalview', 'corpus', 'topics', 'ontology', 'graph', 'table2cypher', 'graphviewer', 'vegacharter','ontparser'])
   },
 
   watch:{

@@ -50,7 +50,7 @@ def ping_pong():
 @app.route('/KGQueryEndpoint', methods=['POST'])
 def KGQueryEndpoint():
     request_obj = request.get_json()
-    df = sparqlQuery.queryEndpointHelper(request_obj['url'], request_obj['sparql'])
+    df = sparqlQuery.queryEndpointHelper(request_obj['url'], request_obj['sparql']['script'])
     # print(df)
 
     output = sparqlQuery.convertJson(df, df.to_dict('records'))
@@ -117,29 +117,12 @@ def getMapData():
     }
     return Response(json.dumps(output))
 
-@app.route('/getTableData', methods=['GET'])
+@app.route('/getTableData', methods=['POST'])
 def getTableData():
-    ## Create a new py file config.py and add localfile_path to indicate the place of local_data folder
-    ## This config file will not be pushed to the osu code, so we don't need to always change path
-    # global database
-    # print('gettabledata', database)
-    data = helper.readJsonFromGit(localfile_path+database+'_table.json')
-
-    # with open('../../../local_data/'+database+"_table_localserver.json") as f:
-    #     data = json.loads(f.read())
-    output = {} ## tableName: {tableData:{}, tableInfo:{}}
-    tableNames = []
-    for ele in data:
-        tableNames.append(ele['table_name'])
-        output[ele['table_name']] = {
-            'tableData': ele['table_data'],
-            'tableInfo': ele['table_info']
-        }
-    result = {
-        'data': output,
-        'sheet': tableNames
-    }
-    return Response(json.dumps(result))
+    request_obj = request.get_json()
+    filename = request_obj['filename']
+    data = helper.readExisting(filename)
+    return Response(json.dumps(data))
 
 @app.route('/retrieveSubgraph', methods=['POST'])
 def getSubGraphFromTable(): 

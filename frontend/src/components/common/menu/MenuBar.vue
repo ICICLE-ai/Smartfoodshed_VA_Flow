@@ -3,7 +3,8 @@
     <v-card
       class="dashboard-menu"
       outlined
-    >
+    > 
+
       <v-row
         v-for="menu in menu.menuList"
         :key="menu.label"
@@ -15,7 +16,7 @@
           />
 
         </v-col>
-      </v-row>
+      </v-row> 
     </v-card>
   </div>
 </template>
@@ -26,7 +27,12 @@ import MenuBtn from '@/components/common/menu/MenuBtn'
 export default {
   data(){
     return {
-      items: []
+      items: [
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me 2' },
+      ]
     }
   },
   computed: {
