@@ -7,6 +7,10 @@ sparql generation
 def SparqlGen(user_query, user_filter, linkml, vocab):
     linkml = loadYAML(linkml, True)
     vocab = loadYAML(vocab, True)
+
+    prefix_query = ""
+    for pre in linkml['prefixes']:
+        prefix_query += "PREFIX"+' '+pre+":"+" "+linkml['prefixes'][pre]+'\n'
     select_query = "SELECT DISTINCT"
     where_query = f"""
     WHERE {{
@@ -14,18 +18,21 @@ def SparqlGen(user_query, user_filter, linkml, vocab):
     select_ont = user_query['ont'] ## user selected ontology e.g. 'Person', 'Role'
     select_ont_names = [] ## corresding names for the selected ontology, e.g. '?person', '?role'
     select_items = [] ## all the entity names related to the selected ontology, e.g. '?person_label', '?person_email'
+    print(select_ont)
     for ele in select_ont:
         ## 1. the user direct query 
         class_uri, slots_uri = getPredict(ele, linkml)
         ## item from user query, e.g. project 
-        direct_query_items = '?'+class_uri.split(':')[1].lower()
+        # direct_query_items = '?'+class_uri.split(':')[1].lower()
+        direct_query_items = "?"+ele.lower()
         select_items.append(direct_query_items)
         select_ont_names.append(direct_query_items)
         ## 
         where_query += '\t'+ direct_query_items + ' a ' + class_uri +' .' +'\n'
         
         
-        where_query  = genFilter(direct_query_items, class_uri, vocab, user_filter, where_query)
+        where_query, add_to_select  = genFilter(direct_query_items, class_uri, vocab, user_filter, where_query, linkml)
+        select_items += add_to_select
         ## all relations related to direct query item, such as label of project 
         for s in slots_uri:
             temp_ = s.split(':')[1].lower()
@@ -34,6 +41,8 @@ def SparqlGen(user_query, user_filter, linkml, vocab):
             where_query += '\t'+direct_query_items + ' ' + s + ' ' + s_name + ' .\n'
         
     ## build the query for 
+    ## remove duplidates 
+    select_items = list(set(select_items))
     for ele in select_items:
         select_query += " " + ele
     
@@ -45,8 +54,8 @@ def SparqlGen(user_query, user_filter, linkml, vocab):
     
     
     final_query = f"""
-    {select_query}{where_query}
-    LIMIT 10
+    {prefix_query}{select_query}{where_query}
+   
     """
     print(final_query)
     
@@ -85,23 +94,65 @@ def findLink(en1, en2, linkml, en1_name, en2_name, where_query):
     return where_query
 
 """
+given a vocab, 
+find head entity uri and the predicate uri 
+"""
+def findHeadURI(linkml, ele):
+    output = {'head_uri': [], "relation":""}
+    predicate_name = ""
+    found=False ## have
+    for slot_name in linkml['slots']:
+        slot = linkml['slots'][slot_name]
+        if slot.get('range')!=None:
+            if slot['range']==ele:
+                output['relation'] = slot['slot_uri']
+                predicate_name = slot_name
+                found = True
+    
+    if found==False:
+        print('no definitions of the vocab', ele)
+    
+
+    for class_name in linkml['classes']:
+        class_ = linkml['classes'][class_name]
+        
+        if class_.get('slots')!=None and predicate_name in class_['slots']:
+            output['head_uri'].append(class_['class_uri'])
+    
+    return output
+
+    
+
+"""
 generate filtering queries 
 """
-def genFilter(class_name, class_uri, vocab, user_filter, where_query):
-
+def genFilter(class_name, class_uri, vocab, user_filter, where_query,linkml):
+    filters = []
     for f in user_filter:
         vocab_info = vocab['enums'][f]
         values = user_filter[f]
+        ## generate head-uri and relation uri for this filter entity:
+        temp_ = findHeadURI(linkml, f)
+        vocab_info['relation'] = temp_['relation']
+        vocab_info['head_uri'] = temp_['head_uri']
+        
         ## check whether this class-uri is related to this vocab filter 
         if class_uri in vocab_info['head_uri'] and len(values)>0:
+            filters.append('?'+f+'_temp')
+            print('class uri', class_uri,vocab_info['head_uri'], values)
             where_query += '\t' + class_name + ' ' + vocab_info['relation'] + ' ?'+f+"_temp" + ' .\n'
             where_query += '\t FILTER (?'+f+"_temp IN(" 
             ## we use or for conditions in the same filter 
             temp_conditions = ""
             for v in values:
+                if "http" in v: ## should have <> outside 
+                    v = "<"+v+">"
                 temp_conditions += v+','
             where_query += temp_conditions[:-1]+') ) .\n' 
-    return where_query 
+    return where_query , filters
+            
+            
+
             
 
 
@@ -130,13 +181,14 @@ vocab: url for Taxonomy, either github url or local path
 Output:
 G: A graph format (in Neo4j format) to be visualized in our viewer. 
 """
-def Parser(linkml, vocab, github):
+
+def Parser(linkml, vocab, github, remove_node_list):
     ## Loading YAML file 
     linkml = loadYAML(linkml, github)
     vocab = loadYAML(vocab, github)
     
     ## Construct ontology from linkml 
-    G1 = constructOntogy(linkml)
+    G1 = constructOntogy(linkml, remove_node_list)
     ## Combine filtering information from Taxonomy YAML file 
     G2 = G2Neo4jG(G1, vocab)
     
@@ -168,7 +220,7 @@ def addRelation(relation_info):
 Input: Read-in Yaml file 
 Output: Networkx build directed graph (Ontology)
 """
-def constructOntogy(linkml):
+def constructOntogy(linkml, remove_node_list):
     G = nx.DiGraph()
     nodes = []
     nodes_id = []
@@ -177,20 +229,23 @@ def constructOntogy(linkml):
     
     
     for entity in entity_names:
-        entity_info = linkml['classes'][entity]
-        entity_slots = entity_info['slots']
-        for relation_name in entity_slots :
-            relation_info = linkml['slots'][relation_name]
-            target_ = addRelation(relation_info)
-            if len(target_) == 0:
-                continue
-                ## no target entity, target is a string 
-            else:
-                for target in target_:
-                    if G.has_edge(entity, target):
-                        G[entity][target]['relation'].append(relation_name)
+        if entity not in remove_node_list:
+            entity_info = linkml['classes'][entity]
+            if 'slots' in entity_info: ## check whether we have the attribute of slot
+                entity_slots = entity_info['slots']
+                for relation_name in entity_slots :
+                    relation_info = linkml['slots'][relation_name]
+                    target_ = addRelation(relation_info)
+                    if len(target_) == 0:
+                        continue
+                        ## no target entity, target is a string 
                     else:
-                        G.add_edge(entity, target, relation = [relation_name])
+                        for target in target_:
+                            if target not in remove_node_list:
+                                if G.has_edge(entity, target):
+                                    G[entity][target]['relation'].append(relation_name)
+                                else:
+                                    G.add_edge(entity, target, relation = [relation_name])
     
     return G
 """

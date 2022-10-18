@@ -32,9 +32,12 @@
 export default {
   data(){
     return {
-      url_linkml: "https://raw.githubusercontent.com/yasmineTYM/PPOD_KG/main/PPOD_new.yaml",
-      url_vocab: "https://raw.githubusercontent.com/yasmineTYM/PPOD_KG/main/vocabs_new.yaml",
-      url_ttl: "https://raw.githubusercontent.com/yasmineTYM/PPOD_KG/main/PPOD7.ttl", 
+      // url_linkml: "https://raw.githubusercontent.com/yasmineTYM/PPOD_KG/main/PPOD_new.yaml",
+      // url_vocab: "https://raw.githubusercontent.com/yasmineTYM/PPOD_KG/main/vocabs_new.yaml",
+      // url_ttl: "https://raw.githubusercontent.com/yasmineTYM/PPOD_KG/main/PPOD7.ttl", 
+      url_linkml: "https://raw.githubusercontent.com/adhollander/PPODLinkML/main/PPOD.yaml",
+      url_vocab: "https://raw.githubusercontent.com/adhollander/PPODLinkML/main/vocabs.yaml",
+      url_ttl: "https://raw.githubusercontent.com/adhollander/PPODtottl/main/PPOD0.ttl"
     }
   },
   methods: {

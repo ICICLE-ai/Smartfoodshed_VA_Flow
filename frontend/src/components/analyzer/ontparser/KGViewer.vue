@@ -75,6 +75,10 @@ export default {
             var circles_question = svg.selectAll('.outline')
             let that = this
             var lasso_start = function () {
+                that.selectedEntities = {
+                    'ont': [],
+                    'vocab': []
+                }
                 // console.log(111)
                 lasso.items()
                 .attr('fill', "green")

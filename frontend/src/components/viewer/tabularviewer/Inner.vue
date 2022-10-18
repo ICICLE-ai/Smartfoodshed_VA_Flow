@@ -29,6 +29,7 @@
             ref="table"
             :single-select="false"
             v-model="selected"
+            item-key="name"
           >
           </v-data-table>
         </template>
@@ -106,5 +107,6 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
   height: 100%;
+  overflow:scroll;
 }
 </style>

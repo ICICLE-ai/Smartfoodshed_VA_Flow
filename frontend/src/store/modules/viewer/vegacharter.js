@@ -1,5 +1,6 @@
 import {getComponentType} from '@/utils/help'
 import axios from 'axios'
+import { base_request_url } from '@/utils/base_url'
 
 function createNewVegaRender(id){
   return {
@@ -12,7 +13,7 @@ function createNewVegaRender(id){
     marginTop: null, 
     width: null, 
     height: null,
-    data: undefined, 
+    data: [], 
   }
 }
 
@@ -24,6 +25,14 @@ export default {
     component: () => import('@/components/viewer/vegacharter'), 
   }, 
   mutations: {
+    SET_DATA(state, {id, data}){
+      console.log('inside set data', id, data)
+      for(let i in state.cards){
+        if(state.cards[i].id==`${id}`){
+          state.cards[i].data = data
+        }
+      }
+    },
     ADD_COMPONENT(state){
       const nextIndex = state.nextAvailableIndex;
       state.nextAvailableIndex += 1
@@ -87,6 +96,14 @@ export default {
         }
       }
     },
+    UPDATE_SIZE(state, {id, width, height}) {
+      for(let i in state.cards){
+        if(state.cards[i].id == id){
+          state.cards[i].width = width 
+          state.cards[i].height = height
+        }
+      }
+    },
     REMOVE_SOURCELINK(state, linkData){
       for(let i in state.cards){
         if(state.cards[i].id == linkData.source){
@@ -117,35 +134,14 @@ export default {
       }
     }, 
     SET_INPUTDATA(state, {link, inputData}){
+      console.log('inside set inputdata', link, inputData)
       for(let i in state.cards){
         if(state.cards[i].id == link.target){
-          // Object.keys(inputData).forEach(
-          //   key => {state.cards[i].inputData[key] = inputData[key]}
-          // )
-          // console.log(state.cards[i].inputData)
           state.cards[i].inputData = inputData;
+
         }
       }
     }, 
-    // ADD_DATA(state, data){
-    //   for(let i in state.cards){
-    //     if(state.cards[i].id == data.cardId){
-    //       state.cards[i].selectedVegaRender = data.ontology;
-    //     }
-    //   }
-    // },
-    // LOAD_DATA(state, {id, data}){
-    //   for(let i in state.cards){
-    //     console.log("=========")
-    //     console.log(data)
-    //     console.log(state.cards[i].id)
-    //     console.log(id)
-    //     console.log("=========")
-    //     if(state.cards[i].id == id){
-    //       state.cards[i].data = data;
-    //     }
-    //   }
-    // },
   }, 
   actions: {
     updatePos({commit}, {id, marginTop, marginLeft}) {
@@ -194,48 +190,27 @@ export default {
       }
     },
     
-    
-    async addVegaRender({commit, dispatch, state}, data){
-    //   for(let i in state.cards){
-    //     if(state.cards[i].id == data.cardId && state.cards[i].selectedTable !== data){
-    //       commit('ADD_DATA', data);
-    //       console.log(data);
-    //       let ontologyData = await axios.post('http://127.0.0.1:5000/getOntology')
-    //       console.log(ontologyData.data); 
-    //       commit('LOAD_DATA', {id: data.cardId, data: {
-    //         data: {...ontologyData.data} , 
-    //         ontologyName: data.ontology
-    //       }})
-
-    //       console.log('adding ontologyData ############')
-         
-    //       for(let i in state.cards){
-    //         if(state.cards[i].id == data.cardid){
-    //           for(let j in state.cards[i].sourcelink){
-    //             dispatch('outputhandler', state.cards[i].sourcelink[j])
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    },
-
+    updateSize({commit}, {id, width, height}) {
+      commit('UPDATE_SIZE', {id, width, height})
+    }, 
     // Input Handler will be triggered by other components
     // When source Component
-    inputHandler({commit, state, }, {link, inputData}){
+    async inputHandler({commit, state, }, {link, inputData}){
       const sourceCompType = getComponentType(link.source);
       const targetCompType = getComponentType(link.target);
-      console.log('document Hanlde Input 123');
-      console.log(inputData);
       if(inputData){
-        commit('SET_INPUTDATA', {link, inputData})  
+        commit('SET_INPUTDATA', {link, inputData}) 
+
+        let path = base_request_url + 'genVega'
+        let result = await axios.post(path, {'data':inputData})
+        console.log(result.data)
+        let temp = result.data
+        commit('SET_DATA', {id: link.target, data: temp})
       }
     }, 
 
     outputHandler({commit, state, }, linkData){
       const targetCompType = getComponentType(linkData.target);
-      console.log('outputHandler');
-      console.log(linkData);
       for(let i in state.cards){
         if(state.cards[i].id == linkData.source){
           dispatch(`${targetCompType}/inputHandler`, {link: linkData, inputData: state.cards[i].inputData}, {root: true})

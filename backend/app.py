@@ -15,6 +15,9 @@ import ontparser
 from helper import oneTable, generateWhole, nx2neo
 import networkx as nx
 import sparqlQuery
+import vegachart
+import kgquerier
+
 """ config.py
 // Adding config file to config your local data folder please !!!!!!!!!!!
 
@@ -46,6 +49,48 @@ def ping_pong():
     return jsonify('pong!')
 
 
+@app.route('/genVega', methods=['POST'])
+def genVega():
+    request_obj = request.get_json()
+    data = request_obj['data']
+    df_nested_list = pd.json_normalize(data)
+    # print(df_nested_list.head(3))
+    a = vegachart.Test(df_nested_list)
+    output = []
+    for i in range(len(a._numerical_column)):
+        for j in range(i+1, len(a._numerical_column)):
+            x_ = a._numerical_column[i]
+            y_ = a._numerical_column[j]
+            temp_ = vegachart.vegaGen(x_, y_, 'scatterplot', df_nested_list)
+            # print(temp_['encoding'])
+            aaa = temp_
+            output.append(aaa)
+    # output  = vegachart.dataVis(obj_, df_nested_list)
+    # for ele in obj_.vega:
+    #     print('ddd:',ele['encoding'])
+    return Response(json.dumps(output))
+
+
+@app.route('/KGQueryTTL', methods=['POST'])
+def KGQueryTTL():
+    request_obj = request.get_json()
+    sparql = request_obj['sparql']
+    url = request_obj['url']
+
+    
+    g = kgquerier.loadGraph(url, 'ttl')
+    g, no_prefix = kgquerier.addPreFix(g, sparql)
+    qres = kgquerier.query(g, no_prefix)
+    if len(list(qres))==0:
+        return Response(json.dumps([]))
+    else:
+        all_columns = [kgquerier.Literal2String(ele) for ele in qres.vars]
+        all_df = pd.DataFrame(qres, columns=all_columns)
+        subcolumns = [ele for ele in all_columns if '_' in ele]
+        sub_df = all_df.filter(subcolumns)
+
+        return Response(json.dumps(sub_df.to_dict("records")))
+
 
 @app.route('/KGQueryEndpoint', methods=['POST'])
 def KGQueryEndpoint():
@@ -62,8 +107,14 @@ ontparser
 @app.route('/genSPARQL', methods=['POST'])
 def genSPARQL(): 
     request_obj = request.get_json()
-    print(request_obj)
-    final_query, items = ontparser.SparqlGen(request_obj['selectedEntities'], request_obj['selectedFilters'], request_obj['linkml'], request_obj['vocabulary'])
+    # print(request_obj)
+    ont = list(set(request_obj['selectedEntities']['ont']))
+    vocab = list(set(request_obj['selectedEntities']['vocab']))
+    new_ = {
+        'ont': ont,
+        'vocab': vocab
+    }
+    final_query, items = ontparser.SparqlGen(new_, request_obj['selectedFilters'], request_obj['linkml'], request_obj['vocabulary'])
     return jsonify({
         'SPARQL': final_query
     })
@@ -76,7 +127,7 @@ ontparser
 def getOntology():
     request_obj = request.get_json()
     print(request_obj)
-    G1, G2, filter_data = ontparser.Parser(request_obj['linkml'], request_obj['vocabulary'], True)
+    G1, G2, filter_data = ontparser.Parser(request_obj['linkml'], request_obj['vocabulary'], True, ['uriorcurie'])
 
     return Response(json.dumps({'ontology': G2, 'filter':filter_data}))
 

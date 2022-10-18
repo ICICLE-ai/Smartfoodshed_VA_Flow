@@ -98,10 +98,11 @@ def readExisting(filename):
         data = pd.read_csv('data/'+filename)
         return data.to_dict('records')
     elif '.json' in filename:
-        f = open('data/'+filename)
-        data = json.loads(f)
-        f.close()
-        return data 
+        # f = open('data/'+filename)
+        # data = json.load(f)
+        # f.close()
+        data = pd.read_json('data/'+filename)
+        return data.to_dict('records')
 
 def readJsonFromGit(url):
     resp = requests.get(url)

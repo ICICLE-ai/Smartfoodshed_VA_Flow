@@ -122,7 +122,7 @@ outputData: ""
 ]
 }
 ```
-### Bar Chart 
+### VegaLite Render
 * Introduction: Visualize the input data in a bar chart.
 * Input: 
 ```

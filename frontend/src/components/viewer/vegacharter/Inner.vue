@@ -1,7 +1,10 @@
 <template>
   <div class="card-inner">
-    <vega-lite :data="values" mark="bar" :encoding="encoding"/>
+    <!-- <vega-lite :data="values" mark="bar" :encoding="encoding"/> -->
     <!-- {{itemProps.inputData}} -->
+    <div v-for="(item, index) in itemProps.data" :key="index">
+      <vega-lite :data="item.data.values" :mark="item.mark" :encoding="item.encoding"/>
+    </div>
   </div>
 </template>
 
@@ -14,27 +17,6 @@ export default {
   props: ['itemProps'], 
   data() {
     return {
-      dataStatus: false, 
-      loadingStatus: undefined,
-      selected: [],
-      search: "",
-      sheets: [], 
-      headers: [],
-      desserts: [],
-      currentDataBase: [],
-      answerBasedRetrieval: {},
-      currentSheet: "", 
-      flag: false,
-      tableItemKey: "",
-      values: [
-        {a: 'A', b: 28}, {a: 'B', b: 55}, {a: 'C', b: 43},
-        {a: 'D', b: 91}, {a: 'E', b: 81}, {a: 'F', b: 53},
-        {a: 'G', b: 19}, {a: 'H', b: 87}, {a: 'I', b: 52}
-      ],
-      encoding: {
-        x: {field: 'Program', type: 'ordinal'},
-        y: {field: 'id', type: 'quantitative'}
-      },
     }
   }, 
   methods: {
@@ -42,13 +24,7 @@ export default {
   
   },
   watch: {
-    "itemProps.inputData": function (val, oldVal) {
-    
-      console.log("newVal, oldVal");
-      console.log(val, oldVal)
-      this.values = val
-      
-    },
+   
    
   }
 }

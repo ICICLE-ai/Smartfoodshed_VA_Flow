@@ -89,17 +89,17 @@ export default {
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       tableData: [
-        {
-          table: 'ppod_table.json',
-          size: '15.2MB',
-          id: '1',
-          last_time: 'Today',
-          upload_date: '2020-12-21',
-  
-        },
+        
         {
           table:'car_template.csv',
           size:'355KB',
+          id: '2',
+          last_time: "Today",
+          upload_date: '2022-10-06'
+        },
+        {
+          table:'iris.csv',
+          size:'4KB',
           id: '2',
           last_time: "Today",
           upload_date: '2022-10-06'

@@ -79,8 +79,9 @@ export default{
         
       // custom
       //  endpoint: 'http://dbpedia.org/sparql',
-       endpoint: 'https://makg.org/sparql',
-       giturl: ''
+      //  endpoint: 'https://makg.org/sparql',
+      endpoint: '',
+      giturl: 'https://raw.githubusercontent.com/adhollander/PPODtottl/main/PPOD0.ttl'
     }
   },
   created () {
@@ -96,6 +97,7 @@ export default{
       }else if(this.endpoint =="" && this.giturl!=''){
         this.$store.dispatch('kgquerier/queryTTL', {id: this.itemProps.id, url: this.giturl})
       }else{
+        // this.$store.dispatch('kgquerier/queryGIT', {id: this.itemProps.id, 'url': this.dblClickHandler.})
         alert('please either enter an endpoint or github link to ttl file')
       }
     },

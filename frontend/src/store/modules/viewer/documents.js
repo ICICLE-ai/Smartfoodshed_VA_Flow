@@ -233,7 +233,14 @@ export default {
       console.log(linkData);
       for(let i in state.cards){
         if(state.cards[i].id == linkData.source){
-          dispatch(`${targetCompType}/inputHandler`, {link: linkData, inputData: state.cards[i].selectedItems}, {root: true})
+          console.log(state.cards[i])
+          if(state.cards[i].selectedItems.length>0){
+            console.log('111')
+            dispatch(`${targetCompType}/inputHandler`, {link: linkData, inputData: state.cards[i].selectedItems}, {root: true})
+          }else{
+            console.log('222')
+            dispatch(`${targetCompType}/inputHandler`, {link: linkData, inputData: state.cards[i].inputData}, {root: true})
+          }
           return;
         }
       }

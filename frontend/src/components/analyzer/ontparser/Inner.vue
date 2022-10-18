@@ -237,3 +237,23 @@ export default{
   }
 }
 </script>
+<style scoped>
+.card-name {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100%;
+  }
+
+.card-inner{
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  height: 100%;
+  overflow:scroll
+}
+
+</style>

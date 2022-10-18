@@ -1,7 +1,20 @@
-module.exports = {
-  "transpileDependencies": [
-    "vuetify"
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  transpileDependencies: [
+    'vuetify'
   ],
   lintOnSave: false,
-  runtimeCompiler: true
-}
+  // publicPath: '/',    //local development
+  publicPath: '/ICICLE-DOC', //deployment.
+  configureWebpack:{
+    resolve:{
+      fallback:{
+        "https": require.resolve("https-browserify"),
+        "http": require.resolve("stream-http"),
+        "url": require.resolve("url/")
+      }
+    }
+  }
+  
+})
+
