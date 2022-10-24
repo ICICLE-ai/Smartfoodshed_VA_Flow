@@ -1,6 +1,5 @@
+import {Tau} from '../util/constants';
 import {path} from 'd3-path';
-
-var pi = Math.PI;
 
 export default function() {
   var x,
@@ -11,7 +10,7 @@ export default function() {
       ready, x1, y1, r1;
 
   function point(x2, y2, w2) {
-    var r2 = w2 / 2;
+    const r2 = w2 / 2;
 
     if (ready) {
       var ux = y1 - y2,
@@ -27,11 +26,11 @@ export default function() {
         // draw segment
         context.moveTo(x1 - rx, y1 - ry);
         context.lineTo(x2 - ux * r2, y2 - uy * r2);
-        context.arc(x2, y2, r2, t - pi, t);
+        context.arc(x2, y2, r2, t - Math.PI, t);
         context.lineTo(x1 + rx, y1 + ry);
-        context.arc(x1, y1, r1, t, t + pi);
+        context.arc(x1, y1, r1, t, t + Math.PI);
       } else {
-        context.arc(x2, y2, r2, 0, 2*pi);
+        context.arc(x2, y2, r2, 0, Tau);
       }
       context.closePath();
     } else {

@@ -14,6 +14,7 @@ function createNewVegaRender(id){
     width: null, 
     height: null,
     data: [], 
+    info: {} // additional information about different type of data columns 
   }
 }
 
@@ -25,11 +26,12 @@ export default {
     component: () => import('@/components/viewer/vegacharter'), 
   }, 
   mutations: {
-    SET_DATA(state, {id, data}){
-      console.log('inside set data', id, data)
+    SET_DATA(state, {id, data, info}){
+      console.log('inside set data', id, data, info)
       for(let i in state.cards){
         if(state.cards[i].id==`${id}`){
           state.cards[i].data = data
+          state.cards[i].info = info
         }
       }
     },
@@ -204,8 +206,9 @@ export default {
         let path = base_request_url + 'genVega'
         let result = await axios.post(path, {'data':inputData})
         console.log(result.data)
-        let temp = result.data
-        commit('SET_DATA', {id: link.target, data: temp})
+        let temp_date = result.data['data']
+        let temp_info = result.data['info']
+        commit('SET_DATA', {id: link.target, data: temp_date, info: temp_info})
       }
     }, 
 

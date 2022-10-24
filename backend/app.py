@@ -16,8 +16,10 @@ from helper import oneTable, generateWhole, nx2neo
 import networkx as nx
 import sparqlQuery
 import vegachart
+import numpy as np
 import kgquerier
-
+import AutoVega.visualize as autovis
+import datetime
 """ config.py
 // Adding config file to config your local data folder please !!!!!!!!!!!
 
@@ -27,6 +29,19 @@ localfile_path = "../../../local_data"
 # from config import localfile_path
 
 localfile_path = "https://raw.githubusercontent.com/yasmineTYM/PPOD_KG/main/"
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        if isinstance(obj, datetime.datetime):
+            return str(obj)
+        return super(NpEncoder, self).default(obj)
+
+# Your codes .... 
 
 # configuration
 DEBUG = True
@@ -55,20 +70,30 @@ def genVega():
     data = request_obj['data']
     df_nested_list = pd.json_normalize(data)
     # print(df_nested_list.head(3))
-    a = vegachart.Test(df_nested_list)
-    output = []
-    for i in range(len(a._numerical_column)):
-        for j in range(i+1, len(a._numerical_column)):
-            x_ = a._numerical_column[i]
-            y_ = a._numerical_column[j]
-            temp_ = vegachart.vegaGen(x_, y_, 'scatterplot', df_nested_list)
-            # print(temp_['encoding'])
-            aaa = temp_
-            output.append(aaa)
+    # a = vegachart.Test(df_nested_list)
+    # output = []
+    # for i in range(len(a._numerical_column)):
+    #     for j in range(i+1, len(a._numerical_column)):
+    #         x_ = a._numerical_column[i]
+    #         y_ = a._numerical_column[j]
+    #         temp_ = vegachart.vegaGen(x_, y_, 'scatterplot', df_nested_list)
+    #         # print(temp_['encoding'])
+    #         aaa = temp_
+    #         output.append(aaa)
     # output  = vegachart.dataVis(obj_, df_nested_list)
     # for ele in obj_.vega:
     #     print('ddd:',ele['encoding'])
-    return Response(json.dumps(output))
+
+    test = autovis(df_nested_list, chart="donutchart")
+    final= {
+        'data': test.plot(), 
+        'info': {
+            'label_column': test._label_column,
+            'numerical_column': test._numerical_column,
+            'date_column': test._date_column
+        }
+    }
+    return Response(json.dumps(final, cls=NpEncoder))
 
 
 @app.route('/KGQueryTTL', methods=['POST'])

@@ -189,11 +189,11 @@ def vegaGen( x_, y_, chartname, dataframe):
 def dataVis(self, dataframe):
     all_vega = []
     # temporal using line chart 
-    # for x_ in self._date_column:
-    #     for y_ in self._numerical_column:
-    #         options = ['linechart', 'areachart']
-    #         random_ = random.randint(0, 1)
-    #         temp_ = vegaGen(template, x_, y_, options[random_], dataframe)
+    for x_ in self._date_column:
+        for y_ in self._numerical_column:
+            options = ['linechart', 'areachart']
+            random_ = random.randint(0, 1)
+            temp_ = vegaGen(x_, y_, options[random_], dataframe)
 
     for i in range(len(self._numerical_column)):
         for j in range(i+1, len(self._numerical_column)):
@@ -206,7 +206,10 @@ def dataVis(self, dataframe):
             for ele in all_vega:
                 print(ele['encoding'])
 
-
+    for x_ in self._label_column:
+        for y_ in self._numerical_column:
+            options = [ 'barchart']
+            all_vega.append(vegaGen(x_, y_, options[0], dataframe))
 
 
     # def vegaGen_pie(self, x_, y_, chartname="piechart"):

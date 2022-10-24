@@ -1,5 +1,6 @@
 import boundStroke from '../bound/boundStroke';
 import context from '../bound/boundContext';
+import {intersectPoint} from '../util/intersect';
 import {drawOne} from '../util/canvas/draw';
 import {hitPath} from '../util/canvas/pick';
 
@@ -25,7 +26,7 @@ export default function(type, shape, tip) {
     shape(context, items);
   }
 
-  var hit = hitPath(draw);
+  const hit = hitPath(draw);
 
   function pick(context, scene, x, y, gx, gy) {
     var items = scene.items,
@@ -48,6 +49,7 @@ export default function(type, shape, tip) {
     bound:  bound,
     draw:   drawOne(draw),
     pick:   pick,
+    isect:  intersectPoint,
     tip:    tip
   };
 

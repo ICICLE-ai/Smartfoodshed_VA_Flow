@@ -1,17 +1,34 @@
 import {visit} from '../util/visit';
+import blend from '../util/canvas/blend';
 import {pick} from '../util/canvas/pick';
-import translate from '../util/svg/translate';
+import metadata from '../util/svg/metadata';
+import {translate} from '../util/svg/transform';
+import {truthy} from 'vega-util';
 
 function getImage(item, renderer) {
   var image = item.image;
-  if (!image || image.url !== item.url) {
-    image = {loaded: false, width: 0, height: 0};
-    renderer.loadImage(item.url).then(function(image) {
+  if (!image || item.url && item.url !== image.url) {
+    image = {complete: false, width: 0, height: 0};
+    renderer.loadImage(item.url).then(image => {
       item.image = image;
       item.image.url = item.url;
     });
   }
   return image;
+}
+
+function imageWidth(item, image) {
+  return item.width != null ? item.width
+    : !image || !image.width ? 0
+    : item.aspect !== false && item.height ? item.height * image.width / image.height
+    : image.width;
+}
+
+function imageHeight(item, image) {
+  return item.height != null ? item.height
+    : !image || !image.height ? 0
+    : item.aspect !== false && item.width ? item.width * image.height / image.width
+    : image.height;
 }
 
 function imageXOffset(align, w) {
@@ -23,54 +40,46 @@ function imageYOffset(baseline, h) {
 }
 
 function attr(emit, item, renderer) {
-  var image = getImage(item, renderer),
-      x = item.x || 0,
-      y = item.y || 0,
-      w = (item.width != null ? item.width : image.width) || 0,
-      h = (item.height != null ? item.height : image.height) || 0,
-      a = item.aspect === false ? 'none' : 'xMidYMid';
+  const img = getImage(item, renderer),
+        w = imageWidth(item, img),
+        h = imageHeight(item, img),
+        x = (item.x || 0) - imageXOffset(item.align, w),
+        y = (item.y || 0) - imageYOffset(item.baseline, h),
+        i = !img.src && img.toDataURL ? img.toDataURL() : img.src || '';
 
-  x -= imageXOffset(item.align, w);
-  y -= imageYOffset(item.baseline, h);
-
-  emit('href', image.src || '', 'http://www.w3.org/1999/xlink', 'xlink:href');
+  emit('href', i, metadata['xmlns:xlink'], 'xlink:href');
   emit('transform', translate(x, y));
   emit('width', w);
   emit('height', h);
-  emit('preserveAspectRatio', a);
+  emit('preserveAspectRatio', item.aspect === false ? 'none' : 'xMidYMid');
 }
 
 function bound(bounds, item) {
-  var image = item.image,
-      x = item.x || 0,
-      y = item.y || 0,
-      w = (item.width != null ? item.width : (image && image.width)) || 0,
-      h = (item.height != null ? item.height : (image && image.height)) || 0;
-
-  x -= imageXOffset(item.align, w);
-  y -= imageYOffset(item.baseline, h);
+  const img = item.image,
+        w = imageWidth(item, img),
+        h = imageHeight(item, img),
+        x = (item.x || 0) - imageXOffset(item.align, w),
+        y = (item.y || 0) - imageYOffset(item.baseline, h);
 
   return bounds.set(x, y, x + w, y + h);
 }
 
 function draw(context, scene, bounds) {
-  var renderer = this;
-
-  visit(scene, function(item) {
+  visit(scene, item => {
     if (bounds && !bounds.intersects(item.bounds)) return; // bounds check
 
-    var image = getImage(item, renderer),
-        x = item.x || 0,
-        y = item.y || 0,
-        w = (item.width != null ? item.width : image.width) || 0,
-        h = (item.height != null ? item.height : image.height) || 0,
+    const img = getImage(item, this);
+
+    let w = imageWidth(item, img);
+    let h = imageHeight(item, img);
+    if (w === 0 || h === 0) return; // early exit
+
+    let x = (item.x || 0) - imageXOffset(item.align, w),
+        y = (item.y || 0) - imageYOffset(item.baseline, h),
         opacity, ar0, ar1, t;
 
-    x -= imageXOffset(item.align, w);
-    y -= imageYOffset(item.baseline, h);
-
     if (item.aspect !== false) {
-      ar0 = image.width / image.height;
+      ar0 = img.width / img.height;
       ar1 = item.width / item.height;
       if (ar0 === ar0 && ar1 === ar1 && ar0 !== ar1) {
         if (ar1 < ar0) {
@@ -85,9 +94,11 @@ function draw(context, scene, bounds) {
       }
     }
 
-    if (image.loaded) {
+    if (img.complete || img.toDataURL) {
+      blend(context, item);
       context.globalAlpha = (opacity = item.opacity) != null ? opacity : 1;
-      context.drawImage(image, x, y, w, h);
+      context.imageSmoothingEnabled = item.smooth !== false;
+      context.drawImage(img, x, y, w, h);
     }
   });
 }
@@ -100,6 +111,7 @@ export default {
   bound:    bound,
   draw:     draw,
   pick:     pick(),
+  isect:    truthy, // bounds check is sufficient
   get:      getImage,
   xOffset:  imageXOffset,
   yOffset:  imageYOffset
