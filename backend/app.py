@@ -84,7 +84,8 @@ def genVega():
     # for ele in obj_.vega:
     #     print('ddd:',ele['encoding'])
 
-    test = autovis(df_nested_list, chart="donutchart")
+    test = autovis(df_nested_list, chart="scatterchart")
+    # test = autovis(df_nested_list)
     final= {
         'data': test.plot(), 
         'info': {

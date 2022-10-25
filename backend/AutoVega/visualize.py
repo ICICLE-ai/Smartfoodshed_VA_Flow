@@ -37,12 +37,13 @@ class AutoVega():
       Returns:
           (list) candidate: List of recommendation chart name      
       """
-      list_of_random_items = random.sample(candidate_visualization, 2)
+      list_of_random_items = random.sample(candidate_visualization, 4)
       print(f"We show below two of them {tuple(list_of_random_items)} as illustrations: ")
       scripts = []
       for idx,name in enumerate(list_of_random_items):
         figure = chartdict[name.lower()](self.__data, self.kwargs)
         scripts.append(figure.plot())
+        print(name, figure.plot()['encoding'])
       return scripts 
 
     def plot(self):
@@ -59,7 +60,7 @@ class AutoVega():
           if len(self.__candidate_visualization) > 1:
             print(f"You haven’t selected the chart type for your query result visualization.")
             print(f"Based on your query result data, we suggest to choose one of the following chart type: {self.__candidate_visualization}\n")
-            self.__plot_randomize(self.__candidate_visualization)
+            return self.__plot_randomize(self.__candidate_visualization)
           else:
             figure = chartdict["table"](self.__data, self.kwargs)
             return [figure.plot()]

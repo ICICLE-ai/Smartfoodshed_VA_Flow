@@ -44,7 +44,6 @@ class SunBurstChart(Chart):
 
         
         return label_column, numerical_var   
-
     def draw(self):
         """
         Generate SunBurstChart visualization
