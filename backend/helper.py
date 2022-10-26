@@ -7,8 +7,7 @@ import collections
 import py2neo
 import requests 
 import networkx as nx
-
-
+import pandas as pd 
 def nx2neo(H):
     new_nodes = []
     for pair in H.nodes(data=True):
@@ -91,6 +90,19 @@ def oneTable(ont,G,tableType):
             for i in range(len(dList)):
                 G[source][target].update({dList[i]: "string"})
     return G 
+"""
+read local csv or json file 
+"""
+def readExisting(filename):
+    if '.csv' in filename:
+        data = pd.read_csv('data/'+filename)
+        return data.to_dict('records')
+    elif '.json' in filename:
+        # f = open('data/'+filename)
+        # data = json.load(f)
+        # f.close()
+        data = pd.read_json('data/'+filename)
+        return data.to_dict('records')
 
 def readJsonFromGit(url):
     resp = requests.get(url)
@@ -640,3 +652,13 @@ def generateWhole(ont, name):
         else:
             G = oneTable(ont[name], G, 'rel')
     return G 
+
+
+
+from rdflib import Graph, Namespace
+def readTTLfromGit(url, namespace_pair):
+    g = Graph()
+    g.parse(url, format='ttl')
+    for pair in namespace_pair:
+        g.bind(pair[0], Namespace(pair[1]))
+    return g

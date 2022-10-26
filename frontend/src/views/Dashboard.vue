@@ -113,28 +113,66 @@
       >
       </li>
     </ul>
-     <ul class="vegaRender-components-list">
+     <ul class="vegacharter-components-list">
       <li
-        :is="vegaRender.component"
-        v-for="item in vegaRender.cards"
+        :is="vegacharter.component"
+        v-for="item in vegacharter.cards"
         v-show="!vismode || (vismode && item.keep_in_vis_mode)"
         :key="item.id"
         :itemProps="item"
       >
       </li>
     </ul>
+    <ul class="ontparser-components-list">
+      <li
+        :is="ontparser.component"
+        v-for="item in ontparser.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
+        :key="item.id"
+        :itemProps="item">
+      </li>
+    </ul>
+    <ul class="kgquerier-components-list">
+      <li
+        :is="kgquerier.component"
+        v-for="item in kgquerier.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
+        :key="item.id"
+        :itemProps="item">
+      </li>
+    </ul>
+    <ul class="codeeditor-components-list">
+      <li
+        :is="codeeditor.component"
+        v-for="item in codeeditor.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
+        :key="item.id"
+        :itemProps="item">
+      </li>
+    </ul>
+    <ul class="url-components-list">
+      <li
+        :is="url.component"
+        v-for="item in url.cards"
+        v-show="!vismode || (vismode && item.keep_in_vis_mode)"
+        :key="item.id"
+        :itemProps="item">
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import MenuBar from '@/components/MenuBar'
-import DocumentsComp from '@/components/DocumentsComp'
-import TopicComp from '@/components/TopicComp'
+import MenuBar from '@/components/common/menu/MenuBar'
+import DocumentsComp from '@/components/viewer/tabularviewer'
+import GraphViewer from '@/components/viewer/graphviewer'
 import GlobalViewComp from '@/components/GlobalViewComp'
-import LinkComp from '@/components/LinkComp'
+import LinkComp from '@/components/common/link/LinkComp'
 import OntologyComp from "@/components/OntologyComp"
-import RightClickMenu from '@/components/RightClickMenu'
-import VegaRender from '@/components/VegaRender'
+import RightClickMenu from '@/components/common/rightclick/RightClickMenu'
+import VegaCharter from '@/components/viewer/vegacharter'
+// import KGQuerier from '@/componnets/analyzer/KGQuerier'
+
 import {mapState} from 'vuex'
 export default {
   data(){
@@ -203,6 +241,7 @@ export default {
 
   computed:{
     ...mapState([
+      'url',
       'drawLink', 
       'currentDragging', 
       'topics', 
@@ -212,10 +251,13 @@ export default {
       'link',
       'ontology',
       'graph',
-      'vegaRender',
+      'vegacharter',
       'table2cypher',
       'graphviewer',
-      'vismode'
+      'vismode',
+      'ontparser',
+      'kgquerier',
+      'codeeditor'
       ]), 
   },
   
@@ -228,11 +270,14 @@ export default {
   components: {
     MenuBar,
     DocumentsComp,
-    TopicComp,
+    // TopicComp,
+    VegaCharter,
+    GraphViewer,
     GlobalViewComp,
     LinkComp,
     RightClickMenu, 
     OntologyComp, 
+    // KGQuerier
   }, 
 }
 </script>

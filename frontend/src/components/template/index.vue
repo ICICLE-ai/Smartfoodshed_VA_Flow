@@ -9,11 +9,12 @@
         @dblclick="dblclickHandler"
         @contextmenu="rightClickMenuShow" 
         :style="{
-          top: marginTop + 'px',
-          left: marginLeft + 'px',
+          top: (marginTop) + 'px',
+          left: (marginLeft) + 'px',
           width: `${width}px`,
           height: `${height}px`,
           position: 'absolute',
+          padding: '20px',
           'border-radius': styleProps['border-radius'] ? styleProps['border-radius'] : 'none', 
           border: getBorder
         }">
@@ -64,8 +65,8 @@
 
 <script>
 import { mapState } from "vuex";
-import RightClickMenu from "@/components/RightClickMenu";
-import InoutputBtns from "@/components/InoutputBtns";
+import RightClickMenu from "@/components/common/rightclick/RightClickMenu";
+import InoutputBtns from "@/components/common/buttons/InoutputBtns";
 export default {
   props: {
     itemProps: {
@@ -177,7 +178,11 @@ export default {
       this.rightMenuY = e.clientY;
     },
     contextButtonClickedHandler(button) {
+
       this.$emit('contextmenu', button)
+      if (button === 'Minimize') {
+        this.minimize = !this.minimize 
+      }
     }
   },
   created() {
@@ -239,7 +244,20 @@ export default {
   },
 
   watch: {
-  
+    'styleProps.width': function() {
+      this.width = this.styleProps.width
+      this.resizeWidth = +this.width
+    }, 
+    'styleProps.height': function() {
+      this.height = this.styleProps.height 
+      this.resizeHeight = +this.height
+    }, 
+    'styleProps.top': function() {
+      this.top = this.styleProps.top
+    }, 
+    'styleProps.left': function() {
+      this.left = this.styleProps.left
+    }
   },
 };
 </script>
@@ -275,4 +293,7 @@ export default {
   left: 0;
   width: 100%;
 }
+/* .v-sheet.v-card {
+    overflow:scroll
+  } */
 </style>                                                                   

@@ -1,6 +1,7 @@
 // .vuepress/config.js
 module.exports = {
     title: 'ICICLE SmartFoodshed VA',
+    base:'/ICICLE-DOC/',
     head: [
         ['link',{rel: 'icon', href:'/flow.png'}]
     ],

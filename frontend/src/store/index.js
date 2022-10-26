@@ -1,16 +1,27 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import menu from '@/store/modules/menu.js'
-import topics from '@/store/modules/topics.js'
-import documents from '@/store/modules/documents.js'
-import globalview from '@/store/modules/globalview.js'
-import corpus from '@/store/modules/corpus.js'
-import link from '@/store/modules/link.js'
-import ontology from '@/store/modules/ontology.js'
-import graph from "@/store/modules/graph.js";
-import vegaRender from "@/store/modules/vegaRender.js"
-import table2cypher from '@/store/modules/linker/table2cypher'
+import menu from '@/store/modules/common/menu.js'
+import link from '@/store/modules/common/link.js'
+
+
+import documents from '@/store/modules/viewer/documents.js'
 import graphviewer from '@/store/modules/viewer/graphviewer'
+import vegacharter from "@/store/modules/viewer/vegacharter.js"
+
+import graph from "@/store/modules/loader/graph.js";
+import corpus from '@/store/modules/loader/corpus.js'
+import url from '@/store/modules/loader/url.js'
+
+
+import topics from '@/store/modules/topics.js'
+import globalview from '@/store/modules/globalview.js'
+// import ontology from '@/store/modules/ontology.js'
+
+import table2cypher from '@/store/modules/linker/table2cypher.js'
+import codeeditor from '@/store/modules/linker/codeeditor.js'
+
+import ontparser from '@/store/modules/analyzer/ontparser.js'
+import kgquerier from '@/store/modules/analyzer/kgquerier.js'
 Vue.use(Vuex)
 
 function newLink(){
@@ -80,10 +91,14 @@ export default new Vuex.Store({
     globalview,
     corpus,
     link, 
-    ontology,
+    // ontology,
     graph,
-    vegaRender, 
+    vegacharter, 
     table2cypher,
-    graphviewer
+    graphviewer,
+    ontparser,
+    kgquerier,
+    codeeditor,
+    url
   }
 })

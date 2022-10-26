@@ -1,4 +1,5 @@
 /* eslint-disable no-inner-declarations */
+import {mapState} from 'vuex'
 export const cardOperationMixin ={
     data(){
 
@@ -12,6 +13,16 @@ export const cardOperationMixin ={
             this.marginTop = posY 
             this.marginLeft = posX
         }, 
+        draggable(){
+          return !(this.drawLink || this.resizingStatus);
+        }, 
+        dragProxy(e) {
+          if (!this.fixed) {
+            this.dragStartHandler(e);
+          } else {
+            return;
+          }
+        },
         dragStartHandler(e){
             console.log(e)
             console.log(this.draggable)

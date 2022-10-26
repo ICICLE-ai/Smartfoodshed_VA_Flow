@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: center; display: flex; height: 100%">
+  <div style="text-align: center; display: flex; height: 100%" class="class-inner">
     <v-card-text class="card-name">
       <v-icon :color="activeColor">
         mdi-database  
@@ -40,10 +40,18 @@ export default {
       this.dialog = true 
     }, 
     loaderAction(e){
-      if(e.status == "success"){
+      console.log(e)
+      if(e.status == "existing"){
         delete e.status
         e.selected.cardId = this.itemProps.id
+        console.log(e.selected)
         this.$store.dispatch('corpus/addCorpus', e.selected)
+      }
+      else if(e.status=="local"){
+        delete e.status
+        e.cardId = this.itemProps.id
+        // console.log(e.data)
+        this.$store.dispatch('corpus/addLocal', e)
       }
       this.dialog = false;
     },
@@ -73,4 +81,12 @@ export default {
     flex-wrap: wrap;
     height: 100%;
   }
+.card-inner{
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  height: 100%;
+  overflow: scroll
+}
 </style>

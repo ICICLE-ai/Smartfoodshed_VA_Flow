@@ -11,9 +11,15 @@ import pandas as pd
 import requests
 import os 
 import helper
+import ontparser
 from helper import oneTable, generateWhole, nx2neo
 import networkx as nx
-
+import sparqlQuery
+import vegachart
+import numpy as np
+import kgquerier
+import AutoVega.visualize as autovis
+import datetime
 """ config.py
 // Adding config file to config your local data folder please !!!!!!!!!!!
 
@@ -23,6 +29,19 @@ localfile_path = "../../../local_data"
 # from config import localfile_path
 
 localfile_path = "https://raw.githubusercontent.com/yasmineTYM/PPOD_KG/main/"
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        if isinstance(obj, datetime.datetime):
+            return str(obj)
+        return super(NpEncoder, self).default(obj)
+
+# Your codes .... 
 
 # configuration
 DEBUG = True
@@ -44,14 +63,100 @@ database = 'ppod'
 def ping_pong():
     return jsonify('pong!')
 
+
+@app.route('/genVega', methods=['POST'])
+def genVega():
+    request_obj = request.get_json()
+    data = request_obj['data']
+    df_nested_list = pd.json_normalize(data)
+    # print(df_nested_list.head(3))
+    # a = vegachart.Test(df_nested_list)
+    # output = []
+    # for i in range(len(a._numerical_column)):
+    #     for j in range(i+1, len(a._numerical_column)):
+    #         x_ = a._numerical_column[i]
+    #         y_ = a._numerical_column[j]
+    #         temp_ = vegachart.vegaGen(x_, y_, 'scatterplot', df_nested_list)
+    #         # print(temp_['encoding'])
+    #         aaa = temp_
+    #         output.append(aaa)
+    # output  = vegachart.dataVis(obj_, df_nested_list)
+    # for ele in obj_.vega:
+    #     print('ddd:',ele['encoding'])
+
+    test = autovis(df_nested_list, chart="scatterchart")
+    # test = autovis(df_nested_list)
+    final= {
+        'data': test.plot(), 
+        'info': {
+            'label_column': test._label_column,
+            'numerical_column': test._numerical_column,
+            'date_column': test._date_column
+        }
+    }
+    return Response(json.dumps(final, cls=NpEncoder))
+
+
+@app.route('/KGQueryTTL', methods=['POST'])
+def KGQueryTTL():
+    request_obj = request.get_json()
+    sparql = request_obj['sparql']
+    url = request_obj['url']
+
+    
+    g = kgquerier.loadGraph(url, 'ttl')
+    g, no_prefix = kgquerier.addPreFix(g, sparql)
+    qres = kgquerier.query(g, no_prefix)
+    if len(list(qres))==0:
+        return Response(json.dumps([]))
+    else:
+        all_columns = [kgquerier.Literal2String(ele) for ele in qres.vars]
+        all_df = pd.DataFrame(qres, columns=all_columns)
+        subcolumns = [ele for ele in all_columns if '_' in ele]
+        sub_df = all_df.filter(subcolumns)
+
+        return Response(json.dumps(sub_df.to_dict("records")))
+
+
+@app.route('/KGQueryEndpoint', methods=['POST'])
+def KGQueryEndpoint():
+    request_obj = request.get_json()
+    df = sparqlQuery.queryEndpointHelper(request_obj['url'], request_obj['sparql']['script'])
+    # print(df)
+
+    output = sparqlQuery.convertJson(df, df.to_dict('records'))
+    return Response(json.dumps(output))
+
+"""
+ontparser 
+"""
+@app.route('/genSPARQL', methods=['POST'])
+def genSPARQL(): 
+    request_obj = request.get_json()
+    # print(request_obj)
+    ont = list(set(request_obj['selectedEntities']['ont']))
+    vocab = list(set(request_obj['selectedEntities']['vocab']))
+    new_ = {
+        'ont': ont,
+        'vocab': vocab
+    }
+    final_query, items = ontparser.SparqlGen(new_, request_obj['selectedFilters'], request_obj['linkml'], request_obj['vocabulary'])
+    return jsonify({
+        'SPARQL': final_query
+    })
+
+
+"""
+ontparser
+"""
 @app.route('/getOntology', methods=['POST'])
 def getOntology():
-    with open('data/PPOD_ontology.json','r') as j:
-        ont = json.load(j)
-    G = nx.DiGraph()
-    G = generateWhole(ont, 'PeopleOrg')
-    output = nx2neo(G)
-    return Response(json.dumps(output), status=200, mimetype="application/json")
+    request_obj = request.get_json()
+    print(request_obj)
+    G1, G2, filter_data = ontparser.Parser(request_obj['linkml'], request_obj['vocabulary'], True, ['uriorcurie'])
+
+    return Response(json.dumps({'ontology': G2, 'filter':filter_data}))
+
 
 @app.route('/upload_graphfile', methods=['POST'])
 def upload_file():
@@ -63,6 +168,14 @@ def upload_file():
       print(' * file uploaded', filename)
   return Response(json.dumps({'status': 'finished'}), status=200, mimetype="application/json")
 
+# @app.route('/upload_graphgit', methods=['POST'])
+# def upload_graphgit():
+#     url = request.get_json()['url']
+#     ## test 
+#     url = "https://raw.githubusercontent.com/yasmineTYM/PPOD_KG/main/PPOD7.ttl"
+#     g = helper.readTTLfromGit(url, [])
+    
+#     return g
 @app.route('/getGraphData', methods=['GET'])
 def getGraphData():
     data = helper.readJsonFromGit(localfile_path+'input_graph.json')
@@ -81,29 +194,12 @@ def getMapData():
     }
     return Response(json.dumps(output))
 
-@app.route('/getTableData', methods=['GET'])
+@app.route('/getTableData', methods=['POST'])
 def getTableData():
-    ## Create a new py file config.py and add localfile_path to indicate the place of local_data folder
-    ## This config file will not be pushed to the osu code, so we don't need to always change path
-    # global database
-    # print('gettabledata', database)
-    data = helper.readJsonFromGit(localfile_path+database+'_table.json')
-
-    # with open('../../../local_data/'+database+"_table_localserver.json") as f:
-    #     data = json.loads(f.read())
-    output = {} ## tableName: {tableData:{}, tableInfo:{}}
-    tableNames = []
-    for ele in data:
-        tableNames.append(ele['table_name'])
-        output[ele['table_name']] = {
-            'tableData': ele['table_data'],
-            'tableInfo': ele['table_info']
-        }
-    result = {
-        'data': output,
-        'sheet': tableNames
-    }
-    return Response(json.dumps(result))
+    request_obj = request.get_json()
+    filename = request_obj['filename']
+    data = helper.readExisting(filename)
+    return Response(json.dumps(data))
 
 @app.route('/retrieveSubgraph', methods=['POST'])
 def getSubGraphFromTable(): 
@@ -303,7 +399,6 @@ def get_associated_node_from_county():
 
 @app.route('/changeDataBase', methods=['POST'])
 def changeDataBase():
-
     request_obj = request.get_json()
     global graph, entity_identifier,graph_overview,database,fips
     database = request_obj['database']
@@ -336,7 +431,7 @@ if __name__ == '__main__':
     # G1 = Graph("bolt://localhost:7687", auth=("neo4j", "123"), name="ppod")
     # G2 = Graph("bolt://localhost:7687", auth=("neo4j", "123"), name="cfs")
     ## server test 
-    G1 = Graph("bolt+ssc://neo1.pods.icicle.develop.tapis.io:443", auth=("neo1", "qNKvbPlIcWsXuTDK2oUKTNgYp2gRzC"), secure=True, verify=False)
+    # G1 = Graph("bolt+ssc://neo1.pods.icicle.develop.tapis.io:443", auth=("neo1", "qNKvbPlIcWsXuTDK2oUKTNgYp2gRzC"), secure=True, verify=False)
     # G2 = Graph("bolt+ssc://neo2.pods.icicle.develop.tapis.io:443", auth=("neo2", "ZRGL67TXKpbkQNj7RSXA0T74zZnwet"), secure=True, verify=False)
     
 

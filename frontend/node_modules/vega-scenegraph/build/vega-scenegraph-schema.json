@@ -1,47 +1,47 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Vega scenegraph",
   "description": "Vega scenegraph model.",
   "oneOf": [
     {
-      "$ref": "#/refs/mark"
+      "$ref": "#/definitions/mark"
     }
   ],
-  "refs": {
+  "definitions": {
     "mark": {
       "oneOf": [
         {
-          "$ref": "#/refs/mark-group"
+          "$ref": "#/definitions/mark-group"
         },
         {
-          "$ref": "#/refs/mark-arc"
+          "$ref": "#/definitions/mark-arc"
         },
         {
-          "$ref": "#/refs/mark-area"
+          "$ref": "#/definitions/mark-area"
         },
         {
-          "$ref": "#/refs/mark-image"
+          "$ref": "#/definitions/mark-image"
         },
         {
-          "$ref": "#/refs/mark-line"
+          "$ref": "#/definitions/mark-line"
         },
         {
-          "$ref": "#/refs/mark-path"
+          "$ref": "#/definitions/mark-path"
         },
         {
-          "$ref": "#/refs/mark-rect"
+          "$ref": "#/definitions/mark-rect"
         },
         {
-          "$ref": "#/refs/mark-rule"
+          "$ref": "#/definitions/mark-rule"
         },
         {
-          "$ref": "#/refs/mark-symbol"
+          "$ref": "#/definitions/mark-symbol"
         },
         {
-          "$ref": "#/refs/mark-text"
+          "$ref": "#/definitions/mark-text"
         },
         {
-          "$ref": "#/refs/mark-trail"
+          "$ref": "#/definitions/mark-trail"
         }
       ]
     },
@@ -52,10 +52,13 @@
     "paint": {
       "oneOf": [
         {
-          "$ref": "#/refs/color"
+          "$ref": "#/definitions/color"
         },
         {
-          "$ref": "#/refs/linear-gradient"
+          "$ref": "#/definitions/linearGradient"
+        },
+        {
+          "$ref": "#/definitions/radialGradient"
         }
       ]
     },
@@ -83,16 +86,31 @@
         }
       ]
     },
-    "linear-gradient": {
+    "gradientStop": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string"
+        "offset": {
+          "type": "number"
         },
-        "type": {
+        "color": {
+          "$ref": "#/definitions/color"
+        }
+      },
+      "required": [
+        "offset",
+        "color"
+      ]
+    },
+    "linearGradient": {
+      "type": "object",
+      "properties": {
+        "gradient": {
           "enum": [
             "linear"
           ]
+        },
+        "id": {
+          "type": "string"
         },
         "x1": {
           "type": "number"
@@ -109,25 +127,54 @@
         "stops": {
           "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "offset": {
-                "type": "number"
-              },
-              "color": {
-                "$ref": "#/refs/color"
-              }
-            }
+            "$ref": "#/definitions/gradientStop"
           }
         }
       },
       "required": [
-        "id",
-        "type",
-        "x1",
-        "y1",
-        "x2",
-        "y2",
+        "gradient",
+        "stops"
+      ],
+      "additionalProperties": false
+    },
+    "radialGradient": {
+      "type": "object",
+      "properties": {
+        "gradient": {
+          "enum": [
+            "radial"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "x1": {
+          "type": "number"
+        },
+        "y1": {
+          "type": "number"
+        },
+        "r1": {
+          "type": "number"
+        },
+        "x2": {
+          "type": "number"
+        },
+        "y2": {
+          "type": "number"
+        },
+        "r2": {
+          "type": "number"
+        },
+        "stops": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/gradientStop"
+          }
+        }
+      },
+      "required": [
+        "gradient",
         "stops"
       ],
       "additionalProperties": false
@@ -146,6 +193,12 @@
         "role": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
         "interactive": {
           "type": "boolean",
           "default": true
@@ -153,7 +206,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/refs/item-group"
+            "$ref": "#/definitions/item-group"
           }
         },
         "zindex": {
@@ -180,19 +233,40 @@
         "height": {
           "type": "number"
         },
+        "blend": {
+          "enum": [
+            null,
+            "multiply",
+            "screen",
+            "overlay",
+            "darken",
+            "lighten",
+            "color-dodge",
+            "color-burn",
+            "hard-light",
+            "soft-light",
+            "difference",
+            "exclusion",
+            "hue",
+            "saturation",
+            "color",
+            "luminosity"
+          ],
+          "default": null
+        },
         "opacity": {
           "type": "number",
           "default": 1
         },
         "fill": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "fillOpacity": {
           "type": "number",
           "default": 1
         },
         "stroke": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "strokeOpacity": {
           "type": "number",
@@ -210,6 +284,17 @@
           ],
           "default": "butt"
         },
+        "strokeJoin": {
+          "enum": [
+            "miter",
+            "round",
+            "bevel"
+          ],
+          "default": "miter"
+        },
+        "strokeMiterLimit": {
+          "type": "number"
+        },
         "strokeDash": {
           "type": "array",
           "items": {
@@ -223,14 +308,55 @@
         "zindex": {
           "type": "number"
         },
+        "cursor": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "tooltip": {},
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
+        "ariaRole": {
+          "type": "string"
+        },
+        "ariaRoleDescription": {
+          "type": "string"
+        },
         "clip": {
           "type": "boolean"
+        },
+        "cornerRadius": {
+          "type": "number"
+        },
+        "cornerRadiusTopLeft": {
+          "type": "number"
+        },
+        "cornerRadiusTopRight": {
+          "type": "number"
+        },
+        "cornerRadiusBottomRight": {
+          "type": "number"
+        },
+        "cornerRadiusBottomLeft": {
+          "type": "number"
         },
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/refs/mark"
+            "$ref": "#/definitions/mark"
           }
+        },
+        "strokeForeground": {
+          "type": "boolean"
+        },
+        "strokeOffset": {
+          "type": "number"
         }
       },
       "additionalProperties": false
@@ -249,6 +375,12 @@
         "role": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
         "interactive": {
           "type": "boolean",
           "default": true
@@ -256,7 +388,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/refs/item-arc"
+            "$ref": "#/definitions/item-arc"
           }
         },
         "zindex": {
@@ -283,19 +415,40 @@
         "height": {
           "type": "number"
         },
+        "blend": {
+          "enum": [
+            null,
+            "multiply",
+            "screen",
+            "overlay",
+            "darken",
+            "lighten",
+            "color-dodge",
+            "color-burn",
+            "hard-light",
+            "soft-light",
+            "difference",
+            "exclusion",
+            "hue",
+            "saturation",
+            "color",
+            "luminosity"
+          ],
+          "default": null
+        },
         "opacity": {
           "type": "number",
           "default": 1
         },
         "fill": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "fillOpacity": {
           "type": "number",
           "default": 1
         },
         "stroke": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "strokeOpacity": {
           "type": "number",
@@ -313,6 +466,17 @@
           ],
           "default": "butt"
         },
+        "strokeJoin": {
+          "enum": [
+            "miter",
+            "round",
+            "bevel"
+          ],
+          "default": "miter"
+        },
+        "strokeMiterLimit": {
+          "type": "number"
+        },
         "strokeDash": {
           "type": "array",
           "items": {
@@ -325,6 +489,26 @@
         },
         "zindex": {
           "type": "number"
+        },
+        "cursor": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "tooltip": {},
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
+        "ariaRole": {
+          "type": "string"
+        },
+        "ariaRoleDescription": {
+          "type": "string"
         },
         "startAngle": {
           "type": "number"
@@ -361,6 +545,12 @@
         "role": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
         "interactive": {
           "type": "boolean",
           "default": true
@@ -368,7 +558,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/refs/item-area"
+            "$ref": "#/definitions/item-area"
           }
         },
         "zindex": {
@@ -395,19 +585,40 @@
         "height": {
           "type": "number"
         },
+        "blend": {
+          "enum": [
+            null,
+            "multiply",
+            "screen",
+            "overlay",
+            "darken",
+            "lighten",
+            "color-dodge",
+            "color-burn",
+            "hard-light",
+            "soft-light",
+            "difference",
+            "exclusion",
+            "hue",
+            "saturation",
+            "color",
+            "luminosity"
+          ],
+          "default": null
+        },
         "opacity": {
           "type": "number",
           "default": 1
         },
         "fill": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "fillOpacity": {
           "type": "number",
           "default": 1
         },
         "stroke": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "strokeOpacity": {
           "type": "number",
@@ -425,6 +636,17 @@
           ],
           "default": "butt"
         },
+        "strokeJoin": {
+          "enum": [
+            "miter",
+            "round",
+            "bevel"
+          ],
+          "default": "miter"
+        },
+        "strokeMiterLimit": {
+          "type": "number"
+        },
         "strokeDash": {
           "type": "array",
           "items": {
@@ -437,6 +659,26 @@
         },
         "zindex": {
           "type": "number"
+        },
+        "cursor": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "tooltip": {},
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
+        "ariaRole": {
+          "type": "string"
+        },
+        "ariaRoleDescription": {
+          "type": "string"
         },
         "defined": {
           "type": "boolean"
@@ -480,6 +722,12 @@
         "role": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
         "interactive": {
           "type": "boolean",
           "default": true
@@ -487,7 +735,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/refs/item-image"
+            "$ref": "#/definitions/item-image"
           }
         },
         "zindex": {
@@ -514,19 +762,40 @@
         "height": {
           "type": "number"
         },
+        "blend": {
+          "enum": [
+            null,
+            "multiply",
+            "screen",
+            "overlay",
+            "darken",
+            "lighten",
+            "color-dodge",
+            "color-burn",
+            "hard-light",
+            "soft-light",
+            "difference",
+            "exclusion",
+            "hue",
+            "saturation",
+            "color",
+            "luminosity"
+          ],
+          "default": null
+        },
         "opacity": {
           "type": "number",
           "default": 1
         },
         "fill": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "fillOpacity": {
           "type": "number",
           "default": 1
         },
         "stroke": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "strokeOpacity": {
           "type": "number",
@@ -544,6 +813,17 @@
           ],
           "default": "butt"
         },
+        "strokeJoin": {
+          "enum": [
+            "miter",
+            "round",
+            "bevel"
+          ],
+          "default": "miter"
+        },
+        "strokeMiterLimit": {
+          "type": "number"
+        },
         "strokeDash": {
           "type": "array",
           "items": {
@@ -557,9 +837,37 @@
         "zindex": {
           "type": "number"
         },
+        "cursor": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "tooltip": {},
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
+        "ariaRole": {
+          "type": "string"
+        },
+        "ariaRoleDescription": {
+          "type": "string"
+        },
         "url": {
           "type": "string",
-          "format": "uri"
+          "format": "uri-reference"
+        },
+        "aspect": {
+          "type": "boolean",
+          "default": true
+        },
+        "smooth": {
+          "type": "boolean",
+          "default": true
         },
         "align": {
           "enum": [
@@ -594,6 +902,12 @@
         "role": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
         "interactive": {
           "type": "boolean",
           "default": true
@@ -601,7 +915,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/refs/item-line"
+            "$ref": "#/definitions/item-line"
           }
         },
         "zindex": {
@@ -628,19 +942,40 @@
         "height": {
           "type": "number"
         },
+        "blend": {
+          "enum": [
+            null,
+            "multiply",
+            "screen",
+            "overlay",
+            "darken",
+            "lighten",
+            "color-dodge",
+            "color-burn",
+            "hard-light",
+            "soft-light",
+            "difference",
+            "exclusion",
+            "hue",
+            "saturation",
+            "color",
+            "luminosity"
+          ],
+          "default": null
+        },
         "opacity": {
           "type": "number",
           "default": 1
         },
         "fill": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "fillOpacity": {
           "type": "number",
           "default": 1
         },
         "stroke": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "strokeOpacity": {
           "type": "number",
@@ -658,6 +993,17 @@
           ],
           "default": "butt"
         },
+        "strokeJoin": {
+          "enum": [
+            "miter",
+            "round",
+            "bevel"
+          ],
+          "default": "miter"
+        },
+        "strokeMiterLimit": {
+          "type": "number"
+        },
         "strokeDash": {
           "type": "array",
           "items": {
@@ -670,6 +1016,26 @@
         },
         "zindex": {
           "type": "number"
+        },
+        "cursor": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "tooltip": {},
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
+        "ariaRole": {
+          "type": "string"
+        },
+        "ariaRoleDescription": {
+          "type": "string"
         },
         "defined": {
           "type": "boolean"
@@ -724,6 +1090,12 @@
         "role": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
         "interactive": {
           "type": "boolean",
           "default": true
@@ -731,7 +1103,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/refs/item-path"
+            "$ref": "#/definitions/item-path"
           }
         },
         "zindex": {
@@ -758,19 +1130,40 @@
         "height": {
           "type": "number"
         },
+        "blend": {
+          "enum": [
+            null,
+            "multiply",
+            "screen",
+            "overlay",
+            "darken",
+            "lighten",
+            "color-dodge",
+            "color-burn",
+            "hard-light",
+            "soft-light",
+            "difference",
+            "exclusion",
+            "hue",
+            "saturation",
+            "color",
+            "luminosity"
+          ],
+          "default": null
+        },
         "opacity": {
           "type": "number",
           "default": 1
         },
         "fill": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "fillOpacity": {
           "type": "number",
           "default": 1
         },
         "stroke": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "strokeOpacity": {
           "type": "number",
@@ -788,6 +1181,17 @@
           ],
           "default": "butt"
         },
+        "strokeJoin": {
+          "enum": [
+            "miter",
+            "round",
+            "bevel"
+          ],
+          "default": "miter"
+        },
+        "strokeMiterLimit": {
+          "type": "number"
+        },
         "strokeDash": {
           "type": "array",
           "items": {
@@ -801,8 +1205,37 @@
         "zindex": {
           "type": "number"
         },
+        "cursor": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "tooltip": {},
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
+        "ariaRole": {
+          "type": "string"
+        },
+        "ariaRoleDescription": {
+          "type": "string"
+        },
+        "angle": {
+          "type": "number"
+        },
         "path": {
-          "$ref": "#/refs/path"
+          "$ref": "#/definitions/path"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
         }
       },
       "additionalProperties": false
@@ -821,6 +1254,12 @@
         "role": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
         "interactive": {
           "type": "boolean",
           "default": true
@@ -828,7 +1267,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/refs/item-rect"
+            "$ref": "#/definitions/item-rect"
           }
         },
         "zindex": {
@@ -855,19 +1294,40 @@
         "height": {
           "type": "number"
         },
+        "blend": {
+          "enum": [
+            null,
+            "multiply",
+            "screen",
+            "overlay",
+            "darken",
+            "lighten",
+            "color-dodge",
+            "color-burn",
+            "hard-light",
+            "soft-light",
+            "difference",
+            "exclusion",
+            "hue",
+            "saturation",
+            "color",
+            "luminosity"
+          ],
+          "default": null
+        },
         "opacity": {
           "type": "number",
           "default": 1
         },
         "fill": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "fillOpacity": {
           "type": "number",
           "default": 1
         },
         "stroke": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "strokeOpacity": {
           "type": "number",
@@ -885,6 +1345,17 @@
           ],
           "default": "butt"
         },
+        "strokeJoin": {
+          "enum": [
+            "miter",
+            "round",
+            "bevel"
+          ],
+          "default": "miter"
+        },
+        "strokeMiterLimit": {
+          "type": "number"
+        },
         "strokeDash": {
           "type": "array",
           "items": {
@@ -898,7 +1369,39 @@
         "zindex": {
           "type": "number"
         },
+        "cursor": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "tooltip": {},
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
+        "ariaRole": {
+          "type": "string"
+        },
+        "ariaRoleDescription": {
+          "type": "string"
+        },
         "cornerRadius": {
+          "type": "number"
+        },
+        "cornerRadiusTopLeft": {
+          "type": "number"
+        },
+        "cornerRadiusTopRight": {
+          "type": "number"
+        },
+        "cornerRadiusBottomRight": {
+          "type": "number"
+        },
+        "cornerRadiusBottomLeft": {
           "type": "number"
         }
       },
@@ -918,6 +1421,12 @@
         "role": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
         "interactive": {
           "type": "boolean",
           "default": true
@@ -925,7 +1434,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/refs/item-rule"
+            "$ref": "#/definitions/item-rule"
           }
         },
         "zindex": {
@@ -952,19 +1461,40 @@
         "height": {
           "type": "number"
         },
+        "blend": {
+          "enum": [
+            null,
+            "multiply",
+            "screen",
+            "overlay",
+            "darken",
+            "lighten",
+            "color-dodge",
+            "color-burn",
+            "hard-light",
+            "soft-light",
+            "difference",
+            "exclusion",
+            "hue",
+            "saturation",
+            "color",
+            "luminosity"
+          ],
+          "default": null
+        },
         "opacity": {
           "type": "number",
           "default": 1
         },
         "fill": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "fillOpacity": {
           "type": "number",
           "default": 1
         },
         "stroke": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "strokeOpacity": {
           "type": "number",
@@ -982,6 +1512,17 @@
           ],
           "default": "butt"
         },
+        "strokeJoin": {
+          "enum": [
+            "miter",
+            "round",
+            "bevel"
+          ],
+          "default": "miter"
+        },
+        "strokeMiterLimit": {
+          "type": "number"
+        },
         "strokeDash": {
           "type": "array",
           "items": {
@@ -994,6 +1535,26 @@
         },
         "zindex": {
           "type": "number"
+        },
+        "cursor": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "tooltip": {},
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
+        "ariaRole": {
+          "type": "string"
+        },
+        "ariaRoleDescription": {
+          "type": "string"
         },
         "x2": {
           "type": "number"
@@ -1018,6 +1579,12 @@
         "role": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
         "interactive": {
           "type": "boolean",
           "default": true
@@ -1025,7 +1592,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/refs/item-symbol"
+            "$ref": "#/definitions/item-symbol"
           }
         },
         "zindex": {
@@ -1052,19 +1619,40 @@
         "height": {
           "type": "number"
         },
+        "blend": {
+          "enum": [
+            null,
+            "multiply",
+            "screen",
+            "overlay",
+            "darken",
+            "lighten",
+            "color-dodge",
+            "color-burn",
+            "hard-light",
+            "soft-light",
+            "difference",
+            "exclusion",
+            "hue",
+            "saturation",
+            "color",
+            "luminosity"
+          ],
+          "default": null
+        },
         "opacity": {
           "type": "number",
           "default": 1
         },
         "fill": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "fillOpacity": {
           "type": "number",
           "default": 1
         },
         "stroke": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "strokeOpacity": {
           "type": "number",
@@ -1082,6 +1670,17 @@
           ],
           "default": "butt"
         },
+        "strokeJoin": {
+          "enum": [
+            "miter",
+            "round",
+            "bevel"
+          ],
+          "default": "miter"
+        },
+        "strokeMiterLimit": {
+          "type": "number"
+        },
         "strokeDash": {
           "type": "array",
           "items": {
@@ -1094,6 +1693,30 @@
         },
         "zindex": {
           "type": "number"
+        },
+        "cursor": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "tooltip": {},
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
+        "ariaRole": {
+          "type": "string"
+        },
+        "ariaRoleDescription": {
+          "type": "string"
+        },
+        "angle": {
+          "type": "number",
+          "default": 0
         },
         "size": {
           "type": "number",
@@ -1119,6 +1742,12 @@
         "role": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
         "interactive": {
           "type": "boolean",
           "default": true
@@ -1126,7 +1755,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/refs/item-text"
+            "$ref": "#/definitions/item-text"
           }
         },
         "zindex": {
@@ -1153,19 +1782,40 @@
         "height": {
           "type": "number"
         },
+        "blend": {
+          "enum": [
+            null,
+            "multiply",
+            "screen",
+            "overlay",
+            "darken",
+            "lighten",
+            "color-dodge",
+            "color-burn",
+            "hard-light",
+            "soft-light",
+            "difference",
+            "exclusion",
+            "hue",
+            "saturation",
+            "color",
+            "luminosity"
+          ],
+          "default": null
+        },
         "opacity": {
           "type": "number",
           "default": 1
         },
         "fill": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "fillOpacity": {
           "type": "number",
           "default": 1
         },
         "stroke": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "strokeOpacity": {
           "type": "number",
@@ -1183,6 +1833,17 @@
           ],
           "default": "butt"
         },
+        "strokeJoin": {
+          "enum": [
+            "miter",
+            "round",
+            "bevel"
+          ],
+          "default": "miter"
+        },
+        "strokeMiterLimit": {
+          "type": "number"
+        },
         "strokeDash": {
           "type": "array",
           "items": {
@@ -1196,12 +1857,45 @@
         "zindex": {
           "type": "number"
         },
-        "text": {
+        "cursor": {
           "type": "string"
+        },
+        "href": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "tooltip": {},
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
+        "ariaRole": {
+          "type": "string"
+        },
+        "ariaRoleDescription": {
+          "type": "string"
+        },
+        "text": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
         },
         "limit": {
           "type": "number",
           "default": 0
+        },
+        "lineHeight": {
+          "type": "number"
         },
         "dir": {
           "type": "string",
@@ -1221,10 +1915,12 @@
         },
         "baseline": {
           "enum": [
+            "alphabetic",
             "top",
             "middle",
             "bottom",
-            "alphabetic"
+            "line-top",
+            "line-bottom"
           ],
           "default": "alphabetic"
         },
@@ -1305,6 +2001,12 @@
         "role": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
         "interactive": {
           "type": "boolean",
           "default": true
@@ -1312,7 +2014,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/refs/item-trail"
+            "$ref": "#/definitions/item-trail"
           }
         },
         "zindex": {
@@ -1339,19 +2041,40 @@
         "height": {
           "type": "number"
         },
+        "blend": {
+          "enum": [
+            null,
+            "multiply",
+            "screen",
+            "overlay",
+            "darken",
+            "lighten",
+            "color-dodge",
+            "color-burn",
+            "hard-light",
+            "soft-light",
+            "difference",
+            "exclusion",
+            "hue",
+            "saturation",
+            "color",
+            "luminosity"
+          ],
+          "default": null
+        },
         "opacity": {
           "type": "number",
           "default": 1
         },
         "fill": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "fillOpacity": {
           "type": "number",
           "default": 1
         },
         "stroke": {
-          "$ref": "#/refs/paint"
+          "$ref": "#/definitions/paint"
         },
         "strokeOpacity": {
           "type": "number",
@@ -1369,6 +2092,17 @@
           ],
           "default": "butt"
         },
+        "strokeJoin": {
+          "enum": [
+            "miter",
+            "round",
+            "bevel"
+          ],
+          "default": "miter"
+        },
+        "strokeMiterLimit": {
+          "type": "number"
+        },
         "strokeDash": {
           "type": "array",
           "items": {
@@ -1381,6 +2115,26 @@
         },
         "zindex": {
           "type": "number"
+        },
+        "cursor": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "tooltip": {},
+        "description": {
+          "type": "string"
+        },
+        "aria": {
+          "type": "boolean"
+        },
+        "ariaRole": {
+          "type": "string"
+        },
+        "ariaRoleDescription": {
+          "type": "string"
         },
         "defined": {
           "type": "boolean"

@@ -605,7 +605,7 @@ export default{
   }
 }
 </script>
-<style>
+<style scoped>
 
 .lasso path {
     stroke: rgb(80,80,80);

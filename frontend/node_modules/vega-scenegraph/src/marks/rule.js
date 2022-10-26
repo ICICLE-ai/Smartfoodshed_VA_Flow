@@ -1,13 +1,15 @@
 import boundStroke from '../bound/boundStroke';
+import {intersectRule} from '../util/intersect';
 import {visit} from '../util/visit';
+import blend from '../util/canvas/blend';
 import {pick} from '../util/canvas/pick';
 import stroke from '../util/canvas/stroke';
-import translateItem from '../util/svg/translateItem';
+import {translateItem} from '../util/svg/transform';
 
 function attr(emit, item) {
   emit('transform', translateItem(item));
-  emit('x2', item.x2 != null ? item.x2 - (item.x||0) : 0);
-  emit('y2', item.y2 != null ? item.y2 - (item.y||0) : 0);
+  emit('x2', item.x2 != null ? item.x2 - (item.x || 0) : 0);
+  emit('y2', item.y2 != null ? item.y2 - (item.y || 0) : 0);
 }
 
 function bound(bounds, item) {
@@ -37,10 +39,11 @@ function path(context, item, opacity) {
 }
 
 function draw(context, scene, bounds) {
-  visit(scene, function(item) {
+  visit(scene, item => {
     if (bounds && !bounds.intersects(item.bounds)) return; // bounds check
     var opacity = item.opacity == null ? 1 : item.opacity;
     if (opacity && path(context, item, opacity)) {
+      blend(context, item);
       context.stroke();
     }
   });
@@ -58,5 +61,6 @@ export default {
   attr:   attr,
   bound:  bound,
   draw:   draw,
-  pick:   pick(hit)
+  pick:   pick(hit),
+  isect:  intersectRule
 };
