@@ -38,6 +38,9 @@ export default {
       url_linkml: "https://raw.githubusercontent.com/adhollander/PPODLinkML/main/PPOD.yaml",
       url_vocab: "https://raw.githubusercontent.com/adhollander/PPODLinkML/main/vocabs.yaml",
       url_ttl: "https://raw.githubusercontent.com/adhollander/PPODtottl/main/PPOD0.ttl"
+      // url_linkml: "",
+      // url_vocab: "",
+      // url_ttl: "",
     }
   },
   methods: {

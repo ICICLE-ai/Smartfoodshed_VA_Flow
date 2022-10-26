@@ -8,13 +8,14 @@
       :fixed="FIXED"
     >
       <!-- <template v-slot:fullView>
-        <OntParser :itemProps="itemProps" ref="inner" :innerStyle="innerStyle" :fixed="FIXED"/>
+        
       </template> -->
       <template #minimizeView>
-        <span>testing corpus</span>
+        <span>Ontology Parser</span>
+        <OntParser :itemProps="itemProps" ref="inner" :innerStyle="innerStyle" :fixed="FIXED"/>
       </template>
       <template #fullView>
-        <span>testing fullview</span>
+        <OntParser :itemProps="itemProps" ref="inner" :innerStyle="innerStyle" :fixed="FIXED"/>
       </template>
     </Ctemplate>
   </template>
@@ -30,15 +31,15 @@
       return {
         contextCommands: [], 
         styleFull: {width: '1000', height: '800'},
-        styleMinimize: {width: '300', height: '300'},
+        styleMinimize: {width: '200', height: '100'},
         minimizeStatus: false, 
         FIXED: false 
       }
     }, 
     methods: {
       contextButtonClickedHandler(button) {
-        alert(button)
-        if (button === 'Minimize') {
+        // alert(button)
+        if (button === 'Minimize/Maximize') {
           this.minimizeStatus = !this.minimizeStatus 
         }
         

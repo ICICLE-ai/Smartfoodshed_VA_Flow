@@ -180,7 +180,7 @@ export default {
     contextButtonClickedHandler(button) {
 
       this.$emit('contextmenu', button)
-      if (button === 'Minimize') {
+      if (button === 'Minimize/Maximize') {
         this.minimize = !this.minimize 
       }
     }
@@ -221,7 +221,7 @@ export default {
       return this.$slots.minimizeView && this.minimize 
     }, 
     commands() {
-      const rightClickCommands = {icon: "mdi-window-minimize", command: "Minimize"}
+      const rightClickCommands = {icon: "mdi-window-minimize", command: "Minimize/Maximize"}
       let commands = [] 
       this.$slots.minimizeView && this.$slots.fullView 
         ? commands.push(rightClickCommands)

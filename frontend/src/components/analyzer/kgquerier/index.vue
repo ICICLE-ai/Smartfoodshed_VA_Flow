@@ -7,9 +7,15 @@
       @dblclick="dblclickHandler"
       :fixed="FIXED"
     >
-      <template v-slot:fullView>
+      <template #minimizeView>
+        <span>KG Querier</span>
         <KgQuerier :itemProps="itemProps" ref="inner" :innerStyle="innerStyle"  style="overflow:scroll" :fixed="FIXED"/>
       </template>
+      <template #fullView>
+        <!-- <span>KG Querier</span> -->
+        <KgQuerier :itemProps="itemProps" ref="inner" :innerStyle="innerStyle"  style="overflow:scroll" :fixed="FIXED"/>
+      </template>
+      
     </Ctemplate>
   </template>
   
@@ -23,13 +29,18 @@
     data() {
       return {
         contextCommands: [], 
-        styleProps: {width: '500px', height: '220px'},
-        FIXED: false 
+        styleFull: {width: '500', height: '220'},
+        styleMinimize: {width:'200',height:'50'},
+        FIXED: false,
+        minimizeStatus: false, 
       }
     }, 
     methods: {
       contextButtonClickedHandler(button) {
-        alert(button)
+        // alert(button)
+        if (button === 'Minimize/Maximize') {
+          this.minimizeStatus = !this.minimizeStatus 
+        }
       }, 
       dblclickHandler() {
         this.toggleFixCompPos();
@@ -58,6 +69,13 @@
         return {
           'height': parseInt(this.styleProps['height'].replace('px','')),
           'width': parseInt(this.styleProps['width'].replace('px',''))
+        }
+      },
+      styleProps() {
+        if (this.minimizeStatus) {
+          return this.styleMinimize
+        }else {
+          return this.styleFull
         }
       }
     }

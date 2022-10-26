@@ -1,9 +1,9 @@
 <template>
     <div class="card-inner" :style="{border: getBorder}">
         <!-- <v-card> -->
-            <v-card-title class="headline">
+            <!-- <v-card-title class="headline">
                 Code Viewer/Editor
-            </v-card-title>
+            </v-card-title> -->
             <v-divider></v-divider>
             <prism-editor class="my-editor" v-model="itemProps.inputData.script" language="html" :highlight="highlighter" line-numbers></prism-editor>
             <v-card-actions class="mt-5">

@@ -8,7 +8,11 @@
     :fixed="FIXED"
     
   >
-    <template v-slot:fullView>
+    <template #minimizeView>
+      <span>Code Editor/Viewer</span>
+      <CodeEditor :itemProps="itemProps" ref="inner" :innerStyle="innerStyle" :fixed="FIXED"/>
+    </template>
+    <template #fullView>
       <CodeEditor :itemProps="itemProps" ref="inner" :innerStyle="innerStyle" :fixed="FIXED"/>
     </template>
   </Ctemplate>
@@ -24,13 +28,18 @@ export default {
   data() {
     return {
       contextCommands: [], 
-      styleProps: {width: '400px', height: '300px'},
-      FIXED: false 
+      styleFull: {width: '400', height: '600'},
+      styleMinimize: {width:'200', height:'100'},
+      FIXED: false,
+      minimizeStatus: false,
     }
   }, 
   methods: {
     contextButtonClickedHandler(button) {
-      alert(button)
+      // alert(button)
+      if (button === 'Minimize/Maximize') {
+          this.minimizeStatus = !this.minimizeStatus 
+        }
     }, 
     dblclickHandler() {
       this.toggleFixCompPos();
@@ -60,7 +69,14 @@ export default {
         'height': parseInt(this.styleProps['height'].replace('px','')),
         'width': parseInt(this.styleProps['width'].replace('px',''))
       }
-    }
+    },
+    styleProps() {
+        if (this.minimizeStatus) {
+          return this.styleMinimize
+        }else {
+          return this.styleFull
+        }
+      }
   }
 }
 </script>
