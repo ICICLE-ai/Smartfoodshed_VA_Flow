@@ -217,7 +217,7 @@ export default {
                 
                 that.relation_options = []
                 console.log('click on relation', rel)
-                
+                that.selected_relation = [] // removing previouly selected element 
                 // generating the options for selector 
                 var relations = rel['properties']
                 var length = Object.keys(relations).length
