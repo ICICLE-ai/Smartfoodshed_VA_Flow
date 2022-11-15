@@ -90,13 +90,13 @@ export default {
       ],
       tableData: [
         
-        {
-          table:'car_template.csv',
-          size:'355KB',
-          id: '2',
-          last_time: "Today",
-          upload_date: '2022-10-06'
-        },
+        // {
+        //   table:'car_template.csv',
+        //   size:'355KB',
+        //   id: '2',
+        //   last_time: "Today",
+        //   upload_date: '2022-10-06'
+        // },
         {
           table:'iris.csv',
           size:'4KB',

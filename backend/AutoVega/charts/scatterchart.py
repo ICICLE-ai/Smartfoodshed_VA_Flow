@@ -76,7 +76,7 @@ class ScatterChart(Chart):
             x_label = numerical_columns[0]
             y_label = numerical_columns[1]
             if label_name is not None:
-                return self.genTemplate(self.dataframe.filter(items=[x_label, y_label]).to_dict('records'), x_label, y_label, label_name)
+                return self.genTemplate(self.dataframe.filter(items=[x_label, y_label, label_name]).to_dict('records'), x_label, y_label, label_name)
                 # fig = px.scatter(self.dataframe, x=x_label, y=y_label, color=label_name)
                 # fig.show()
             else:

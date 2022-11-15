@@ -27,7 +27,7 @@ chartdict = {
     'areachart': AreaChart,
     'piechart': PieChart,
     'donutchart': DonutChart,
-    'heatmap': HeatMap,
+    # 'heatmap': HeatMap,
 }
 
 # 'histogram': Histogram,

@@ -85,6 +85,6 @@ class BoxPlot(Chart):
         elif numerical_label is not None:
             # fig = px.box(self.dataframe, y=numerical_label)
             # fig.show()
-            return self.genVega(self.dataframe.filter(items=[group_column[1], numerical_label]).to_dict('records'), numerical_label)
+            return self.genVega(self.dataframe.filter(items=[numerical_label]).to_dict('records'), numerical_label)
         else:
             pass                   
