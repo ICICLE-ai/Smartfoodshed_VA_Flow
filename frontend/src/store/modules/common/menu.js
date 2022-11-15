@@ -16,7 +16,7 @@ export default {
         component: () => import('@/components/loader/graph/Loader'),
       },
       {
-        label: 'URL Loader', 
+        label: 'YAML Loader', 
         icon: 'mdi-link-variant', 
         color: '#AEBDCA',
         store: 'url', 
@@ -37,7 +37,7 @@ export default {
         component: () => import('@/components/GlobalViewComp')
       },
       {
-        label: 'Vega-Lite viewer', 
+        label: 'Table Visualizer', 
         icon: 'mdi-vector-polygon-variant',
         color: '#C689C6',
         store: 'vegacharter',
@@ -51,14 +51,14 @@ export default {
       //   component: null 
       // },
       {
-        label: 'CodeEditor', 
+        label: 'Query Editor', 
         icon: 'mdi-application-edit', 
         color: '#A1C298',
         store: 'codeeditor', 
         component: ()=>import('@/components/linker/codeeditor/') 
       },
       {
-        label: 'Ontology Parser',
+        label: 'Ontology Filter',
         icon: 'mdi-graphql',
         color: '#A1C298',
         store: 'ontparser',

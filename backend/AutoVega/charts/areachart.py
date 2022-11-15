@@ -53,10 +53,12 @@ class AreaChart(Chart):
             "mark": "area",
             "encoding": {
                 "x": {
-                    "field": x
+                    "field": x,
+                    "type": "temporal"
                 },
                 "y": {
-                    "field": y
+                    "field": y,
+                    "type": "quantitative"
                 }
             }
         }

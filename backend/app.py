@@ -69,6 +69,11 @@ def genVega():
     request_obj = request.get_json()
     data = request_obj['data']
     df_nested_list = pd.json_normalize(data)
+    columns = list(df_nested_list.columns)
+    rename_dict  = {}
+    for col in columns:
+        rename_dict[col] = col.split('.')[0]
+    df_nested_list = df_nested_list.rename(columns=rename_dict)
     # print(df_nested_list.head(3))
     # a = vegachart.Test(df_nested_list)
     # output = []
@@ -84,10 +89,14 @@ def genVega():
     # for ele in obj_.vega:
     #     print('ddd:',ele['encoding'])
 
-    test = autovis(df_nested_list, chart="scatterchart")
-    # test = autovis(df_nested_list)
+    # test = autovis(df_nested_list, chart="areachart")
+    test = autovis(df_nested_list)
+   
+    scripts = test.plot()
+    print(scripts)
+
     final= {
-        'data': test.plot(), 
+        'data': scripts, 
         'info': {
             'label_column': test._label_column,
             'numerical_column': test._numerical_column,
@@ -122,10 +131,12 @@ def KGQueryTTL():
 def KGQueryEndpoint():
     request_obj = request.get_json()
     df = sparqlQuery.queryEndpointHelper(request_obj['url'], request_obj['sparql']['script'])
-    # print(df)
-
-    output = sparqlQuery.convertJson(df, df.to_dict('records'))
-    return Response(json.dumps(output))
+    print(type(df))
+    columns = list(df.columns)
+    columns_filter = [ele for ele in columns if ".type" not in ele and '.datatype' not in ele]
+    df = df.filter(items=columns_filter)
+    # output = sparqlQuery.convertJson(df, df.to_dict('records'))
+    return Response(json.dumps(df.to_dict('records')))
 
 """
 ontparser 

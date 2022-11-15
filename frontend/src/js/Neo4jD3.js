@@ -199,13 +199,12 @@ function Neo4jD3 (_selector, _options) {
           selection.append('text')
             .attr('x', '0')
             .attr('y', '0')
-            .style('font-size', '10px')
+            .style('font-size', '8px')
             .style('text-anchor', 'middle')
-            .style('fill', 'white')
+            .style('fill', '#5A4221')
             .style('pointer-events', 'none')
             .style('font-weight', 'bold')
             .text(text_nodes)
-         
       })
     // const text_nodes = textDisplay()
   }
@@ -279,11 +278,11 @@ function Neo4jD3 (_selector, _options) {
         // return '#78b3d0'
         //    return options.nodeOutlineFillColor ? options.nodeOutlineFillColor : class2color(d.labels[0]);
       })
-      .style('stroke', function (d) {
-        // return '#358eb8'
-        return d['stroke_color']
-        //    return options.nodeOutlineFillColor ? class2darkenColor(options.nodeOutlineFillColor) : class2darkenColor(d.labels[0]);
-      })
+      // .style('stroke', function (d) {
+      //   // return '#358eb8'
+      //   return d['stroke_color']
+      //   //    return options.nodeOutlineFillColor ? class2darkenColor(options.nodeOutlineFillColor) : class2darkenColor(d.labels[0]);
+      // })
       .append('title').text(function (d) {
         // console.log('teeeee', d)
         return d.properties.label
@@ -331,9 +330,9 @@ function Neo4jD3 (_selector, _options) {
     return relationship.enter()
       .append('g')
       .attr('class', 'relationship')
-      .on('dblclick', function (d) {
-        if (typeof options.onRelationshipDoubleClick === 'function') {
-          options.onRelationshipDoubleClick(d)
+      .on('click', function (d) {
+        if (typeof options.onRelationshipClick === 'function') {
+          options.onRelationshipClick(d)
         }
       })
       .on('mouseenter', function (d) {

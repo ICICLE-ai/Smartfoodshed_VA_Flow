@@ -15,6 +15,14 @@
                     v-model="selectedFilters[ele.name]"
                     item-value="meaning"
                     >
+                    <!-- <template v-slot:prepend-item>
+                      <v-list-item>
+                        <v-list-item-content>
+                          <v-text-field v-model="searchTerm" placeholder="Search" @input="searchItem(ele)"></v-text-field>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-divider class="mt-2"></v-divider>
+                    </template> -->
                     <template v-slot:selection="{ item, index }">
                       <v-chip v-if="index === 0">
                         <span>{{ item.name }}</span>
@@ -25,6 +33,7 @@
                       >
                         (+{{ selectedFilters[ele.name].length - 1 }} others)
                       </span>
+                  
                     </template>
                   </v-select>
                 <!-- <el-select @change="changeFilters" v-model="selectedFilters[ele.name]" multiple :placeholder="ele.name" :ref="'filter-'+ele.name" automatic-dropdown collapse-tags fit-input-width	>
@@ -108,7 +117,9 @@ export default{
         filterWidth: '200px',
         showFilters: false,
         filtersData: [],
+        // filtersDataCopy: [],
         selectedFilters: {},
+        searchTerm: ''
     }
   },
   created () {
@@ -123,8 +134,25 @@ export default{
     console.log(document.querySelector("#div_graph"));
     
   },
+  mounted() {
+    // this.filtersDataCopy = [...this.filtersData];
+  },
   methods: {
+    // searchItem(ele){
+    //   var name = ele['name']
+    //   console.log('search', ele, this.searchTerm, this.filtersData, name, this.filtersData[name], this.filtersDataCopy[name])
+      
+    //   if (!this.searchTerm) {
+    //     this.filtersData[name] = this.filtersDataCopy[name];
+    //   }
+
+    //   this.filtersData[name] = this.filtersDataCopy.filter((fruit) => {
+    //     return fruit.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+    //   });
+    //   console.log('search-after', ele, this.searchTerm, this.filtersData[name], this.filtersDataCopy[name])
+    // },
     prepareGenSPAQL: function(e){
+      console.log('check eeee-------', e)
       this.selectedEntities = e['entities']
       if(this.checkEmptyDict(e.entities)!=0 & this.checkEmptyDict(this.selectedFilters)!=0){
         this.genSPARQL()
@@ -150,6 +178,9 @@ export default{
         this.$nextTick(() => value[0].blur())
       }
       this.$nextTick(() => this.$refs['filter-'+node_id.id][0].focus())
+      console.log(this.$refs['filter-'+node_id.id][0])
+      console.log(node_id)
+      console.log(this.selectedFilters)
     },  
     validate(){
         // console.log(this.formData, this.linkml, this.vocab)

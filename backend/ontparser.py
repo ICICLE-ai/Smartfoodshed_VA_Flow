@@ -108,7 +108,11 @@ def findHeadURI(linkml, ele):
                 output['relation'] = slot['slot_uri']
                 predicate_name = slot_name
                 found = True
-    
+        elif slot.get('any_of') != None:
+            if ele in [t['range'] for t in slot['any_of']]:
+                output['relation'] = slot['slot_uri']
+                predicate_name = slot_name
+                found = True
     if found==False:
         print('no definitions of the vocab', ele)
     
@@ -205,6 +209,10 @@ def loadYAML(url, github):
             data_linkml = yaml.safe_load(stream)
     return data_linkml 
 
+"""
+given a relation name,
+finds its target entities
+"""
 def addRelation(relation_info):
     if "range" in relation_info:
         if isinstance(relation_info['range'], str):
@@ -213,8 +221,11 @@ def addRelation(relation_info):
         else:
             ## contain multiple range 
             return relation_info['range']
+       
+    elif "any_of" in relation_info:
+        return [ele['range'] for ele in relation_info['any_of']]
     else:
-        return []
+        return ['Literal']
 
 """
 Input: Read-in Yaml file 
@@ -258,18 +269,21 @@ def G2Neo4jG(G, vocab):
     relationships = []
     count_rel = 0
     
+    color_node_filter = "#BCD4BF"
+    color_node_nofilter = "#95A1B1"
+    color_stroke = "#5A4221"
     filters = list(vocab['enums'].keys())
 #     print(filters)
     for source, target, hdata in G.edges(data=True):
         if source not in nodes_id: ## do not have this node 
             if source in filters:
-                color = "green"
+                color = color_node_filter
                 vocab_flag = True
-                stroke_color = "black"
+                stroke_color = color_stroke
 #                 info = vocab['enums'][source]
             else:
-                color = "blue"
-                stroke_color = "black"
+                color = color_node_nofilter
+                stroke_color = color_stroke
                 vocab_flag = False
 #                 info = {}
             nodes.append({
@@ -286,14 +300,14 @@ def G2Neo4jG(G, vocab):
             nodes_id.append(source)
         if target not in nodes_id:
             if target in filters:
-                color = "green"
+                color = color_node_filter
                 vocab_flag = True
-                stroke_color = "black"
+                stroke_color =color_stroke
 #                 info = vocab['enums'][target]
             else:
-                color = "blue"
+                color = color_node_nofilter
                 vocab_flag = False
-                stroke_color = "black"
+                stroke_color =color_stroke
 #                 info = {}
             nodes.append({
                 'id': target, 
