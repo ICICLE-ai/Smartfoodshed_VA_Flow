@@ -1,0 +1,30 @@
+version: "3.4"
+
+networks:
+    network:
+        driver: bridge
+
+services:
+    frontend:
+        image: va-frontend:$TAG
+        ports:
+            - "8080:8080"
+        restart: always
+        environment:
+            base_request_url: "http://backend:5000"
+        networks:
+            - network
+        command: ["nginx", "-g", "daemon off;"]
+
+    backend:
+        image: va-backend:$TAG
+        ports:
+            - "5000:5000"
+        environment:
+            # Setting up gunicorn threads/process/timeout in entry.sh
+            threads: 1
+            processes: 1
+            timeout: 120
+            server: "gunicorn"
+        networks:
+            - network

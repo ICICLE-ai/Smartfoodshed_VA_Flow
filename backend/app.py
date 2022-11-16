@@ -444,18 +444,18 @@ if __name__ == '__main__':
     ## server test 
     # G1 = Graph("bolt+ssc://neo1.pods.icicle.develop.tapis.io:443", auth=("neo1", "qNKvbPlIcWsXuTDK2oUKTNgYp2gRzC"), secure=True, verify=False)
     # G2 = Graph("bolt+ssc://neo2.pods.icicle.develop.tapis.io:443", auth=("neo2", "ZRGL67TXKpbkQNj7RSXA0T74zZnwet"), secure=True, verify=False)
-    
 
-    app.run()
     ## server
-    # url1 = os.getenv("db_url1")
-    # user1 = os.getenv("db_user1")
-    # passw1 = os.getenv("db_password1")
-    # url2 = os.getenv("db_url2")
-    # user2 = os.getenv("db_user2")
-    # passw2 = os.getenv("db_password2")
-    # G1 = Graph(url1, auth=(user1, passw1), secure=True, verify=False)
-    # G2 = Graph(url2, auth=(user2, passw2), secure=True, verify=False)
-    # app.run(host="0.0.0.0")
-    
+    url1 = os.getenv("db_url1")
+    user1 = os.getenv("db_user1")
+    passw1 = os.getenv("db_password1")
+    if url1 and user1 and passw1:
+        G1 = Graph(url1, auth=(user1, passw1), secure=True, verify=False)
 
+    url2 = os.getenv("db_url2")
+    user2 = os.getenv("db_user2")
+    passw2 = os.getenv("db_password2")
+    if url2 and user2 and passw2:
+        G2 = Graph(url2, auth=(user2, passw2), secure=True, verify=False)
+
+    app.run(host="0.0.0.0")
