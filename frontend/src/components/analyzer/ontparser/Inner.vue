@@ -135,25 +135,14 @@ export default{
     
   },
   mounted() {
-    // this.filtersDataCopy = [...this.filtersData];
   },
   methods: {
-    // searchItem(ele){
-    //   var name = ele['name']
-    //   console.log('search', ele, this.searchTerm, this.filtersData, name, this.filtersData[name], this.filtersDataCopy[name])
-      
-    //   if (!this.searchTerm) {
-    //     this.filtersData[name] = this.filtersDataCopy[name];
-    //   }
-
-    //   this.filtersData[name] = this.filtersDataCopy.filter((fruit) => {
-    //     return fruit.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
-    //   });
-    //   console.log('search-after', ele, this.searchTerm, this.filtersData[name], this.filtersDataCopy[name])
-    // },
     prepareGenSPAQL: function(e){
-      console.log('check eeee-------', e)
       this.selectedEntities = e['entities']
+      if(this.checkEmptyDict(e.entities['relation'])==0){
+        alert('please select the relation type before brushing')
+      }
+      //ToDo: add more check here 
       if(this.checkEmptyDict(e.entities)!=0 & this.checkEmptyDict(this.selectedFilters)!=0){
         this.genSPARQL()
       }

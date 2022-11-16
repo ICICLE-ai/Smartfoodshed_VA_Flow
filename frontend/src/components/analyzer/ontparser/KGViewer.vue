@@ -60,20 +60,21 @@ export default {
             this.draw()
         },
         selected_relation: function(newVal, oldVal){
+            console.log('selected relation changed', this.colored_edge_id)
             var that = this
-            
+            const source = that.current_relation['source']['name']
+            const target = that.current_relation['endNode']
             if(newVal.length>0){
                 that.colored_edge_id.push(that.current_relation['id'])
                 // console.log('==========',that.current_relation)
                 that.updateEdgeColor()
-                const source = that.current_relation['source']['name']
-                const target = that.current_relation['endNode']
                 that.selectedEntities['relation']["("+source+","+target+")"] = newVal
                 console.log(that.selectedEntities)
             }else{
                 // remove the link from colored_edge_id 
                 console.log(newVal,'ffffff')
                 that.colored_edge_id = that.colored_edge_id.filter(item=> item!= that.current_relation['id'])
+                delete that.selectedEntities['relation']["("+source+","+target+")"]
                 that.updateEdgeColor()
             }
             that.$emit('on-lasso-event', {entities: that.selectedEntities})
@@ -83,11 +84,12 @@ export default {
         updateEdgeColor(){
             var that = this
             const svg = d3.select('#div_graph').select("svg")
+            // svg.selectAll('#div_kgviewer .nodes .selected').style('stroke', '#e36868')
             svg.selectAll('.outline').style('stroke', function(link_d){
-                if(that.colored_edge_id.includes(link_d['id'])){
-                    return '#e36868'
-                }else{
-                    return '#a5abb6'
+                if(that.colored_edge_id.includes(link_d['id']) && link_d['type']=="edge"){
+                    return '#e36868' // red
+                }else if(that.colored_edge_id.includes(link_d['id'])==false && link_d['type']=="edge"){
+                    return '#a5abb6' // grey
                 }
             })
         },
@@ -135,28 +137,29 @@ export default {
                 // console.log(111)
                 lasso.items()
                 // .attr('fill', "green")
-                .classed('not_possible', true)
+                // .classed('not_possible', true)
                 .classed('selected', false)
             }
             var lasso_draw = function () {
                 // Style the possible dots
-                lasso.possibleItems()
-                .classed('not_possible', false)
-                .classed('possible', true)
+                // lasso.possibleItems()
+                // .classed('not_possible', false)
+                // .classed('possible', true)
 
                 // Style the not possible dot
-                lasso.notPossibleItems()
-                .classed('not_possible', true)
-                .classed('possible', false)
+                // lasso.notPossibleItems()
+                // .classed('not_possible', true)
+                // .classed('possible', false)
             }
             var lasso_end = function () {
-                lasso.items()
-                .classed('not_possible', false)
-                .classed('possible', false)
+                // lasso.items()
+                // .classed('not_possible', false)
+                // .classed('possible', false)
 
                 lasso.selectedItems()
                 // .style('stroke','red')
                 .classed('selected', true)
+    
                 that.selectedEntities['ont'].splice(0, that.selectedEntities.length)
                 that.selectedEntities['vocab'].splice(0, that.selectedEntities.length)
                 // that.selectedRelations.splice(0, that.selectedRelations.length) 
@@ -217,13 +220,14 @@ export default {
                 
                 that.relation_options = []
                 console.log('click on relation', rel)
-                that.selected_relation = [] // removing previouly selected element 
+                that.selected_relation = [] // removing previouly selected element g
                 // generating the options for selector 
                 var relations = rel['properties']
                 var length = Object.keys(relations).length
                 for (const [key, value] of Object.entries(relations)) {
                     that.relation_options.push(key)
                 }
+               
                 that.current_relation = rel 
                 that.dialogVisible = true
                 // console.log(that.selected_relation)
@@ -264,13 +268,13 @@ export default {
         fill-opacity:.5;
     }
     
-    .not_possible {
+    /* .not_possible {
         fill: rgb(200,200,200);
-    }
+    } */
     
-    .possible {
+    /* .possible {
         fill: #EC888C;
-    }
+    } */
     
     #div_kgviewer .nodes .selected {
         /* fill: green!important; */

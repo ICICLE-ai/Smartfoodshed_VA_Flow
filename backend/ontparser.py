@@ -87,7 +87,7 @@ def findLink(en1, en2, linkml, en1_name, en2_name, where_query):
     ## en1 --> en2 
         if findObject(slots_info[r], en2):
             where_query += '\t' + en1_name + ' ' + slots_info[r]['slot_uri'] + ' ' + en2_name + ' .\n' 
-    for r in rel2:
+    for r in rel2: 
     ## en2 --> en1
         if findObject(slots_info[r], en1):
             where_query += '\t' + en2_name + ' ' + slots_info[r]['slot_uri'] + ' ' + en1_name + ' .\n' 
@@ -188,9 +188,12 @@ G: A graph format (in Neo4j format) to be visualized in our viewer.
 
 def Parser(linkml, vocab, github, remove_node_list):
     ## Loading YAML file 
-    linkml = loadYAML(linkml, github)
-    vocab = loadYAML(vocab, github)
-    
+    # linkml = loadYAML(linkml, github)
+    # vocab = loadYAML(vocab, github)
+
+    ## Just for testing 
+    linkml = loadYAML('../../local_data/PPOD_new.yaml', False)
+    vocab = loadYAML('../../local_data/vocabs_new.yaml', False)
     ## Construct ontology from linkml 
     G1 = constructOntogy(linkml, remove_node_list)
     ## Combine filtering information from Taxonomy YAML file 
