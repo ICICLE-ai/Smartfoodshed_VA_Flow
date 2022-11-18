@@ -42,6 +42,7 @@ jobs:
   deploy-images:
     runs-on: ubuntu-latest
     environment: docker
+    needs: [build-and-push-images]
     steps:
     - name: Restart backend pod
       uses: fjogeleit/http-request-action@v1
