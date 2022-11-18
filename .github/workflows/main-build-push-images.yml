@@ -2,9 +2,11 @@ name: Build on push to main
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
+    environment: docker
 
 jobs:
-  build_commit:
+  build-images-with-make:
     runs-on: ubuntu-latest
     environment: docker
     steps:
