@@ -21,16 +21,20 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Get current date # get the date of the build
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        
       - uses: docker/build-push-action@v3
         name: Build & push tagged Docker backend image
         with:
           context: backend
           push: true
-          tags: notchristiangarcia/va-backend:dev,notchristiangarcia/va-backend:$(date +'%Y-%m-%d)
+          tags: notchristiangarcia/va-backend:dev,notchristiangarcia/va-backend:${{ steps.date.outputs.date }}
 
       - uses: docker/build-push-action@v3
         name: Build & push tagged Docker frontend image
         with:
           context: frontend
           push: true
-          tags: notchristiangarcia/va-frontend:dev,notchristiangarcia/va-frontend:$(date +'%Y-%m-%d)
+          tags: notchristiangarcia/va-frontend:dev,notchristiangarcia/va-frontend:${{ steps.date.outputs.date }}
