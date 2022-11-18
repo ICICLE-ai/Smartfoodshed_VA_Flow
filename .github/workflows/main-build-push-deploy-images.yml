@@ -1,4 +1,4 @@
-name: Build on push to main
+name: Build, push, deploy images
 on:
   push:
     branches: [ main ]
@@ -6,7 +6,7 @@ on:
     environment: docker
 
 jobs:
-  build-images-with-make:
+  build-and-push-images:
     runs-on: ubuntu-latest
     environment: docker
     steps:
@@ -38,3 +38,21 @@ jobs:
           context: frontend
           push: true
           tags: notchristiangarcia/va-frontend:dev,notchristiangarcia/va-frontend:${{ steps.date.outputs.date }}
+
+  deploy-images:
+    runs-on: ubuntu-latest
+    environment: docker
+    steps:
+    - name: Restart backend pod
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: 'https://icicle.tapis.io/v3/pods/${{ secrets.POD_ID_BACKEND }}/restart'
+        method: 'GET'
+        customHeaders: '{"Content-Type": "application/json", "X-Tapis-Token": "${{ secrets.TAPIS_ICICLE_PROD_TOKEN }}"}'
+
+    - name: Restart frontend pod
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: 'https://icicle.tapis.io/v3/pods/${{ secrets.POD_ID_FRONTEND }}/restart'
+        method: 'GET'
+        customHeaders: '{"Content-Type": "application/json", "X-Tapis-Token": "${{ secrets.TAPIS_ICICLE_PROD_TOKEN }}"}'
