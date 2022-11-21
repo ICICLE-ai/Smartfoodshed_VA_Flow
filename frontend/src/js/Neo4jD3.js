@@ -22,7 +22,8 @@ function Neo4jD3 (_selector, _options) {
       nodeOutlineFillColor: undefined,
       nodeRadius: 25,
       relationshipColor: '#a5abb6',
-      zoomFit: false
+      zoomFit: false,
+      fontsize: '10px'
     },
     VERSION = '0.0.1'
 
@@ -199,7 +200,7 @@ function Neo4jD3 (_selector, _options) {
           selection.append('text')
             .attr('x', '0')
             .attr('y', '0')
-            .style('font-size', '8px')
+            .style('font-size', options.fontsize)
             .style('text-anchor', 'middle')
             .style('fill', '#5A4221')
             .style('pointer-events', 'none')
