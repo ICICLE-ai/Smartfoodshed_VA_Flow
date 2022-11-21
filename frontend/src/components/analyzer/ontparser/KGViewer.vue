@@ -60,7 +60,7 @@ export default {
             this.draw()
         },
         selected_relation: function(newVal, oldVal){
-            console.log('selected relation changed', this.colored_edge_id)
+            // console.log('selected relation changed', this.colored_edge_id)
             var that = this
             const source = that.current_relation['source']['name']
             const target = that.current_relation['endNode']
@@ -205,6 +205,7 @@ export default {
         var neo4jd3 = Neo4jd3.default('#div_graph', {
             neo4jData: this.G,
             nodeRadius: 30,
+            fontsize:'20px',
             infoPanel: false,
             onNodeClick: function(rel){
                 that.$emit('on-node-click-event', rel)

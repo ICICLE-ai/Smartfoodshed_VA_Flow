@@ -1,65 +1,93 @@
 import yaml 
 import requests
 import networkx as nx
+def addToList(toadd, arr):
+    if toadd not in arr:
+        arr.append(toadd)
+    return arr
+def rename(name):
+    return "?"+name.lower()
+"""
+only for E_URI entity
+generate declaration in where query:e.g. ?a a core:Project
+?a rdf:label ?label
+"""
+def QDeclare(entity, linkml, where_clause):
+    uri, slots_uri = getPredict(entity, linkml)
+    
+    for ele in slots_uri:
+        q = rename(entity) + " " + ele + " " + rename(entity+"_"+ele.split(':')[1])
+        addToList(q, where_clause)
+    q = rename(entity) + " a " + uri
+    addToList(q, where_clause)
+    return where_clause
+def QRelation(relation_name, linkml, where_clause, source, target):
+    relation_uri = linkml['slots'][relation_name[0]]['slot_uri']
+    q = rename(source) + ' ' + relation_uri + " "+ rename(target)
+    addToList(q, where_clause)
+    return where_clause 
+def QFilter(entity, user_filter, where_clause):
+    filter_conditions = user_filter[entity]
+    if (len(filter_conditions)>0):
+        q = "Filter (" + rename(entity) + " IN(" 
+        for v in filter_conditions:
+            if "http" in v:
+                v = "<"+v+">"
+            q += v+","
+        q = q[:-1]+") )"
+        addToList(q, where_clause)
+    return where_clause
 """
 sparql generation
 """
-def SparqlGen(user_query, user_filter, linkml, vocab):
+def genSPARQL(user_query, user_filter,linkml, vocab):
     linkml = loadYAML(linkml, True)
     vocab = loadYAML(vocab, True)
+    ## preparing for where query 
+    where_clause = []
+    ont = user_query['ont']
+    vocab = user_query['vocab']
+    for key, value in user_query['relation'].items():
+        relation = key.replace('(',"").replace(")", "").split(',')
+        source = relation[0]
+        target = relation[1]
 
+        if source in ont and target in ont:
+            where_clause = QDeclare(source, linkml, where_clause)
+            where_clause = QDeclare(target, linkml, where_clause)
+            where_clause = QRelation(value, linkml, where_clause, source, target)
+
+        elif source in ont and target in vocab:
+            where_clause = QDeclare(source, linkml, where_clause)
+            where_clause = QRelation(value, linkml, where_clause, source, target)
+            where_clause = QFilter(target, user_filter, where_clause)
+
+        elif source in vocab and target in ont:
+            where_clause = QDeclare(target, linkml, where_clause)
+            where_clause = QRelation(value, linkml, where_clause, source, target)
+            where_clause = QFilter(source, user_filter, where_clause)
+
+        else:
+            print('currently not suppored in our ontology')
+    print(where_clause)
+    #
     prefix_query = ""
     for pre in linkml['prefixes']:
         prefix_query += "PREFIX"+' '+pre+":"+" "+linkml['prefixes'][pre]+'\n'
-    select_query = "SELECT DISTINCT"
+    select_query = "SELECT *"+"\n"
     where_query = f"""
     WHERE {{
     """
-    select_ont = user_query['ont'] ## user selected ontology e.g. 'Person', 'Role'
-    select_ont_names = [] ## corresding names for the selected ontology, e.g. '?person', '?role'
-    select_items = [] ## all the entity names related to the selected ontology, e.g. '?person_label', '?person_email'
-    print(select_ont)
-    for ele in select_ont:
-        ## 1. the user direct query 
-        class_uri, slots_uri = getPredict(ele, linkml)
-        ## item from user query, e.g. project 
-        # direct_query_items = '?'+class_uri.split(':')[1].lower()
-        direct_query_items = "?"+ele.lower()
-        select_items.append(direct_query_items)
-        select_ont_names.append(direct_query_items)
-        ## 
-        where_query += '\t'+ direct_query_items + ' a ' + class_uri +' .' +'\n'
-        
-        
-        where_query, add_to_select  = genFilter(direct_query_items, class_uri, vocab, user_filter, where_query, linkml)
-        select_items += add_to_select
-        ## all relations related to direct query item, such as label of project 
-        for s in slots_uri:
-            temp_ = s.split(':')[1].lower()
-            s_name = direct_query_items+'_'+temp_
-            select_items.append(s_name) ## avoid duplicate relation name 
-            where_query += '\t'+direct_query_items + ' ' + s + ' ' + s_name + ' .\n'
-        
-    ## build the query for 
-    ## remove duplidates 
-    select_items = list(set(select_items))
-    for ele in select_items:
-        select_query += " " + ele
-    
-    for i in range(len(select_ont)):
-        for j in range(i+1, len(select_ont)):
-            where_query = findLink(select_ont[i], select_ont[j], linkml, select_ont_names[i], select_ont_names[j], where_query)
-    
-    where_query += '}'
-    
-    
+    for ele in where_clause:
+        where_query += "\t" + ele + " . \n"
+
+    where_query += "}"
+
     final_query = f"""
     {prefix_query}{select_query}{where_query}
-   
     """
     print(final_query)
-    
-    return final_query, select_items
+    return final_query 
 """
 whether the target is a true range or not
 """
@@ -188,12 +216,12 @@ G: A graph format (in Neo4j format) to be visualized in our viewer.
 
 def Parser(linkml, vocab, github, remove_node_list):
     ## Loading YAML file 
-    # linkml = loadYAML(linkml, github)
-    # vocab = loadYAML(vocab, github)
+    linkml = loadYAML(linkml, github)
+    vocab = loadYAML(vocab, github)
 
     ## Just for testing 
-    linkml = loadYAML('../../local_data/PPOD_new.yaml', False)
-    vocab = loadYAML('../../local_data/vocabs_new.yaml', False)
+    # linkml = loadYAML('../../local_data/PPOD_new.yaml', False)
+    # vocab = loadYAML('../../local_data/vocabs_new.yaml', False)
     ## Construct ontology from linkml 
     G1 = constructOntogy(linkml, remove_node_list)
     ## Combine filtering information from Taxonomy YAML file 

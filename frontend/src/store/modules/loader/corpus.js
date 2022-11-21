@@ -2,7 +2,7 @@ import {getComponentType} from '@/utils/help'
 import {formatTable} from '@/utils/loader'
 import axios from 'axios'
 import { apiClient } from '../../../api/apiClient';
-
+import {base_request_url} from '@/utils/base_url';
 function createNewCorpusCard(id){
   return {
     id: `card-corpus-${id}`,
@@ -199,7 +199,7 @@ export default {
         if(state.cards[i].id == data.cardId && state.cards[i].selectedTable !== data){
           commit('ADD_DATA', data);
           commit('UPDATE_LOADING_STATUS', {id: data.cardId, status: true})
-          let tabularData = (await apiClient.post('/getTableData', {filename: data.table})).data
+          let tabularData = (await axios.post(base_request_url+'getTableData', {filename: data.table})).data
           commit('LOAD_DATA', {id: data.cardId,data:tabularData })
           commit('UPDATE_LOADING_STATUS', {id: data.cardId, status: false})
           console.log('adding corpusdata ############')

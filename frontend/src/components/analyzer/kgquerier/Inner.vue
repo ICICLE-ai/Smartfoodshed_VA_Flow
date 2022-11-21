@@ -79,9 +79,9 @@ export default{
         
       // custom
       //  endpoint: 'http://dbpedia.org/sparql',
-      //  endpoint: 'https://makg.org/sparql',
-      endpoint: '',
-      giturl:''
+       endpoint: 'https://makg.org/sparql',
+      // endpoint: '',
+      giturl:'',
       // giturl: 'https://raw.githubusercontent.com/adhollander/PPODtottl/main/PPOD0.ttl'
     }
   },

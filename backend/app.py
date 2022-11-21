@@ -114,16 +114,16 @@ def KGQueryTTL():
 
     
     g = kgquerier.loadGraph(url, 'ttl')
-    g, no_prefix = kgquerier.addPreFix(g, sparql)
+    g, no_prefix = kgquerier.getPrefix(g, sparql)
     qres = kgquerier.query(g, no_prefix)
     if len(list(qres))==0:
         return Response(json.dumps([]))
     else:
-        all_columns = [kgquerier.Literal2String(ele) for ele in qres.vars]
+        all_columns = [v.toPython() for v in qres.vars]
         all_df = pd.DataFrame(qres, columns=all_columns)
         subcolumns = [ele for ele in all_columns if '_' in ele]
         sub_df = all_df.filter(subcolumns)
-
+        # print(sub_df.head())
         return Response(json.dumps(sub_df.to_dict("records")))
 
 
@@ -151,7 +151,8 @@ def genSPARQL():
         'ont': ont,
         'vocab': vocab
     }
-    final_query, items = ontparser.SparqlGen(new_, request_obj['selectedFilters'], request_obj['linkml'], request_obj['vocabulary'])
+    final_query = ontparser.genSPARQL(request_obj['selectedEntities'], request_obj['selectedFilters'], request_obj['linkml'], request_obj['vocabulary'])
+    # final_query, items = ontparser.SparqlGen(new_, request_obj['selectedFilters'], request_obj['linkml'], request_obj['vocabulary'])
     return jsonify({
         'SPARQL': final_query
     })
@@ -459,3 +460,4 @@ if __name__ == '__main__':
         G2 = Graph(url2, auth=(user2, passw2), secure=True, verify=False)
 
     app.run(host="0.0.0.0")
+    # app.run()

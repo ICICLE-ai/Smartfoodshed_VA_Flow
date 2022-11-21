@@ -15,20 +15,9 @@ def query(g, sparql):
 """
 add prefix 
 """
-def addPreFix(g, sparql):
-    prefix, no_prefix = getPrefix(sparql)
-    
-    for ele in prefix:
-        g.bind(ele, Namespace(prefix[ele]))
-    return g, no_prefix
-
-"""
-add prefix to g 
-"""
-def getPrefix(sparql):
+def getPrefix(g, sparql):
     output = {}
     all_row = sparql.split('\n')
-    
     no_prefix = ""
     for row in all_row:
         if row.startswith('PREFIX') or 'PREFIX' in row:
@@ -37,5 +26,6 @@ def getPrefix(sparql):
             output[key_] = value_
         else:
             no_prefix += row + '\n'
-        
-    return output, no_prefix
+    for ele in output:
+        g.bind(ele, Namespace(output[ele]))
+    return g, no_prefix 
