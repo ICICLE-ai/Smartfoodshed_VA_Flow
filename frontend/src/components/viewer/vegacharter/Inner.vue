@@ -50,7 +50,9 @@ export default {
   },
   watch: {
     "itemProps.data": function(newRaw, oldVal){
-      console.log(this.itemProps.info, this.itemProps.data)
+      console.log('=========== props !!!!!=============',this.itemProps)
+      // console.log(this.itemProps.info, this.itemProps.data)
+      var id = this.itemProps.id
       var cleaned_data = []
       for(let j=0; j<this.itemProps.data.length; j++){
           var one_data = this.itemProps.data[j]
@@ -58,7 +60,7 @@ export default {
             var date_column_name = this.itemProps.info['date_column'][i]
              one_data = this.replace(one_data, date_column_name)
           }
-          one_data['ID'] = "chart"+ j.toString()
+          one_data['ID'] = id+"chart"+ j.toString()
           cleaned_data.push(one_data)
           
       }
@@ -66,7 +68,7 @@ export default {
       this.vegaLite = cleaned_data
       for(let j=0; j<this.vegaLite.length;j++){
         console.log('rendering...')
-        vegaEmbed("#chart"+j.toString(), this.vegaLite[j])
+        vegaEmbed("#"+id+'chart'+j.toString(), this.vegaLite[j])
       }
       
       
