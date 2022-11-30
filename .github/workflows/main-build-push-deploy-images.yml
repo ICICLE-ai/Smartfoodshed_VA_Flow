@@ -1,3 +1,25 @@
+### Author: Christian Garcia (TACC)
+# Description. This Github action runs when there are new commits to `main`.
+# The action logs into Docker with the Github action environment secrets `DOCKERHUB_USERNAME`
+# and `DOCKERHUB_TOKEN`.
+# The action pulls the repo and build both the frontend and backend images.
+# The action tags both images with dev, and {current date} tags for future reference.
+#   - A prod and latest tag should be added, just haven't yet, implementation can happen once there's a full release.
+# Once pushed, the second job begins.
+# The second job sends a restart request to the frontend and backend pods. Every restart results in a 
+# new docker image pull, so once the restart is complete, the pods will have the latest images.
+#
+# POD_ID_BACKEND, POD_ID_FRONTEND, and TAPIS_ICICLE_PROD_TOKEN are secrets in the `docker` environment as well.
+# Said secrets are found here, https://github.com/ICICLE-ai/Smartfoodshed_VA_Flow/settings/environments.
+# You can update the values, but can't view.
+#
+# NOVEMBER 29th:
+#   DOCKERHUB_USERNAME: username for tuyami
+#   DOCKERHUB_TOKEN: token for tuyamei
+#   TAPIS_ICICLE_PROD_TOKEN: token for tuyamei
+#   POD_ID_BACKEND: vaapiback
+#   POD_ID_FRONTEND: vaapi
+
 name: Build, push, deploy images
 on:
   push:
