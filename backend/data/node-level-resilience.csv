@@ -1,205 +1,205 @@
 id,state,value,group
-2,Alaska,0.7770750115872941,import_resilience_2012
-2,Alaska,0.1328540843613902,export_resilience_2012
-2,Alaska,0.2501321736366232,import_resilience_2017
-2,Alaska,0.2104471987051798,export_resilience_2017
-1,Alabama,0.9237716619717924,import_resilience_2012
-1,Alabama,0.912361464288801,export_resilience_2012
-1,Alabama,0.9483241424959664,import_resilience_2017
-1,Alabama,0.9561972630065008,export_resilience_2017
-5,Arkansas,0.8194168327768604,import_resilience_2012
-5,Arkansas,0.803092519966355,export_resilience_2012
-5,Arkansas,0.9074695770794674,import_resilience_2017
-5,Arkansas,0.9392037517229336,export_resilience_2017
-4,Arizona,0.9281228633969456,import_resilience_2012
-4,Arizona,0.8237520560228851,export_resilience_2012
-4,Arizona,0.9422086329519076,import_resilience_2017
-4,Arizona,0.8732185184329503,export_resilience_2017
-6,California,0.9396248687925356,import_resilience_2012
-6,California,0.952955418987436,export_resilience_2012
-6,California,0.9636965166180982,import_resilience_2017
-6,California,0.9699704076958512,export_resilience_2017
-8,Colorado,0.9196412194643064,import_resilience_2012
-8,Colorado,0.9543474635629532,export_resilience_2012
-8,Colorado,0.9345061533250316,import_resilience_2017
-8,Colorado,0.8678289051397157,export_resilience_2017
-9,Connecticut,0.9277404865415674,import_resilience_2012
-9,Connecticut,0.8041597323192019,export_resilience_2012
-9,Connecticut,0.9250001219559016,import_resilience_2017
-9,Connecticut,0.3789904030086016,export_resilience_2017
-11,District of Columbia,0.8268549295103587,import_resilience_2012
-11,District of Columbia,0.3299400261950038,export_resilience_2012
-11,District of Columbia,0.6981085577719218,import_resilience_2017
-11,District of Columbia,0.4086346833816504,export_resilience_2017
-10,Delaware,0.9182182325510896,import_resilience_2012
-10,Delaware,0.9029839686814864,export_resilience_2012
-10,Delaware,0.8731974973095711,import_resilience_2017
-10,Delaware,0.9432425014179217,export_resilience_2017
-12,Florida,0.9389590297343748,import_resilience_2012
-12,Florida,0.9078218512249414,export_resilience_2012
-12,Florida,0.9614027728272844,import_resilience_2017
-12,Florida,0.8722093103363635,export_resilience_2017
-13,Georgia,0.971603037060884,import_resilience_2012
-13,Georgia,0.9682336780284688,export_resilience_2012
-13,Georgia,0.964897656083769,import_resilience_2017
-13,Georgia,0.962577978778902,export_resilience_2017
-15,Hawaii,0.6085326554381465,import_resilience_2012
-15,Hawaii,0.0,export_resilience_2012
-15,Hawaii,0.4999533392602547,import_resilience_2017
-15,Hawaii,0.0,export_resilience_2017
-19,Iowa,0.8762721085020674,import_resilience_2012
-19,Iowa,0.9541054752045376,export_resilience_2012
-19,Iowa,0.8689794021697219,import_resilience_2017
-19,Iowa,0.9465100042712912,export_resilience_2017
-16,Idaho,0.8595143625842225,import_resilience_2012
-16,Idaho,0.8618053991249379,export_resilience_2012
-16,Idaho,0.8044747568026491,import_resilience_2017
-16,Idaho,0.9142941211564148,export_resilience_2017
-17,Illinois,0.9620675941489284,import_resilience_2012
-17,Illinois,0.9527354249658244,export_resilience_2012
-17,Illinois,0.9591872696157402,import_resilience_2017
-17,Illinois,0.7903488142916659,export_resilience_2017
-18,Indiana,0.941584058939668,import_resilience_2012
-18,Indiana,0.9689563998779046,export_resilience_2012
-18,Indiana,0.9332502545255992,import_resilience_2017
-18,Indiana,0.9356352282026104,export_resilience_2017
-20,Kansas,0.8066779490415228,import_resilience_2012
-20,Kansas,0.890819861147052,export_resilience_2012
-20,Kansas,0.9204987461041166,import_resilience_2017
-20,Kansas,0.9111237188074665,export_resilience_2017
-21,Kentucky,0.945392422204149,import_resilience_2012
-21,Kentucky,0.9621332355621196,export_resilience_2012
-21,Kentucky,0.9654441088335468,import_resilience_2017
-21,Kentucky,0.9594471835461288,export_resilience_2017
-22,Louisiana,0.9468561437230104,import_resilience_2012
-22,Louisiana,0.8825074022279964,export_resilience_2012
-22,Louisiana,0.8529772250533877,import_resilience_2017
-22,Louisiana,0.857587587502922,export_resilience_2017
-25,Massachusetts,0.9693245082234908,import_resilience_2012
-25,Massachusetts,0.9424923224020412,export_resilience_2012
-25,Massachusetts,0.9526681041535316,import_resilience_2017
-25,Massachusetts,0.9016747460679512,export_resilience_2017
-24,Maryland,0.9526411423209112,import_resilience_2012
-24,Maryland,0.9092993649283831,export_resilience_2012
-24,Maryland,0.9184563192477726,import_resilience_2017
-24,Maryland,0.849742488312166,export_resilience_2017
-23,Maine,0.8685623755256096,import_resilience_2012
-23,Maine,0.8939046052914292,export_resilience_2012
-23,Maine,0.8648096953335532,import_resilience_2017
-23,Maine,0.0,export_resilience_2017
-26,Michigan,0.950669568918584,import_resilience_2012
-26,Michigan,0.9502826178894752,export_resilience_2012
-26,Michigan,0.9625651983315804,import_resilience_2017
-26,Michigan,0.9443373963676304,export_resilience_2017
-27,Minnesota,0.9262278664862826,import_resilience_2012
-27,Minnesota,0.9595595084875792,export_resilience_2012
-27,Minnesota,0.9032455624575834,import_resilience_2017
-27,Minnesota,0.9545290204834964,export_resilience_2017
-29,Missouri,0.9518273444900044,import_resilience_2012
-29,Missouri,0.9530870661232784,export_resilience_2012
-29,Missouri,0.9492719884506182,import_resilience_2017
-29,Missouri,0.9409857506708555,export_resilience_2017
-28,Mississippi,0.9298031267147532,import_resilience_2012
-28,Mississippi,0.8584833245296262,export_resilience_2012
-28,Mississippi,0.9179076675686242,import_resilience_2017
-28,Mississippi,0.9270022598841392,export_resilience_2017
-30,Montana,0.8888572173126662,import_resilience_2012
-30,Montana,0.7875560880268204,export_resilience_2012
-30,Montana,0.8649053976269507,import_resilience_2017
-30,Montana,0.3862974410402571,export_resilience_2017
-37,North Carolina,0.9622760936194475,import_resilience_2012
-37,North Carolina,0.957620264029569,export_resilience_2012
-37,North Carolina,0.9684151759285494,import_resilience_2017
-37,North Carolina,0.9592288839831146,export_resilience_2017
-38,North Dakota,0.7950298221448071,import_resilience_2012
-38,North Dakota,0.7202041563121866,export_resilience_2012
-38,North Dakota,0.8631858530247923,import_resilience_2017
-38,North Dakota,0.7577973790074009,export_resilience_2017
-31,Nebraska,0.7715560394118214,import_resilience_2012
-31,Nebraska,0.9311172240210108,export_resilience_2012
-31,Nebraska,0.911374210754788,import_resilience_2017
-31,Nebraska,0.9621022467196948,export_resilience_2017
-33,New Hampshire,0.9376174106671544,import_resilience_2012
-33,New Hampshire,0.727465469001583,export_resilience_2012
-33,New Hampshire,0.7928130146378264,import_resilience_2017
-33,New Hampshire,0.7128854155250632,export_resilience_2017
-34,New Jersey,0.9562331686237,import_resilience_2012
-34,New Jersey,0.9556820629463102,export_resilience_2012
-34,New Jersey,0.9532790006276056,import_resilience_2017
-34,New Jersey,0.9173843396455696,export_resilience_2017
-35,New Mexico,0.8886309898671139,import_resilience_2012
-35,New Mexico,0.903990514920662,export_resilience_2012
-35,New Mexico,0.8864084639655585,import_resilience_2017
-35,New Mexico,0.8226647403842464,export_resilience_2017
-32,Nevada,0.8859026780812909,import_resilience_2012
-32,Nevada,0.8950512004777387,export_resilience_2012
-32,Nevada,0.8921062520424502,import_resilience_2017
-32,Nevada,0.7440157953383426,export_resilience_2017
-36,New York,0.9534485051661492,import_resilience_2012
-36,New York,0.9517305225813,export_resilience_2012
-36,New York,0.948056981239486,import_resilience_2017
-36,New York,0.8675330507330343,export_resilience_2017
-39,Ohio,0.95273802236264,import_resilience_2012
-39,Ohio,0.9608834756272414,export_resilience_2012
-39,Ohio,0.9392042777409632,import_resilience_2017
-39,Ohio,0.9441933497099136,export_resilience_2017
-40,Oklahoma,0.9399868551780666,import_resilience_2012
-40,Oklahoma,0.9012369229540232,export_resilience_2012
-40,Oklahoma,0.920969905209834,import_resilience_2017
-40,Oklahoma,0.8432220257576347,export_resilience_2017
-41,Oregon,0.9337474939191358,import_resilience_2012
-41,Oregon,0.9228282525740829,export_resilience_2012
-41,Oregon,0.9268999198158044,import_resilience_2017
-41,Oregon,0.8979656327234155,export_resilience_2017
-42,Pennsylvania,0.9736878923568476,import_resilience_2012
-42,Pennsylvania,0.9678497495020246,export_resilience_2012
-42,Pennsylvania,0.9645091005517802,import_resilience_2017
-42,Pennsylvania,0.9589426084740966,export_resilience_2017
-44,Rhode Island,0.79120251204445,import_resilience_2012
-44,Rhode Island,0.8363287741147831,export_resilience_2012
-44,Rhode Island,0.8308528504663057,import_resilience_2017
-44,Rhode Island,0.7775854621476219,export_resilience_2017
-45,South Carolina,0.940665638187154,import_resilience_2012
-45,South Carolina,0.880582968887668,export_resilience_2012
-45,South Carolina,0.9519256883735764,import_resilience_2017
-45,South Carolina,0.9571992380351292,export_resilience_2017
-46,South Dakota,0.8273069548902727,import_resilience_2012
-46,South Dakota,0.8982702451019245,export_resilience_2012
-46,South Dakota,0.808773217915589,import_resilience_2017
-46,South Dakota,0.8224727480925714,export_resilience_2017
-47,Tennessee,0.9488035670175814,import_resilience_2012
-47,Tennessee,0.9547999436363644,export_resilience_2012
-47,Tennessee,0.9424329542394174,import_resilience_2017
-47,Tennessee,0.952976521863945,export_resilience_2017
-48,Texas,0.9449701480064384,import_resilience_2012
-48,Texas,0.9111868063109236,export_resilience_2012
-48,Texas,0.9562680268886358,import_resilience_2017
-48,Texas,0.9490404245199084,export_resilience_2017
-49,Utah,0.5059163968316591,import_resilience_2012
-49,Utah,0.9005076805168462,export_resilience_2012
-49,Utah,0.9384949745269788,import_resilience_2017
-49,Utah,0.9296730565784136,export_resilience_2017
-51,Virginia,0.9625614244498512,import_resilience_2012
-51,Virginia,0.943436644988803,export_resilience_2012
-51,Virginia,0.9539501870433884,import_resilience_2017
-51,Virginia,0.9477497387618864,export_resilience_2017
-50,Vermont,0.6881292326980533,import_resilience_2012
-50,Vermont,0.911859398430824,export_resilience_2012
-50,Vermont,0.7940121295996011,import_resilience_2017
-50,Vermont,0.0,export_resilience_2017
-53,Washington,0.8969716098194049,import_resilience_2012
-53,Washington,0.90820188710567,export_resilience_2012
-53,Washington,0.9341447447549368,import_resilience_2017
-53,Washington,0.9313100131621946,export_resilience_2017
-55,Wisconsin,0.957325678424078,import_resilience_2012
-55,Wisconsin,0.9667007424715552,export_resilience_2012
-55,Wisconsin,0.9345809938044104,import_resilience_2017
-55,Wisconsin,0.952282368464373,export_resilience_2017
-54,West Virginia,0.8532325240002272,import_resilience_2012
-54,West Virginia,0.6798591556702589,export_resilience_2012
-54,West Virginia,0.8557213928369191,import_resilience_2017
-54,West Virginia,0.8191344012002181,export_resilience_2017
-56,Wyoming,0.7707412297506677,import_resilience_2012
-56,Wyoming,0.7918850274752632,export_resilience_2012
-56,Wyoming,0.4575235327134637,import_resilience_2017
-56,Wyoming,0.0,export_resilience_2017
+2,Alaska,0.7770750115872941,import_node_2012
+2,Alaska,0.1328540843613902,export_node_2012
+2,Alaska,0.2501321736366232,import_node_2017
+2,Alaska,0.2104471987051798,export_node_2017
+1,Alabama,0.9237716619717924,import_node_2012
+1,Alabama,0.912361464288801,export_node_2012
+1,Alabama,0.9483241424959664,import_node_2017
+1,Alabama,0.9561972630065008,export_node_2017
+5,Arkansas,0.8194168327768604,import_node_2012
+5,Arkansas,0.803092519966355,export_node_2012
+5,Arkansas,0.9074695770794674,import_node_2017
+5,Arkansas,0.9392037517229336,export_node_2017
+4,Arizona,0.9281228633969456,import_node_2012
+4,Arizona,0.8237520560228851,export_node_2012
+4,Arizona,0.9422086329519076,import_node_2017
+4,Arizona,0.8732185184329503,export_node_2017
+6,California,0.9396248687925356,import_node_2012
+6,California,0.952955418987436,export_node_2012
+6,California,0.9636965166180982,import_node_2017
+6,California,0.9699704076958512,export_node_2017
+8,Colorado,0.9196412194643064,import_node_2012
+8,Colorado,0.9543474635629532,export_node_2012
+8,Colorado,0.9345061533250316,import_node_2017
+8,Colorado,0.8678289051397157,export_node_2017
+9,Connecticut,0.9277404865415674,import_node_2012
+9,Connecticut,0.8041597323192019,export_node_2012
+9,Connecticut,0.9250001219559016,import_node_2017
+9,Connecticut,0.3789904030086016,export_node_2017
+11,District of Columbia,0.8268549295103587,import_node_2012
+11,District of Columbia,0.3299400261950038,export_node_2012
+11,District of Columbia,0.6981085577719218,import_node_2017
+11,District of Columbia,0.4086346833816504,export_node_2017
+10,Delaware,0.9182182325510896,import_node_2012
+10,Delaware,0.9029839686814864,export_node_2012
+10,Delaware,0.8731974973095711,import_node_2017
+10,Delaware,0.9432425014179217,export_node_2017
+12,Florida,0.9389590297343748,import_node_2012
+12,Florida,0.9078218512249414,export_node_2012
+12,Florida,0.9614027728272844,import_node_2017
+12,Florida,0.8722093103363635,export_node_2017
+13,Georgia,0.971603037060884,import_node_2012
+13,Georgia,0.9682336780284688,export_node_2012
+13,Georgia,0.964897656083769,import_node_2017
+13,Georgia,0.962577978778902,export_node_2017
+15,Hawaii,0.6085326554381465,import_node_2012
+15,Hawaii,0.0,export_node_2012
+15,Hawaii,0.4999533392602547,import_node_2017
+15,Hawaii,0.0,export_node_2017
+19,Iowa,0.8762721085020674,import_node_2012
+19,Iowa,0.9541054752045376,export_node_2012
+19,Iowa,0.8689794021697219,import_node_2017
+19,Iowa,0.9465100042712912,export_node_2017
+16,Idaho,0.8595143625842225,import_node_2012
+16,Idaho,0.8618053991249379,export_node_2012
+16,Idaho,0.8044747568026491,import_node_2017
+16,Idaho,0.9142941211564148,export_node_2017
+17,Illinois,0.9620675941489284,import_node_2012
+17,Illinois,0.9527354249658244,export_node_2012
+17,Illinois,0.9591872696157402,import_node_2017
+17,Illinois,0.7903488142916659,export_node_2017
+18,Indiana,0.941584058939668,import_node_2012
+18,Indiana,0.9689563998779046,export_node_2012
+18,Indiana,0.9332502545255992,import_node_2017
+18,Indiana,0.9356352282026104,export_node_2017
+20,Kansas,0.8066779490415228,import_node_2012
+20,Kansas,0.890819861147052,export_node_2012
+20,Kansas,0.9204987461041166,import_node_2017
+20,Kansas,0.9111237188074665,export_node_2017
+21,Kentucky,0.945392422204149,import_node_2012
+21,Kentucky,0.9621332355621196,export_node_2012
+21,Kentucky,0.9654441088335468,import_node_2017
+21,Kentucky,0.9594471835461288,export_node_2017
+22,Louisiana,0.9468561437230104,import_node_2012
+22,Louisiana,0.8825074022279964,export_node_2012
+22,Louisiana,0.8529772250533877,import_node_2017
+22,Louisiana,0.857587587502922,export_node_2017
+25,Massachusetts,0.9693245082234908,import_node_2012
+25,Massachusetts,0.9424923224020412,export_node_2012
+25,Massachusetts,0.9526681041535316,import_node_2017
+25,Massachusetts,0.9016747460679512,export_node_2017
+24,Maryland,0.9526411423209112,import_node_2012
+24,Maryland,0.9092993649283831,export_node_2012
+24,Maryland,0.9184563192477726,import_node_2017
+24,Maryland,0.849742488312166,export_node_2017
+23,Maine,0.8685623755256096,import_node_2012
+23,Maine,0.8939046052914292,export_node_2012
+23,Maine,0.8648096953335532,import_node_2017
+23,Maine,0.0,export_node_2017
+26,Michigan,0.950669568918584,import_node_2012
+26,Michigan,0.9502826178894752,export_node_2012
+26,Michigan,0.9625651983315804,import_node_2017
+26,Michigan,0.9443373963676304,export_node_2017
+27,Minnesota,0.9262278664862826,import_node_2012
+27,Minnesota,0.9595595084875792,export_node_2012
+27,Minnesota,0.9032455624575834,import_node_2017
+27,Minnesota,0.9545290204834964,export_node_2017
+29,Missouri,0.9518273444900044,import_node_2012
+29,Missouri,0.9530870661232784,export_node_2012
+29,Missouri,0.9492719884506182,import_node_2017
+29,Missouri,0.9409857506708555,export_node_2017
+28,Mississippi,0.9298031267147532,import_node_2012
+28,Mississippi,0.8584833245296262,export_node_2012
+28,Mississippi,0.9179076675686242,import_node_2017
+28,Mississippi,0.9270022598841392,export_node_2017
+30,Montana,0.8888572173126662,import_node_2012
+30,Montana,0.7875560880268204,export_node_2012
+30,Montana,0.8649053976269507,import_node_2017
+30,Montana,0.3862974410402571,export_node_2017
+37,North Carolina,0.9622760936194475,import_node_2012
+37,North Carolina,0.957620264029569,export_node_2012
+37,North Carolina,0.9684151759285494,import_node_2017
+37,North Carolina,0.9592288839831146,export_node_2017
+38,North Dakota,0.7950298221448071,import_node_2012
+38,North Dakota,0.7202041563121866,export_node_2012
+38,North Dakota,0.8631858530247923,import_node_2017
+38,North Dakota,0.7577973790074009,export_node_2017
+31,Nebraska,0.7715560394118214,import_node_2012
+31,Nebraska,0.9311172240210108,export_node_2012
+31,Nebraska,0.911374210754788,import_node_2017
+31,Nebraska,0.9621022467196948,export_node_2017
+33,New Hampshire,0.9376174106671544,import_node_2012
+33,New Hampshire,0.727465469001583,export_node_2012
+33,New Hampshire,0.7928130146378264,import_node_2017
+33,New Hampshire,0.7128854155250632,export_node_2017
+34,New Jersey,0.9562331686237,import_node_2012
+34,New Jersey,0.9556820629463102,export_node_2012
+34,New Jersey,0.9532790006276056,import_node_2017
+34,New Jersey,0.9173843396455696,export_node_2017
+35,New Mexico,0.8886309898671139,import_node_2012
+35,New Mexico,0.903990514920662,export_node_2012
+35,New Mexico,0.8864084639655585,import_node_2017
+35,New Mexico,0.8226647403842464,export_node_2017
+32,Nevada,0.8859026780812909,import_node_2012
+32,Nevada,0.8950512004777387,export_node_2012
+32,Nevada,0.8921062520424502,import_node_2017
+32,Nevada,0.7440157953383426,export_node_2017
+36,New York,0.9534485051661492,import_node_2012
+36,New York,0.9517305225813,export_node_2012
+36,New York,0.948056981239486,import_node_2017
+36,New York,0.8675330507330343,export_node_2017
+39,Ohio,0.95273802236264,import_node_2012
+39,Ohio,0.9608834756272414,export_node_2012
+39,Ohio,0.9392042777409632,import_node_2017
+39,Ohio,0.9441933497099136,export_node_2017
+40,Oklahoma,0.9399868551780666,import_node_2012
+40,Oklahoma,0.9012369229540232,export_node_2012
+40,Oklahoma,0.920969905209834,import_node_2017
+40,Oklahoma,0.8432220257576347,export_node_2017
+41,Oregon,0.9337474939191358,import_node_2012
+41,Oregon,0.9228282525740829,export_node_2012
+41,Oregon,0.9268999198158044,import_node_2017
+41,Oregon,0.8979656327234155,export_node_2017
+42,Pennsylvania,0.9736878923568476,import_node_2012
+42,Pennsylvania,0.9678497495020246,export_node_2012
+42,Pennsylvania,0.9645091005517802,import_node_2017
+42,Pennsylvania,0.9589426084740966,export_node_2017
+44,Rhode Island,0.79120251204445,import_node_2012
+44,Rhode Island,0.8363287741147831,export_node_2012
+44,Rhode Island,0.8308528504663057,import_node_2017
+44,Rhode Island,0.7775854621476219,export_node_2017
+45,South Carolina,0.940665638187154,import_node_2012
+45,South Carolina,0.880582968887668,export_node_2012
+45,South Carolina,0.9519256883735764,import_node_2017
+45,South Carolina,0.9571992380351292,export_node_2017
+46,South Dakota,0.8273069548902727,import_node_2012
+46,South Dakota,0.8982702451019245,export_node_2012
+46,South Dakota,0.808773217915589,import_node_2017
+46,South Dakota,0.8224727480925714,export_node_2017
+47,Tennessee,0.9488035670175814,import_node_2012
+47,Tennessee,0.9547999436363644,export_node_2012
+47,Tennessee,0.9424329542394174,import_node_2017
+47,Tennessee,0.952976521863945,export_node_2017
+48,Texas,0.9449701480064384,import_node_2012
+48,Texas,0.9111868063109236,export_node_2012
+48,Texas,0.9562680268886358,import_node_2017
+48,Texas,0.9490404245199084,export_node_2017
+49,Utah,0.5059163968316591,import_node_2012
+49,Utah,0.9005076805168462,export_node_2012
+49,Utah,0.9384949745269788,import_node_2017
+49,Utah,0.9296730565784136,export_node_2017
+51,Virginia,0.9625614244498512,import_node_2012
+51,Virginia,0.943436644988803,export_node_2012
+51,Virginia,0.9539501870433884,import_node_2017
+51,Virginia,0.9477497387618864,export_node_2017
+50,Vermont,0.6881292326980533,import_node_2012
+50,Vermont,0.911859398430824,export_node_2012
+50,Vermont,0.7940121295996011,import_node_2017
+50,Vermont,0.0,export_node_2017
+53,Washington,0.8969716098194049,import_node_2012
+53,Washington,0.90820188710567,export_node_2012
+53,Washington,0.9341447447549368,import_node_2017
+53,Washington,0.9313100131621946,export_node_2017
+55,Wisconsin,0.957325678424078,import_node_2012
+55,Wisconsin,0.9667007424715552,export_node_2012
+55,Wisconsin,0.9345809938044104,import_node_2017
+55,Wisconsin,0.952282368464373,export_node_2017
+54,West Virginia,0.8532325240002272,import_node_2012
+54,West Virginia,0.6798591556702589,export_node_2012
+54,West Virginia,0.8557213928369191,import_node_2017
+54,West Virginia,0.8191344012002181,export_node_2017
+56,Wyoming,0.7707412297506677,import_node_2012
+56,Wyoming,0.7918850274752632,export_node_2012
+56,Wyoming,0.4575235327134637,import_node_2017
+56,Wyoming,0.0,export_node_2017

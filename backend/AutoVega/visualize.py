@@ -52,6 +52,7 @@ class AutoVega():
 
       """
       chart_list = chartdict.keys()
+      print(chart_list)
       figure = None
       if len(self.__data) != 0:
         print(self.chart)
@@ -64,10 +65,15 @@ class AutoVega():
           else:
             figure = chartdict["table"](self.__data, self.kwargs)
             return [figure.plot()]
-        else:
+        else: ## pre-defined 
           if self.chart in self.__candidate_visualization:
             figure = chartdict[self.chart](self.__data, self.kwargs)
             return [figure.plot()]
+          elif self.chart == 'map':
+            if 'id' in self._numerical_column:
+                print('ready to draw')
+                figure = chartdict[self.chart](self.__data, self.kwargs)
+                return [figure.plot()]
           else:
             print(f"Based on your query result data, we suggest to choose one of the following chart type: {self.__candidate_visualization}\n")
       else:

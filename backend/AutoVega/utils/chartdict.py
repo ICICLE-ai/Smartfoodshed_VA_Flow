@@ -7,7 +7,7 @@ chartdict = {
     # 'timeline': Timeline,
     # 'graph': Graph,
     # 'dimensions': Dimensions,
-    # 'map': Map,
+   
     # 'tree': Tree,
     # 'wordcloud': WordCloud,
     # 'barchart': BarChart, 
@@ -19,7 +19,7 @@ chartdict = {
     # 'bubblechart': BubbleChart,
     # 'table': Table,
     # 'radarchart': RadarChart,
-
+    'map': Map,
     'histogram': Histogram,
     'scatterchart': ScatterChart,
     'linechart': LineChart,
