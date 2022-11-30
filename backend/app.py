@@ -90,11 +90,17 @@ def genVega():
     #     print('ddd:',ele['encoding'])
 
     # test = autovis(df_nested_list, chart="areachart")
-    test = autovis(df_nested_list)
-   
+    columns = list(rename_dict.values())
+    if 'id' in columns and 'state' in columns:
+        test = autovis(df_nested_list, chart='map')
+    else:
+        test = autovis(df_nested_list)
+    
     scripts = test.plot()
-    print(scripts)
-
+    # print(scripts)
+    
+    with open("sample.json", "w") as outfile:
+        json.dump(scripts, outfile)
     final= {
         'data': scripts, 
         'info': {

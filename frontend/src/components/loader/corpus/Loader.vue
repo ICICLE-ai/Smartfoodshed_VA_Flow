@@ -103,7 +103,22 @@ export default {
           id: '2',
           last_time: "Today",
           upload_date: '2022-10-06'
-        }
+        },
+        {
+          table:'node-level-resilience.csv',
+          size:'12KB',
+          id: '3',
+          last_time: "Today",
+          upload_date: '2022-11-26'
+        },
+        {
+          table:'network-level-resilience.csv',
+          size:'12KB',
+          id: '4',
+          last_time: "Today",
+          upload_date: '2022-11-26'
+        },
+        
       ],
       db: new PouchDB("test_db"),
       results:[]
