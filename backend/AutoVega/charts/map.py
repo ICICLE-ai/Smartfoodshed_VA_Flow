@@ -25,49 +25,32 @@ class Map(Chart):
         Returns:
             (list) popup_data: list of label name
         """
-        popup_data = None
-        if self._is_var_exist(self._coordinate_column, 1):
-            new_data = self._add_point()
-            if len(self._label_column) == 0:
-                popup_data = new_data.coordinate_point
-            else:
-                popup_data = new_data[self._label_column[0]]
-        else:
-            popup_data = None
+        # popup_data = None
+        # if self._is_var_exist(self._coordinate_column, 1):
+        #     new_data = self._add_point()
+        #     if len(self._label_column) == 0:
+        #         popup_data = new_data.coordinate_point
+        #     else:
+        #         popup_data = new_data[self._label_column[0]]
+        # else:
+        #     popup_data = None
         
-        return popup_data
+        # return popup_data
+        if self._is_var_exist(self._numerical_column, 1) and 'id' in self._label_column:
+            return self._numerical_column
 
 
     def plot(self):
         """
         Generate Image Grid visualization
         """
-        if self._is_var_exist(self._coordinate_column, 1):
-            self.draw_map()
-        else:
-            pass
+        return self.draw()
+        # if self._is_var_exist(self._coordinate_column, 1):
+        #     self.draw()
+        # else:
+        #     pass
 
-
-    def draw_map(self):
-        """
-        Generate map visualization
-        """
-        popup_data = self._check_requirements()
-
-        if popup_data is not None:
-            data_point = self._add_point()
-            #Initiate map folium object
-            new_data = self.truncate_data(data_point)
-            maps = folium.Map()
-
-            #Marked the map folium object
-            for i in range (len(new_data)):
-                folium.Marker(
-                    location=new_data.coordinate[i],
-                    popup=popup_data[i]
-                ).add_to(maps)
-
-            display(maps)                
+               
 
     def _add_point(self):
         """
@@ -89,6 +72,36 @@ class Map(Chart):
         copy_data['coordinate'] = new.apply(lambda x: list([x[1], x[0]]),axis=1)
 
         return copy_data
+    def genVega(self, data):
+
+        temp = {
+            'data': {'values':data},
+            "transform": [
+                {
+                "lookup": "id",
+                "from": {
+                    "data": {
+                    "url": "https://raw.githubusercontent.com/vega/vega/main/docs/data/us-10m.json",
+                    "format": {
+                        "type": "topojson",
+                        "feature": "states"
+                    }
+                    },
+                    "key": "id"
+                },
+                "as": "geo"
+                }
+            ],
+            "projection": {"type": "albersUsa"},
+            "mark": "geoshape",
+            'encoding': {
+                'shape': {'field': 'geo','type': 'geojson'},
+                'color': {'field': 'value', 'type': 'quantitative'},
+                'row': {'field': 'group'}
+            }
+        }
+        print(temp)
+        return temp 
 
     def truncate_data(self, data):
 
@@ -100,3 +113,12 @@ class Map(Chart):
             pass
 
         return data
+    
+    
+    def draw(self):
+        """
+        Generate map visualization
+        """
+        return self.genVega(self.dataframe.to_dict('records'))
+
+
