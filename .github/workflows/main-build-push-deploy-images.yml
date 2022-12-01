@@ -52,14 +52,14 @@ jobs:
         with:
           context: backend
           push: true
-          tags: notchristiangarcia/va-backend:dev,notchristiangarcia/va-backend:${{ steps.date.outputs.date }}
+          tags: tuyamei/va-backend:dev,tuyamei/va-backend:latest,tuyamei/va-backend:${{ steps.date.outputs.date }}
 
       - uses: docker/build-push-action@v3
         name: Build & push tagged Docker frontend image
         with:
           context: frontend
           push: true
-          tags: notchristiangarcia/va-frontend:dev,notchristiangarcia/va-frontend:${{ steps.date.outputs.date }}
+          tags: tuyamei/va-frontend:dev,tuyamei/va-frontend:latest,tuyamei/va-frontend:${{ steps.date.outputs.date }}
 
   deploy-images:
     runs-on: ubuntu-latest
